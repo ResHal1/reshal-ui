@@ -1,6 +1,4 @@
-export const COLORS_BUTTON = {
-  primary: "#34568B",
-  secondary: "#4572ba",
-  primaryHover: "#4572ba",
-  secondaryHover: "#34568B",
+export const MAIN_COLORS = {
+  green: "#58bf3f",
+  white: "#fff",
 };

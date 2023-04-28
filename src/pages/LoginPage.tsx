@@ -1,38 +1,72 @@
 import React from "react";
 import Green_bg from "../img/Green_bg.webp";
-import { COLORS_BUTTON } from "../globlaStyle/colors";
+import { MAIN_COLORS } from "../globlaStyle/colors";
+import styled from "styled-components";
+
+const Container = styled.div`
+  flex-direction: column;
+  display: flex;
+  align-items: center;
+`;
+
+const Img = styled.img`
+  width: 600px;
+  position: absolute;
+  display: flex;
+  left: 0;
+  z-index: 1;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  width: 580px;
+  z-index: 999;
+  height: 100vh;
+`;
+
+/*BTNS*/
+const LoginButton = styled.button`
+  background: ${MAIN_COLORS.green};
+  border: none;
+  color: ${MAIN_COLORS.white};
+`;
+const ForgetButton = styled.button`
+  border: none;
+  background: none;
+  padding: 0px;
+  font-size: 16px;
+`;
 
 const LoginPage = () => {
   return (
-    <div className="d-flex justify-content-center align-items-center vh-100">
-      <img src={Green_bg} alt="Green stain"></img>
-      <div className="box">
+    <Container>
+      <Img src={Green_bg} alt="Green stain"></Img>
+      <Wrapper>
         <h1>Log in</h1>
         <form action="">
-          <div className="mb-3">
+          <div>
             <label htmlFor="email">Email</label>
             <br />
-            <input type="email" className="form-control rounded-0"></input>
+            <input type="email"></input>
           </div>
-          <div className="mb-3">
+          <div>
             <label htmlFor="password">Password</label>
             <br />
-            <input type="password" className="form-control rounded-0"></input>
+            <input type="password"></input>
           </div>
-          <button className="btn-login w-100">Log In</button>
+          <LoginButton>Log In</LoginButton>
           <br />
-          <button className="btn btn-link text-black me-0 p-0">
-            Forget your password
-          </button>
+          <ForgetButton>Forget your password</ForgetButton>
           <div>
             <span>Don't have an account? </span>
-            <button className="btn btn-link text-black me-0 p-0">
-              Sign up
-            </button>
+            <ForgetButton>Sign up</ForgetButton>
           </div>
         </form>
-      </div>
-    </div>
+      </Wrapper>
+    </Container>
   );
 };
 
