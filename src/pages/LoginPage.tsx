@@ -1,6 +1,8 @@
 import Green_bg from "../img/Green_bg.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 import styled from "styled-components";
+import Hide_Icon from "../img/Hide.webp";
+import React, { useState } from "react";
 
 const Container = styled.div`
   flex-direction: column;
@@ -16,6 +18,11 @@ const Img = styled.img`
   display: flex;
   left: 0;
   z-index: 1;
+`;
+
+const Icon = styled.img`
+  width: 24px;
+  height: 24px;
 `;
 
 const Wrapper = styled.div`
@@ -55,6 +62,9 @@ const ForgetWrapper = styled.div`
   text-align: center;
   margin-top: 26px;
 `;
+const HideWrapper = styled.div`
+  display: flex;
+`;
 /*INPTS*/
 const Label = styled.label`
   font-size: 16px;
@@ -71,6 +81,10 @@ const Input = styled.input`
     border: 1px solid ${MAIN_COLORS.green};
     outline: none;
   }
+`;
+const LabelIconWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;
 
 /*BTNS*/
@@ -94,8 +108,26 @@ const ForgetButton = styled.button`
   text-decoration: underline;
   font-weight: 600;
 `;
+const HideBtn = styled.button`
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`;
 
 const LoginPage = () => {
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const toggleShowPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setShowPassword(!showPassword);
+    event.preventDefault();
+  };
   return (
     <Container>
       <Img src={Green_bg} alt="Green stain"></Img>
@@ -108,9 +140,20 @@ const LoginPage = () => {
             <Input type="email"></Input>
           </Box>
           <div>
-            <Label htmlFor="password">Password</Label>
-            <br />
-            <Input type="password"></Input>
+            <LabelIconWrapper>
+              <Label htmlFor="password">Password</Label>
+              <HideWrapper>
+                <HideBtn onClick={toggleShowPassword}>
+                  <Icon src={Hide_Icon} alt="Hide Icon"></Icon>
+                  {showPassword ? "Hide" : "Show"}
+                </HideBtn>
+              </HideWrapper>
+            </LabelIconWrapper>
+            <Input
+              type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={handlePasswordChange}
+            ></Input>
           </div>
           <LoginButton>Log In</LoginButton>
           <br />
