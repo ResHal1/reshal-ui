@@ -65,7 +65,7 @@ const ForgetWrapper = styled.div`
 const HideWrapper = styled.div`
   display: flex;
 `;
-/*INPTS*/
+/*Inputs*/
 const Label = styled.label`
   font-size: 16px;
   line-height: 24px;
@@ -87,7 +87,7 @@ const LabelIconWrapper = styled.div`
   justify-content: space-between;
 `;
 
-/*BTNS*/
+/*Buttons*/
 const LoginButton = styled.button`
   background: ${MAIN_COLORS.green};
   border: none;
