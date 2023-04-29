@@ -8,6 +8,9 @@ const GlobalStyle = createGlobalStyle`
     margin: 0px;
     font-family: 'Open Sans', sans-serif;
   }
+  .h1{
+    font-size: 32px;
+  }
 
 `;
 

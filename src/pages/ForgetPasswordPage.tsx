@@ -74,7 +74,6 @@ const LabelIconWrapper = styled.div`
 `;
 
 /*Buttons*/
-
 const ForgetButton = styled.button`
   border: none;
   background: none;
@@ -96,16 +95,8 @@ const HideBtn = styled.button`
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const handleRedirectSignUp = () => {
-    navigate("/signup");
-  };
-
-  const handleRedirectHome = () => {
+  const handleRedirectLogin = () => {
     navigate("/");
-  };
-
-  const handleRedirectForgetPassword = () => {
-    navigate("/fotgetPassword");
   };
 
   const [password, setPassword] = useState("");
@@ -123,16 +114,11 @@ const LoginPage = () => {
     <Container>
       <Image img={Green_bg} alt="Green stain" />
       <Wrapper>
-        <Header title="Log In" />
+        <Header title="Forget Password" />
         <Form action="">
-          <Box>
-            <Label htmlFor="Email" text="Email address" />
-            <br />
-            <Input type="email"></Input>
-          </Box>
           <div>
             <LabelIconWrapper>
-              <Label htmlFor="Password" text="Password" />
+              <Label htmlFor="Password" text="New password" />
               <HideWrapper>
                 <HideBtn onClick={toggleShowPassword}>
                   <Icon src={Hide_Icon} alt="Hide Icon"></Icon>
@@ -145,20 +131,17 @@ const LoginPage = () => {
               value={password}
               onChange={handlePasswordChange}
             ></Input>
+            <Box>
+              <Label htmlFor="Password" text="Confirm password" />
+              <Input
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={handlePasswordChange}
+              ></Input>
+            </Box>
           </div>
-          <Button text="Log In" onClick={handleRedirectHome}></Button>
+          <Button text="Continue" onClick={handleRedirectLogin}></Button>
           <br />
-          <ForgetWrapper>
-            <ForgetButton onClick={handleRedirectForgetPassword}>
-              Forget your password
-            </ForgetButton>
-            <div>
-              <span>Don't have an account? </span>
-              <ForgetButton onClick={handleRedirectSignUp}>
-                Sign up
-              </ForgetButton>
-            </div>
-          </ForgetWrapper>
         </Form>
       </Wrapper>
     </Container>

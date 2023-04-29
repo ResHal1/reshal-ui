@@ -74,7 +74,6 @@ const LabelIconWrapper = styled.div`
 `;
 
 /*Buttons*/
-
 const ForgetButton = styled.button`
   border: none;
   background: none;
@@ -96,11 +95,7 @@ const HideBtn = styled.button`
 const LoginPage = () => {
   const navigate = useNavigate();
 
-  const handleRedirectSignUp = () => {
-    navigate("/signup");
-  };
-
-  const handleRedirectHome = () => {
+  const handleRedirectLogin = () => {
     navigate("/");
   };
 
@@ -123,16 +118,16 @@ const LoginPage = () => {
     <Container>
       <Image img={Green_bg} alt="Green stain" />
       <Wrapper>
-        <Header title="Log In" />
+        <Header title="Sign up" />
         <Form action="">
           <Box>
-            <Label htmlFor="Email" text="Email address" />
+            <Label htmlFor="Email" text="*Email address" />
             <br />
             <Input type="email"></Input>
           </Box>
           <div>
             <LabelIconWrapper>
-              <Label htmlFor="Password" text="Password" />
+              <Label htmlFor="Password" text="*Password" />
               <HideWrapper>
                 <HideBtn onClick={toggleShowPassword}>
                   <Icon src={Hide_Icon} alt="Hide Icon"></Icon>
@@ -145,18 +140,21 @@ const LoginPage = () => {
               value={password}
               onChange={handlePasswordChange}
             ></Input>
+            <Box>
+              <Label htmlFor="Name" text="*Name" />
+              <br />
+              <Input type="text"></Input>
+            </Box>
           </div>
-          <Button text="Log In" onClick={handleRedirectHome}></Button>
+          <Button text="Sign Up" onClick={handleRedirectLogin}></Button>
           <br />
           <ForgetWrapper>
             <ForgetButton onClick={handleRedirectForgetPassword}>
               Forget your password
             </ForgetButton>
             <div>
-              <span>Don't have an account? </span>
-              <ForgetButton onClick={handleRedirectSignUp}>
-                Sign up
-              </ForgetButton>
+              <span>Already have an account? </span>
+              <ForgetButton onClick={handleRedirectLogin}>Log in</ForgetButton>
             </div>
           </ForgetWrapper>
         </Form>
