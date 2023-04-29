@@ -39,17 +39,9 @@ const Form = styled.form`
 `;
 
 const Box = styled.div`
-  padding: 24px 0px;
+  padding: 24px 0px 0px 0px;
 `;
 
-const ForgetWrapper = styled.div`
-  display: flex;
-  gap: 26px;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  margin-top: 26px;
-`;
 const HideWrapper = styled.div`
   display: flex;
 `;
@@ -74,15 +66,7 @@ const LabelIconWrapper = styled.div`
 `;
 
 /*Buttons*/
-const ForgetButton = styled.button`
-  border: none;
-  background: none;
-  padding: 0px;
-  font-size: 16px;
-  cursor: pointer;
-  text-decoration: underline;
-  font-weight: 600;
-`;
+
 const HideBtn = styled.button`
   border: none;
   background: none;

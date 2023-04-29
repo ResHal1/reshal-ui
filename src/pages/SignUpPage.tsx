@@ -38,7 +38,10 @@ const Form = styled.form`
   color: ${MAIN_COLORS.greyLight};
 `;
 
-const Box = styled.div`
+const BoxName = styled.div`
+  padding: 24px 0px 0px 0px;
+`;
+const BoxEmail = styled.div`
   padding: 24px 0px;
 `;
 
@@ -120,11 +123,11 @@ const LoginPage = () => {
       <Wrapper>
         <Header title="Sign up" />
         <Form action="">
-          <Box>
+          <BoxEmail>
             <Label htmlFor="Email" text="*Email address" />
             <br />
             <Input type="email"></Input>
-          </Box>
+          </BoxEmail>
           <div>
             <LabelIconWrapper>
               <Label htmlFor="Password" text="*Password" />
@@ -140,11 +143,11 @@ const LoginPage = () => {
               value={password}
               onChange={handlePasswordChange}
             ></Input>
-            <Box>
+            <BoxName>
               <Label htmlFor="Name" text="*Name" />
               <br />
               <Input type="text"></Input>
-            </Box>
+            </BoxName>
           </div>
           <Button text="Sign Up" onClick={handleRedirectLogin}></Button>
           <br />
