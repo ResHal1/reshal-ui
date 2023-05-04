@@ -99,11 +99,11 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleRedirectLogin = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   const handleRedirectForgetPassword = () => {
-    navigate("/fotgetPassword");
+    navigate("/forgetPassword");
   };
 
   const [password, setPassword] = useState("");

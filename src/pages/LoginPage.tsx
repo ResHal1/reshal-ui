@@ -105,7 +105,7 @@ const LoginPage = () => {
   };
 
   const handleRedirectForgetPassword = () => {
-    navigate("/fotgetPassword");
+    navigate("/forgetPassword");
   };
 
   const [password, setPassword] = useState("");

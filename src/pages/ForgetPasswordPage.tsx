@@ -80,7 +80,7 @@ const LoginPage = () => {
   const navigate = useNavigate();
 
   const handleRedirectLogin = () => {
-    navigate("/");
+    navigate("/login");
   };
 
   const [password, setPassword] = useState("");
