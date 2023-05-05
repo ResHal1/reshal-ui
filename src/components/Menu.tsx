@@ -37,7 +37,7 @@ const MenuItemContainer = styled.li`
   }
 `;
 
-const MenuItemLink = styled(NavLink)<{ active: boolean }>`
+const MenuItemLink = styled(NavLink)<{ active: number }>`
   color: ${({ active }) =>
     active ? `${MAIN_COLORS.white}` : `${MAIN_COLORS.black}`};
   text-decoration: none;
@@ -115,7 +115,7 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
             <MenuItemContainer key={index}>
               <MenuItemLink
                 to={item.link}
-                active={window.location.pathname === item.link}
+                active={window.location.pathname === item.link ? 1 : 0}
               >
                 {item.label}
               </MenuItemLink>
