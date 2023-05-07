@@ -21,10 +21,6 @@ const MenuHome = styled.button`
   font-size: 32px;
   font-weight: 700;
   cursor: pointer;
-
-  &:hover {
-    background-color: ${MAIN_COLORS.lightGrey};
-  }
 `;
 
 const MenuItemContainer = styled.li`
@@ -32,6 +28,7 @@ const MenuItemContainer = styled.li`
   justify-content: center;
   align-items: center;
   margin: 0 1rem;
+  z-index: 999;
   &:hover {
     cursor: pointer;
   }
