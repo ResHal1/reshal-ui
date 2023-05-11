@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Menu from "../components/Menu";
-import MapTest from "../components/Map";
+import Map from "../components/Map";
 
 const HomePage = () => {
   const items = [
@@ -22,7 +22,7 @@ const HomePage = () => {
     <div>
       <Menu items={items} />
 
-      <MapTest></MapTest>
+      <Map></Map>
     </div>
   );
 };

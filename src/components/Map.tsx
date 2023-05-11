@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Wrapper } from "@googlemaps/react-wrapper";
+import hallExample from "../img/HallExample.webp";
 import styled from "styled-components";
 
 export default function MapTest() {
@@ -14,11 +15,31 @@ export default function MapTest() {
   );
 }
 
+const HallImg = styled.img`
+  max-width: 400px;
+  max-height: 300px;
+`;
+
 const mapOptions = {
   mapId: process.env.REACT_APP_MY_ENVIRONMENT_VARIABLE,
   center: { lat: 52.237049, lng: 21.017532 },
   zoom: 7,
   disableDefaultUI: true,
+};
+
+const halData = {
+  A: {
+    name: "Krakow",
+    position: { lat: 50.049683, lng: 19.944544 },
+    description: "Siema tutaj hala w Krakowie",
+    hallImg: hallExample,
+  },
+  B: {
+    name: "Lodz",
+    position: { lat: 51.759445, lng: 19.457216 },
+    description: "Siema tutaj hala w Lodzi",
+    hallImg: "",
+  },
 };
 
 function MyMap() {
@@ -34,31 +55,11 @@ function MyMap() {
 
   return (
     <div>
-      <div style={{ height: "70vh" }} ref={ref} id="map"></div>
+      <div style={{ height: "65vh" }} ref={ref} id="map"></div>
       <Weather map={map} markerRefs={markerRefs} />
     </div>
   );
 }
-
-type MarkerProps = {
-  map: google.maps.Map | null;
-  children: React.ReactNode;
-  position: google.maps.LatLngLiteral;
-  description: string;
-};
-
-const halData = {
-  A: {
-    name: "Krakow",
-    position: { lat: 50.049683, lng: 19.944544 },
-    description: "Siema tutaj hala w Krakowie",
-  },
-  B: {
-    name: "Lodz",
-    position: { lat: 51.759445, lng: 19.457216 },
-    description: "Siema tutaj hala w Lodzi",
-  },
-};
 
 function Weather({
   map,
@@ -70,9 +71,9 @@ function Weather({
   const [data, setData] = useState(halData);
   const [selectedMarker, setSelectedMarker] =
     useState<google.maps.Marker | null>(null);
-  const [selectedMarkerDescription, setSelectedMarkerDescription] =
-    useState("");
-  const [showDescription, setShowDescription] = useState(false);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<
+    (typeof halData)[keyof typeof halData] | null
+  >(null);
   const infowindowRef = useRef<google.maps.InfoWindow | null>(null);
 
   useEffect(() => {
@@ -87,8 +88,7 @@ function Weather({
       if (infowindowRef.current) {
         infowindowRef.current.close();
         setSelectedMarker(null);
-        setSelectedMarkerDescription("");
-        setShowDescription(false);
+        setSelectedMarkerData(null);
       }
     };
 
@@ -109,23 +109,17 @@ function Weather({
 
       markerRefs.current.set(key, marker);
 
-      const infowindow = new window.google.maps.InfoWindow({
-        content: weather.description,
-      });
-
       marker.addListener("click", () => {
         if (infowindowRef.current) {
           infowindowRef.current.close();
         }
-        infowindow.open(map, marker);
         setSelectedMarker(marker);
-        setSelectedMarkerDescription(weather.description);
-        setShowDescription(true);
+        setSelectedMarkerData(weather);
+        const infowindow = new google.maps.InfoWindow({
+          content: weather.description,
+        });
+        infowindow.open(map, marker);
         infowindowRef.current = infowindow;
-      });
-
-      infowindow.addListener("closeclick", () => {
-        handleMarkerClose();
       });
     });
 
@@ -150,8 +144,11 @@ function Weather({
   return (
     <div>
       <div>
-        {showDescription && selectedMarker && (
-          <div>{selectedMarkerDescription}</div>
+        {selectedMarkerData && (
+          <div>
+            <div>{selectedMarkerData.description}</div>
+            <HallImg src={selectedMarkerData.hallImg} alt="Hall Image" />
+          </div>
         )}
       </div>
     </div>
