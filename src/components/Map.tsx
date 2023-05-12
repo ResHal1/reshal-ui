@@ -1,7 +1,12 @@
 import React, { useEffect, useState, useRef } from "react";
-import { Wrapper } from "@googlemaps/react-wrapper";
-import hallExample from "../img/HallExample.webp";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { Wrapper } from "@googlemaps/react-wrapper";
+import { MAIN_COLORS } from "../globlaStyle/colors";
+import Button from "./FormButton";
+import HallExample from "../img/HallExample.webp";
+import HallExample2 from "../img/Hall2.jpg";
+import Ball from "../img/Ball.png";
 
 export default function MapTest() {
   return (
@@ -16,8 +21,51 @@ export default function MapTest() {
 }
 
 const HallImg = styled.img`
-  max-width: 400px;
-  max-height: 300px;
+  width: 100%;
+  max-height: 175px;
+`;
+
+const Description = styled.h2`
+  padding: 0px;
+  margin: 0px;
+`;
+
+const Price = styled.h3`
+  color: ${MAIN_COLORS.green};
+  font-size: 30px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  padding: 0px;
+  margin: 0px;
+`;
+
+const Address = styled.span`
+  font-size: 16px;
+  color: ${MAIN_COLORS.greyLight};
+`;
+
+const Time = styled.span`
+  font-size: 18px;
+`;
+
+const Type = styled.span``;
+
+const Box = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const Container = styled.div`
+  flex-direction: column;
+  display: flex;
+  border: 1px solid ${MAIN_COLORS.lightGrey};
+  border-radius: 20px;
+  padding: 10px;
+  width: 50%;
+  max-width: 600px;
 `;
 
 const mapOptions = {
@@ -29,16 +77,24 @@ const mapOptions = {
 
 const halData = {
   A: {
+    id: "",
     name: "Krakow",
     position: { lat: 50.049683, lng: 19.944544 },
-    description: "Siema tutaj hala w Krakowie",
-    hallImg: hallExample,
+    description: "Hala w Krakowie",
+    type: "Hala",
+    address: "Ulica kalwarysjka 54, 31-100 Słupsk",
+    hallImg: HallExample,
+    price: 40,
   },
   B: {
-    name: "Lodz",
+    id: "",
+    name: "Łódź",
     position: { lat: 51.759445, lng: 19.457216 },
-    description: "Siema tutaj hala w Lodzi",
-    hallImg: "",
+    description: "Hala w Łodzi",
+    type: "Orlik",
+    address: "Ulica Adama Mickiewicza 54, 31-100 Radomsko",
+    hallImg: HallExample2,
+    price: 60,
   },
 };
 
@@ -55,13 +111,13 @@ function MyMap() {
 
   return (
     <div>
-      <div style={{ height: "65vh" }} ref={ref} id="map"></div>
-      <Weather map={map} markerRefs={markerRefs} />
+      <div style={{ height: "60vh" }} ref={ref} id="map"></div>
+      <MapSettings map={map} markerRefs={markerRefs} />
     </div>
   );
 }
 
-function Weather({
+function MapSettings({
   map,
   markerRefs,
 }: {
@@ -101,10 +157,16 @@ function Weather({
       return;
     }
 
+    const markerIcon = {
+      url: Ball,
+      scaledSize: new google.maps.Size(35, 35),
+    };
+
     Object.entries(data).forEach(([key, weather]) => {
       const marker = new window.google.maps.Marker({
         position: weather.position,
         map: map,
+        icon: markerIcon,
       });
 
       markerRefs.current.set(key, marker);
@@ -141,16 +203,29 @@ function Weather({
     };
   }, [map, data, markerRefs]);
 
+  const navigate = useNavigate();
+
+  const handleRedirectReserve = () => {
+    navigate("/reserve");
+  };
+
   return (
     <div>
-      <div>
+      <Box>
         {selectedMarkerData && (
-          <div>
-            <div>{selectedMarkerData.description}</div>
+          <Container>
+            <Description>{selectedMarkerData.description}</Description>
             <HallImg src={selectedMarkerData.hallImg} alt="Hall Image" />
-          </div>
+            <Type>{selectedMarkerData.type}</Type>
+            <Address>{selectedMarkerData.address}</Address>
+            <Price>
+              ${selectedMarkerData.price}
+              <Time>/60min</Time>
+            </Price>
+            <Button text="Reserve" onClick={handleRedirectReserve}></Button>
+          </Container>
         )}
-      </div>
+      </Box>
     </div>
   );
 }

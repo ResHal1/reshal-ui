@@ -6,4 +6,5 @@ export const MAIN_COLORS = {
   greyLight: "#727272",
   greyMiddle: "#666666",
   lightGrey: "#f2f2f2",
+  blue: "#2A90D9",
 };
