@@ -4,7 +4,7 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import Signup from "./pages/SignUpPage";
 import ForgetPassword from "./pages/ForgetPasswordPage";
-import ReservationsPage from "./pages/ReservationsPage";
+import ReservationsPage from "./pages/MyReservationsPage";
 import MyAccountPage from "./pages/MyAccountPage";
 
 const GlobalStyle = createGlobalStyle`
