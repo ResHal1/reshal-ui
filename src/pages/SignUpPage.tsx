@@ -119,6 +119,7 @@ const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,6 +132,9 @@ const LoginPage = () => {
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
+  };
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setLastName(e.target.value);
   };
 
   const toggleShowPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -152,6 +156,7 @@ const LoginPage = () => {
             email,
             password,
             name,
+            lastName,
           }),
         }
       );
@@ -199,6 +204,15 @@ const LoginPage = () => {
               <Label htmlFor="Name" text="*Name" />
               <br />
               <Input type="text" value={name} onChange={handleNameChange} />
+            </BoxName>
+            <BoxName>
+              <Label htmlFor="Last Name" text="*Last Name" />
+              <br />
+              <Input
+                type="text"
+                value={lastName}
+                onChange={handleLastNameChange}
+              />
             </BoxName>
           </div>
           <Button>Sign up</Button>
