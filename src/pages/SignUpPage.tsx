@@ -7,7 +7,6 @@ import Hide_Icon from "../img/Hide.webp";
 import Header from "../components/Header";
 import Image from "../components/GreenBg";
 import Label from "../components/Label";
-import Button from "../components/FormButton";
 
 const Container = styled.div`
   flex-direction: column;
@@ -18,6 +17,17 @@ const Container = styled.div`
 const Icon = styled.img`
   width: 24px;
   height: 24px;
+`;
+const Button = styled.button`
+  background: ${MAIN_COLORS.green};
+  border: none;
+  color: ${MAIN_COLORS.white};
+  cursor: pointer;
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 50px;
+  font-size: 22px;
+  margin: 24px 0px;
 `;
 
 const Wrapper = styled.div`
@@ -128,7 +138,8 @@ const LoginPage = () => {
     event.preventDefault();
   };
 
-  const handleSignUp = async () => {
+  const handleSignUp = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     try {
       const response = await fetch(
         "https://reshal-api.bartoszmagiera.live/auth",
@@ -146,7 +157,7 @@ const LoginPage = () => {
       );
 
       if (response.ok) {
-        console.log("registred");
+        console.log("registered");
         navigate("/login");
       } else {
         console.error("Registration failed");
@@ -163,7 +174,7 @@ const LoginPage = () => {
       <Image img={Green_bg} alt="Green stain" />
       <Wrapper>
         <Header title="Sign up" />
-        <Form>
+        <Form onSubmit={handleSignUp}>
           <BoxEmail>
             <Label htmlFor="Email" text="*Email address" />
             <br />
@@ -190,7 +201,7 @@ const LoginPage = () => {
               <Input type="text" value={name} onChange={handleNameChange} />
             </BoxName>
           </div>
-          <Button text="Sign Up" onClick={handleSignUp} />
+          <Button>Sign up</Button>
           <br />
           <ForgetWrapper>
             <ForgetButton onClick={handleRedirectForgetPassword}>
