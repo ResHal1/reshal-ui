@@ -7,7 +7,6 @@ import Hide_Icon from "../img/Hide.webp";
 import Header from "../components/Header";
 import Image from "../components/GreenBg";
 import Label from "../components/Label";
-import Button from "../components/FormButton";
 
 const Container = styled.div`
   flex-direction: column;
@@ -18,6 +17,17 @@ const Container = styled.div`
 const Icon = styled.img`
   width: 24px;
   height: 24px;
+`;
+const Button = styled.button`
+  background: ${MAIN_COLORS.green};
+  border: none;
+  color: ${MAIN_COLORS.white};
+  cursor: pointer;
+  width: 100%;
+  padding: 16px 0;
+  border-radius: 50px;
+  font-size: 22px;
+  margin: 24px 0px;
 `;
 
 const Wrapper = styled.div`
@@ -100,17 +110,43 @@ const LoginPage = () => {
     navigate("/signup");
   };
 
-  const handleRedirectHome = () => {
-    navigate("/");
+  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      const response = await fetch(
+        "https://reshal-api.bartoszmagiera.live/auth/token",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        navigate("/");
+      } else {
+        console.error("Registration failed");
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+    }
   };
 
   const handleRedirectForgetPassword = () => {
     navigate("/forgetPassword");
   };
-
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
@@ -119,16 +155,17 @@ const LoginPage = () => {
     setShowPassword(!showPassword);
     event.preventDefault();
   };
+
   return (
     <Container>
       <Image img={Green_bg} alt="Green stain" />
       <Wrapper>
         <Header title="Log In" />
-        <Form action="">
+        <Form onSubmit={handleLogin}>
           <Box>
             <Label htmlFor="Email" text="Email address" />
             <br />
-            <Input type="email"></Input>
+            <Input type="email" value={email} onChange={handleEmailChange} />
           </Box>
           <div>
             <LabelIconWrapper>
@@ -146,7 +183,7 @@ const LoginPage = () => {
               onChange={handlePasswordChange}
             ></Input>
           </div>
-          <Button text="Log In" onClick={handleRedirectHome}></Button>
+          <Button>Login</Button>
           <br />
           <ForgetWrapper>
             <ForgetButton onClick={handleRedirectForgetPassword}>

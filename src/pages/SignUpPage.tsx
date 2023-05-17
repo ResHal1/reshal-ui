@@ -118,7 +118,7 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [name, setName] = useState("");
+  const [firstName, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -146,7 +146,7 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/auth",
+        "https://reshal-api.bartoszmagiera.live/auth/",
         {
           method: "POST",
           headers: {
@@ -155,7 +155,7 @@ const LoginPage = () => {
           body: JSON.stringify({
             email,
             password,
-            name,
+            firstName,
             lastName,
           }),
         }
@@ -166,11 +166,9 @@ const LoginPage = () => {
         navigate("/login");
       } else {
         console.error("Registration failed");
-        console.log("error");
       }
     } catch (error) {
       console.error("Registration failed:", error);
-      console.log("error");
     }
   };
 
@@ -203,7 +201,11 @@ const LoginPage = () => {
             <BoxName>
               <Label htmlFor="Name" text="*Name" />
               <br />
-              <Input type="text" value={name} onChange={handleNameChange} />
+              <Input
+                type="text"
+                value={firstName}
+                onChange={handleNameChange}
+              />
             </BoxName>
             <BoxName>
               <Label htmlFor="Last Name" text="*Last Name" />
