@@ -106,34 +106,75 @@ const LoginPage = () => {
     navigate("/forgetPassword");
   };
 
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
 
   const toggleShowPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     setShowPassword(!showPassword);
     event.preventDefault();
   };
+
+  const handleSignUp = async () => {
+    try {
+      const response = await fetch(
+        "https://reshal-api.bartoszmagiera.live/auth/register",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email,
+            password,
+            name,
+          }),
+        }
+      );
+
+      if (response.ok) {
+        console.log("registred");
+        navigate("/login");
+      } else {
+        console.error("Registration failed");
+        console.log("error");
+      }
+    } catch (error) {
+      console.error("Registration failed:", error);
+      console.log("error");
+    }
+  };
+
   return (
     <Container>
       <Image img={Green_bg} alt="Green stain" />
       <Wrapper>
         <Header title="Sign up" />
-        <Form action="">
+        <Form>
           <BoxEmail>
             <Label htmlFor="Email" text="*Email address" />
             <br />
-            <Input type="email"></Input>
+            <Input type="email" value={email} onChange={handleEmailChange} />
           </BoxEmail>
           <div>
             <LabelIconWrapper>
               <Label htmlFor="Password" text="*Password" />
               <HideWrapper>
                 <HideBtn onClick={toggleShowPassword}>
-                  <Icon src={Hide_Icon} alt="Hide Icon"></Icon>
+                  <Icon src={Hide_Icon} alt="Hide Icon" />
                   {showPassword ? "Hide" : "Show"}
                 </HideBtn>
               </HideWrapper>
@@ -142,14 +183,14 @@ const LoginPage = () => {
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={handlePasswordChange}
-            ></Input>
+            />
             <BoxName>
               <Label htmlFor="Name" text="*Name" />
               <br />
-              <Input type="text"></Input>
+              <Input type="text" value={name} onChange={handleNameChange} />
             </BoxName>
           </div>
-          <Button text="Sign Up" onClick={handleRedirectLogin}></Button>
+          <Button text="Sign Up" onClick={handleSignUp} />
           <br />
           <ForgetWrapper>
             <ForgetButton onClick={handleRedirectForgetPassword}>
