@@ -131,7 +131,7 @@ const LoginPage = () => {
   const handleSignUp = async () => {
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/auth/register",
+        "https://reshal-api.bartoszmagiera.live/auth",
         {
           method: "POST",
           headers: {
