@@ -5,7 +5,6 @@ const HomePage = () => {
   return (
     <div>
       <Menu />
-
       <Map></Map>
     </div>
   );

@@ -6,7 +6,7 @@ import { MAIN_COLORS } from "../globlaStyle/colors";
 import Button from "./FormButton";
 import HallExample from "../img/HallExample.webp";
 import HallExample2 from "../img/Hall2.jpg";
-import Ball from "../img/Ball.png";
+import Ball from "../img/Ball.webp";
 
 export default function MapTest() {
   return (

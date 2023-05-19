@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PersonalIcon from "../img/PersonalIcon.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
-import Background from "../img/Green_bg.webp";
+import Background from "../img/Green_bg3.png";
 
 interface MenuItemProps {
   label: string;
@@ -15,12 +15,12 @@ const Container = styled.div`
   justify-content: space-between;
   padding: 0 64px;
 `;
-const Test = styled.img`
+const BackgroundImage = styled.img`
   position: absolute;
   z-index: 999;
   transform: scaleX(-1);
   top: 0;
-  right: -150px;
+  right: 0px;
 `;
 const MenuHome = styled.button`
   color: ${MAIN_COLORS.green};
@@ -132,7 +132,7 @@ const Menu: React.FC = () => {
       </Container>
       {isOpen && (
         <MenuList>
-          <Test src={Background}></Test>
+          <BackgroundImage src={Background}></BackgroundImage>
           {items.map((item, index) => (
             <MenuItemContainer key={index}>
               <MenuItemLink
