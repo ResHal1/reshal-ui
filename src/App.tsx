@@ -4,7 +4,8 @@ import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import Signup from "./pages/SignUpPage";
 import ForgetPassword from "./pages/ForgetPasswordPage";
-import ReservationsPage from "./pages/MyReservationsPage";
+import ReservationProccessPage from "./pages/ReservationProccessPage";
+import MyReservations from "./pages/MyReservationsPage";
 import MyAccountPage from "./pages/MyAccountPage";
 
 const GlobalStyle = createGlobalStyle`
@@ -23,8 +24,9 @@ function App() {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgetPassword" element={<ForgetPassword />} />
-          <Route path="/reservations" element={<ReservationsPage />} />
+          <Route path="/myReservations" element={<MyReservations />} />
           <Route path="/myAccount" element={<MyAccountPage />} />
+          <Route path="/reservation" element={<ReservationProccessPage />} />
         </Routes>
       </BrowserRouter>
     </>

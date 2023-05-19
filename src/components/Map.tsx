@@ -206,7 +206,7 @@ function MapSettings({
   const navigate = useNavigate();
 
   const handleRedirectReserve = () => {
-    navigate("/reserve");
+    navigate("/reservation");
   };
 
   return (

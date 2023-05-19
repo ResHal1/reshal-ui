@@ -1,7 +1,7 @@
 import React from "react";
 import Menu from "../components/Menu";
 
-const MyAccountPage = () => {
+const ReservationProccessPage = () => {
   return (
     <div>
       <Menu />
@@ -9,4 +9,4 @@ const MyAccountPage = () => {
   );
 };
 
-export default MyAccountPage;
+export default ReservationProccessPage;

@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PersonalIcon from "../img/PersonalIcon.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
+import Background from "../img/Green_bg.webp";
 
 interface MenuItemProps {
   label: string;
@@ -13,6 +14,13 @@ const Container = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 0 64px;
+`;
+const Test = styled.img`
+  position: absolute;
+  z-index: 999;
+  transform: scaleX(-1);
+  top: 0;
+  right: -150px;
 `;
 const MenuHome = styled.button`
   color: ${MAIN_COLORS.green};
@@ -43,11 +51,8 @@ const MenuItemLink = styled(NavLink)<{ active: number }>`
   padding: 0.5rem;
   transition: color 0.2s ease-in-out;
 
-  &.active {
-    color: ${MAIN_COLORS.green};
-  }
   &:hover {
-    background-color: ${MAIN_COLORS.lightGrey};
+    color: ${MAIN_COLORS.white};
   }
 `;
 
@@ -86,7 +91,7 @@ interface MenuProps {
   items: MenuItemProps[];
 }
 
-const Menu: React.FC<MenuProps> = ({ items }) => {
+const Menu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -98,6 +103,25 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
     navigate("/");
   };
 
+  const items = [
+    {
+      label: "Home",
+      link: "/",
+    },
+    {
+      label: "Reservations",
+      link: "/myReservations",
+    },
+    {
+      label: "My Account",
+      link: "/myAccount",
+    },
+    {
+      label: "Logout",
+      link: "/login",
+    },
+  ];
+
   return (
     <nav>
       <Container>
@@ -108,6 +132,7 @@ const Menu: React.FC<MenuProps> = ({ items }) => {
       </Container>
       {isOpen && (
         <MenuList>
+          <Test src={Background}></Test>
           {items.map((item, index) => (
             <MenuItemContainer key={index}>
               <MenuItemLink

@@ -162,7 +162,6 @@ const LoginPage = () => {
       );
 
       if (response.ok) {
-        console.log("registered");
         navigate("/login");
       } else {
         console.error("Registration failed");
