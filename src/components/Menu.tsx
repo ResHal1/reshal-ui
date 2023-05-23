@@ -3,7 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PersonalIcon from "../img/PersonalIcon.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
-import Background from "../img/Green_bg3.png";
+import Background from "../img/Green_bg3.webp";
 
 interface MenuItemProps {
   label: string;

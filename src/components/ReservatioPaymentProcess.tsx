@@ -4,6 +4,7 @@ import { MAIN_COLORS } from "../globlaStyle/colors";
 
 const Form = styled.form`
   width: 100%;
+  max-width: 1200px;
 `;
 const Button = styled.button`
   background: ${MAIN_COLORS.green};

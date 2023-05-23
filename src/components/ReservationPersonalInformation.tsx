@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { MAIN_COLORS } from "../globlaStyle/colors";
 
 type ReservationPersonalInformationProps = {
   nextStep: () => void;
@@ -10,19 +11,42 @@ const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  border: 1px solid ${MAIN_COLORS.lightGrey};
+  padding: 20px;
+`;
+
+const Form = styled.form`
+  width: 800px;
+  min-width: 400px;
 `;
 
 const InputGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 20px;
-  width: 300px;
+  width: 100%;
 `;
 
-const Label = styled.label`
-  font-weight: bold;
-  margin-bottom: 5px;
+const InfoInput = styled.textarea`
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  height: 200px;
+  padding: 10px;
+  resize: vertical;
 `;
+
+const Info = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  width: 100%;
+`;
+const Flex = styled.div`
+  display: flex;
+  gap: 20px;
+`;
+
+const Label = styled.label``;
 
 const Input = styled.input`
   padding: 10px;
@@ -37,12 +61,15 @@ const ButtonContainer = styled.div`
 `;
 
 const Button = styled.button`
-  padding: 10px 20px;
-  background-color: #4caf50;
-  color: white;
+  background: ${MAIN_COLORS.green};
   border: none;
-  border-radius: 4px;
+  color: ${MAIN_COLORS.white};
   cursor: pointer;
+  padding: 16px 0;
+  border-radius: 50px;
+  font-size: 22px;
+  margin: 24px 0px;
+  width: 30%;
 `;
 
 const ReservationPersonalInformation: React.FC<
@@ -51,6 +78,8 @@ const ReservationPersonalInformation: React.FC<
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [info, setInfo] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -63,41 +92,62 @@ const ReservationPersonalInformation: React.FC<
   return (
     <FormContainer>
       <h2>Step 2: Personal Information</h2>
-      <form onSubmit={handleSubmit}>
-        <InputGroup>
-          <Label>First Name:</Label>
-          <Input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
+      <Form onSubmit={handleSubmit}>
+        <Flex>
+          <InputGroup>
+            <Label>First Name:</Label>
+            <Input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Last Name:</Label>
+            <Input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+          </InputGroup>
+        </Flex>
+        <Flex>
+          <InputGroup>
+            <Label>Email:</Label>
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </InputGroup>
+          <InputGroup>
+            <Label>Phone Number:</Label>
+            <Input
+              type="number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              required
+            />
+          </InputGroup>
+        </Flex>
+        <Info>
+          <Label>Additional Information</Label>
+          <InfoInput
+            value={info}
+            onChange={(e) => setInfo(e.target.value)}
             required
           />
-        </InputGroup>
-        <InputGroup>
-          <Label>Last Name:</Label>
-          <Input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
-        </InputGroup>
-        <InputGroup>
-          <Label>Email:</Label>
-          <Input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </InputGroup>
+        </Info>
         <ButtonContainer>
           <Button type="button" onClick={prevStep}>
             Back
           </Button>
           <Button type="submit">Next Step</Button>
         </ButtonContainer>
-      </form>
+      </Form>
     </FormContainer>
   );
 };

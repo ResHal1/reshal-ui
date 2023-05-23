@@ -1,6 +1,6 @@
 import React from "react";
 import Menu from "../components/Menu";
-import ReservationsTable from "../components/ReservationsTable";
+import ReservationsTable from "../components/MyReservationsTable";
 import Background from "../img/Green_bg2.webp";
 import styled from "styled-components";
 
