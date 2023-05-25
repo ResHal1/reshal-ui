@@ -20,6 +20,9 @@ export default function MapTest() {
   );
 }
 
+//TO DO:
+//CHANGE API KEY TO ENV
+
 const HallImg = styled.img`
   width: 100%;
   max-height: 175px;

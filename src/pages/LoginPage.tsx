@@ -71,7 +71,6 @@ const Input = styled.input`
   border-radius: 20px;
   padding-left: 5%;
   &:focus {
-    padding-right: 5%;
     border: 1px solid ${MAIN_COLORS.green};
     outline: none;
   }
