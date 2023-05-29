@@ -46,8 +46,6 @@ const HideWrapper = styled.div`
   display: flex;
 `;
 
-/*Inputs*/
-
 const Input = styled.input`
   width: 95%;
   height: 56px;
@@ -64,8 +62,6 @@ const LabelIconWrapper = styled.div`
   display: flex;
   justify-content: space-between;
 `;
-
-/*Buttons*/
 
 const HideBtn = styled.button`
   border: none;

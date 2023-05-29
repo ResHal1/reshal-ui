@@ -78,9 +78,6 @@ const ReservationInformation: React.FC<ReservationInformationProps> = ({
 }) => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission and validation logic here
-
-    // Move to the next step
     nextStep();
   };
 

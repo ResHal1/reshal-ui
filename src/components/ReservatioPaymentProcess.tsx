@@ -21,16 +21,11 @@ const Button = styled.button`
 const ReservatioPaymentProcess = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission and payment logic here
-
-    // Show success message or redirect to confirmation page
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <h2>Step 3: Payment Process</h2>
-      {/* Payment form fields */}
-      {/* ... */}
       <Button type="submit">Submit Payment</Button>
     </Form>
   );
