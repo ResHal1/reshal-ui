@@ -8,6 +8,30 @@ import ReservationProccessPage from "./pages/ReservationProccessPage";
 import MyReservations from "./pages/MyReservationsPage";
 import MyAccountPage from "./pages/MyAccountPage";
 
+const checkToken = async () => {
+  try {
+    const response = await fetch(
+      "https://reshal-api.bartoszmagiera.live/auth/me",
+      {
+        method: "GET",
+        credentials: "include",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (response.ok) {
+      console.log("Authorized Token boyyy");
+    } else {
+      // current user bloean false
+    }
+  } catch (error) {
+    // current user bloean false
+    console.log(error);
+  }
+};
+
 const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Open Sans', sans-serif;
@@ -15,6 +39,7 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 function App() {
+  checkToken();
   return (
     <>
       <GlobalStyle />
