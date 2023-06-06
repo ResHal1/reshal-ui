@@ -8,8 +8,6 @@ const LabelStyle = styled.label`
   color: ${MAIN_COLORS.greyLight};
 `;
 
-Test;
-
 type LabelProps = {
   htmlFor: string;
   text: string;
