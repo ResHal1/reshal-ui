@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, ChangeEvent, FormEvent, MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
@@ -105,7 +105,7 @@ const LoginPage = () => {
     navigate("/signup");
   };
 
-  const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
       const response = await fetch(
@@ -136,18 +136,19 @@ const LoginPage = () => {
   const handleRedirectForgetPassword = () => {
     navigate("/forgetPassword");
   };
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handlePasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
 
-  const toggleShowPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const toggleShowPassword = (event: MouseEvent<HTMLButtonElement>) => {
     setShowPassword(!showPassword);
     event.preventDefault();
   };
