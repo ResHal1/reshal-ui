@@ -8,6 +8,7 @@ import Background from "../img/Green_bg3.webp";
 interface MenuItemProps {
   label: string;
   link: string;
+  onClick?: () => void;
 }
 
 const Container = styled.div`
@@ -103,6 +104,21 @@ const Menu: React.FC = () => {
     navigate("/");
   };
 
+  const handleLogout = async () => {
+    try {
+      await fetch("https://reshal-api.bartoszmagiera.live/auth/logout", {
+        method: "GET",
+        credentials: "include",
+        mode: "no-cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const items = [
     {
       label: "Home",
@@ -119,6 +135,7 @@ const Menu: React.FC = () => {
     {
       label: "Logout",
       link: "/login",
+      onClick: handleLogout,
     },
   ];
 
@@ -135,12 +152,22 @@ const Menu: React.FC = () => {
           <BackgroundImage src={Background}></BackgroundImage>
           {items.map((item, index) => (
             <MenuItemContainer key={index}>
-              <MenuItemLink
-                to={item.link}
-                active={window.location.pathname === item.link ? 1 : 0}
-              >
-                {item.label}
-              </MenuItemLink>
+              {item.onClick ? (
+                <MenuItemLink
+                  to={item.link}
+                  active={window.location.pathname === item.link ? 1 : 0}
+                  onClick={item.onClick}
+                >
+                  {item.label}
+                </MenuItemLink>
+              ) : (
+                <MenuItemLink
+                  to={item.link}
+                  active={window.location.pathname === item.link ? 1 : 0}
+                >
+                  {item.label}
+                </MenuItemLink>
+              )}
             </MenuItemContainer>
           ))}
         </MenuList>
