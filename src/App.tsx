@@ -22,8 +22,9 @@ const checkToken = async () => {
       }
     );
     if (response.ok) {
-      console.log("Authorized Token boyyy");
+      console.log("Authorized");
     } else {
+      console.log("Not Authorized");
       // current user bloean false
     }
   } catch (error) {
