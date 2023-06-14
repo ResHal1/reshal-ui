@@ -18,6 +18,7 @@ const Icon = styled.img`
   width: 24px;
   height: 24px;
 `;
+
 const Button = styled.button`
   background: ${MAIN_COLORS.green};
   border: none;
@@ -35,8 +36,6 @@ const Wrapper = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  width: 580px;
-  z-index: 999;
   width: 40%;
   min-width: 250px;
   max-width: 600px;
@@ -60,6 +59,7 @@ const ForgetWrapper = styled.div`
   text-align: center;
   margin-top: 26px;
 `;
+
 const HideWrapper = styled.div`
   display: flex;
 `;
@@ -75,6 +75,7 @@ const Input = styled.input`
     outline: none;
   }
 `;
+
 const LabelIconWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -89,6 +90,7 @@ const ForgetButton = styled.button`
   text-decoration: underline;
   font-weight: 600;
 `;
+
 const HideBtn = styled.button`
   border: none;
   background: none;
@@ -98,8 +100,14 @@ const HideBtn = styled.button`
   color: ${MAIN_COLORS.greyMiddle};
 `;
 
+const ErrorText = styled.div`
+  color: red;
+  margin-top: 10px;
+`;
+
 const LoginPage = () => {
   const navigate = useNavigate();
+  const [error, setError] = useState<string>("");
 
   const handleRedirectSignUp = () => {
     navigate("/signup");
@@ -122,20 +130,21 @@ const LoginPage = () => {
           }),
         }
       );
-
       if (response.ok) {
         navigate("/");
       } else {
-        console.error("Login failed");
+        setError("Incorrect e-mail or password.");
       }
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error(error);
+      setError("Login failed");
     }
   };
 
   const handleRedirectForgetPassword = () => {
     navigate("/forgetPassword");
   };
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -169,7 +178,7 @@ const LoginPage = () => {
               <Label htmlFor="Password" text="Password" />
               <HideWrapper>
                 <HideBtn onClick={toggleShowPassword}>
-                  <Icon src={Hide_Icon} alt="Hide Icon"></Icon>
+                  <Icon src={Hide_Icon} alt="Hide Icon" />
                   {showPassword ? "Hide" : "Show"}
                 </HideBtn>
               </HideWrapper>
@@ -178,9 +187,10 @@ const LoginPage = () => {
               type={showPassword ? "text" : "password"}
               value={password}
               onChange={handlePasswordChange}
-            ></Input>
+            />
           </div>
-          <Button>Login</Button>
+          <Button type="submit">Login</Button>
+          {error && <ErrorText>{error}</ErrorText>}
           <br />
           <ForgetWrapper>
             <ForgetButton onClick={handleRedirectForgetPassword}>
