@@ -7,11 +7,9 @@ import Profile_Icon from "../img/Profile_Icon.webp";
 import Hide_Icon from "../img/Hide.webp";
 import Label from "../components/Label";
 
-const apiUrl = "https://reshal-api.bartoszmagiera.live/api/auth/me";
-
 const BackgroundImage = styled.img`
   width: 100%;
-  height: 250px;
+  height: 150px;
 `;
 
 const Icon = styled.img`
@@ -83,12 +81,15 @@ const ErrorMessage = styled.p`
 `;
 
 const MyAccountPage = () => {
+  const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 
   const handleFirstNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -99,27 +100,49 @@ const MyAccountPage = () => {
   const handleLastNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLastName(event.target.value);
   };
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
 
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(event.target.value);
+    setNewPassword(event.target.value);
+  };
+  const handleCurrentPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setCurrentPassword(event.target.value);
   };
 
   const toggleShowPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     setShowPassword(!showPassword);
     event.preventDefault();
   };
+  const toggleShowCurrentPassword = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ) => {
+    setShowCurrentPassword(!showCurrentPassword);
+    event.preventDefault();
+  };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     try {
-      const response = await fetch(apiUrl, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ firstName, lastName, password }),
-      });
+      const response = await fetch(
+        "https://reshal-api.bartoszmagiera.live/auth/me",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            currentPassword,
+            newPassword,
+            email,
+            firstName,
+            lastName,
+          }),
+        }
+      );
 
       if (response.ok) {
         setSuccessMessage("Profile updated successfully.");
@@ -143,6 +166,8 @@ const MyAccountPage = () => {
       <Container>
         <h1>Edit Profile</h1>
         <form onSubmit={handleSubmit}>
+          <Label htmlFor="Email" text="Email address" />
+          <Input type="email" value={email} onChange={handleEmailChange} />
           <Label htmlFor="First Name" text="First Name" />
           <Input
             type="text"
@@ -154,7 +179,21 @@ const MyAccountPage = () => {
           <Input type="text" value={lastName} onChange={handleLastNameChange} />
 
           <LabelIconWrapper>
-            <Label htmlFor="Password" text="Password" />
+            <Label htmlFor="Current Password" text="Current Password" />
+            <HideWrapper>
+              <HideBtn onClick={toggleShowCurrentPassword}>
+                <Icon src={Hide_Icon} alt="Hide Icon"></Icon>
+                {showCurrentPassword ? "Hide" : "Show"}
+              </HideBtn>
+            </HideWrapper>
+          </LabelIconWrapper>
+          <Input
+            type={showCurrentPassword ? "text" : "password"}
+            value={currentPassword}
+            onChange={handleCurrentPasswordChange}
+          ></Input>
+          <LabelIconWrapper>
+            <Label htmlFor="New Password" text="New Password" />
             <HideWrapper>
               <HideBtn onClick={toggleShowPassword}>
                 <Icon src={Hide_Icon} alt="Hide Icon"></Icon>
@@ -164,7 +203,7 @@ const MyAccountPage = () => {
           </LabelIconWrapper>
           <Input
             type={showPassword ? "text" : "password"}
-            value={password}
+            value={newPassword}
             onChange={handlePasswordChange}
           ></Input>
 
