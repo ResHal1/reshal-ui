@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 import styled from "styled-components";
 import Menu from "../components/Menu";
@@ -91,6 +91,31 @@ const MyAccountPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.live/auth/me",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        setEmail(data.email);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   const handleFirstNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -103,7 +128,6 @@ const MyAccountPage = () => {
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
   };
-
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(event.target.value);
   };
@@ -131,6 +155,7 @@ const MyAccountPage = () => {
         "https://reshal-api.bartoszmagiera.live/auth/me",
         {
           method: "PUT",
+          credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
@@ -167,7 +192,12 @@ const MyAccountPage = () => {
         <h1>Edit Profile</h1>
         <form onSubmit={handleSubmit}>
           <Label htmlFor="Email" text="Email address" />
-          <Input type="email" value={email} onChange={handleEmailChange} />
+          <Input
+            type="email"
+            value={email}
+            onChange={handleEmailChange}
+            readOnly
+          />
           <Label htmlFor="First Name" text="First Name" />
           <Input
             type="text"
