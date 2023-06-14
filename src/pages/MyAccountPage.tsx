@@ -27,7 +27,6 @@ const Container = styled.div`
   margin: 100px auto;
   padding: 20px;
 `;
-
 const Input = styled.input`
   width: 95%;
   height: 56px;
@@ -40,6 +39,14 @@ const Input = styled.input`
   }
 `;
 
+const InputEmail = styled.input`
+  width: 95%;
+  height: 56px;
+  border: 1px solid ${MAIN_COLORS.greyMiddle};
+  border-radius: 20px;
+  padding-left: 5%;
+  color: ${MAIN_COLORS.greyMiddle};
+`;
 const HideWrapper = styled.div`
   display: flex;
 `;
@@ -192,7 +199,7 @@ const MyAccountPage = () => {
         <h1>Edit Profile</h1>
         <form onSubmit={handleSubmit}>
           <Label htmlFor="Email" text="Email address" />
-          <Input
+          <InputEmail
             type="email"
             value={email}
             onChange={handleEmailChange}
