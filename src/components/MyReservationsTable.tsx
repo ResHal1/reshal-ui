@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 
 const tableData = [
@@ -63,6 +63,8 @@ interface TableRowData {
 }
 
 const Table: React.FC = () => {
+  const [userRole, setUserRole] = React.useState("");
+
   const handleAccept = (name: string) => {
     console.log(`Accepted: ${name}`);
   };
@@ -71,6 +73,29 @@ const Table: React.FC = () => {
     console.log(`Declined: ${name}`);
   };
 
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.live/auth/me",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        setUserRole(data.role);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   return (
     <TableContainer>
       <TableHeader>
@@ -78,7 +103,7 @@ const Table: React.FC = () => {
         <TableHeaderCell>Status</TableHeaderCell>
         <TableHeaderCell>Name</TableHeaderCell>
         <TableHeaderCell>Date</TableHeaderCell>
-        <TableHeaderCell>Actions</TableHeaderCell>
+        {userRole === "admin" && <TableHeaderCell>Actions</TableHeaderCell>}
       </TableHeader>
       {tableData.map((row: TableRowData, index: number) => (
         <TableRow key={index}>
@@ -86,14 +111,16 @@ const Table: React.FC = () => {
           <TableCell>{row.Status}</TableCell>
           <TableCell>{row.Name}</TableCell>
           <TableCell>{row.Date}</TableCell>
-          <TableCell>
-            <ActionButton isAccept onClick={() => handleAccept(row.Name)}>
-              Accept
-            </ActionButton>
-            <ActionButton onClick={() => handleDecline(row.Name)}>
-              Decline
-            </ActionButton>
-          </TableCell>
+          {userRole === "admin" ? (
+            <TableCell>
+              <ActionButton isAccept onClick={() => handleAccept(row.Name)}>
+                Accept
+              </ActionButton>
+              <ActionButton onClick={() => handleDecline(row.Name)}>
+                Decline
+              </ActionButton>
+            </TableCell>
+          ) : null}
         </TableRow>
       ))}
     </TableContainer>
