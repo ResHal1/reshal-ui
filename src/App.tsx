@@ -8,6 +8,7 @@ import ForgetPassword from "./pages/ForgetPasswordPage";
 import ReservationProccessPage from "./pages/ReservationProccessPage";
 import MyReservations from "./pages/MyReservationsPage";
 import MyAccountPage from "./pages/MyAccountPage";
+import AdministratorPage from "./pages/AdministratorPage";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -75,6 +76,7 @@ const App = () => {
           <Route path="/myReservations" element={<MyReservations />} />
           <Route path="/myAccount" element={<MyAccountPage />} />
           <Route path="/reservation" element={<ReservationProccessPage />} />
+          <Route path="/administrator" element={<AdministratorPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>

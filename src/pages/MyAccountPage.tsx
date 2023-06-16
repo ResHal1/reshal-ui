@@ -33,20 +33,9 @@ const Input = styled.input`
   border: 1px solid ${MAIN_COLORS.greyMiddle};
   border-radius: 20px;
   padding-left: 5%;
-  &:focus {
-    border: 1px solid ${MAIN_COLORS.green};
-    outline: none;
-  }
-`;
-
-const InputEmail = styled.input`
-  width: 95%;
-  height: 56px;
-  border: 1px solid ${MAIN_COLORS.greyMiddle};
-  border-radius: 20px;
-  padding-left: 5%;
   color: ${MAIN_COLORS.greyMiddle};
 `;
+
 const HideWrapper = styled.div`
   display: flex;
 `;
@@ -199,7 +188,7 @@ const MyAccountPage = () => {
         <h1>Edit Profile</h1>
         <form onSubmit={handleSubmit}>
           <Label htmlFor="Email" text="Email address" />
-          <InputEmail
+          <Input
             type="email"
             value={email}
             onChange={handleEmailChange}
@@ -210,10 +199,16 @@ const MyAccountPage = () => {
             type="text"
             value={firstName}
             onChange={handleFirstNameChange}
+            readOnly
           />
 
           <Label htmlFor="Last Name" text="Last Name" />
-          <Input type="text" value={lastName} onChange={handleLastNameChange} />
+          <Input
+            type="text"
+            value={lastName}
+            onChange={handleLastNameChange}
+            readOnly
+          />
 
           <LabelIconWrapper>
             <Label htmlFor="Current Password" text="Current Password" />

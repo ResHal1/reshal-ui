@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PersonalIcon from "../img/PersonalIcon.webp";
@@ -9,6 +9,12 @@ interface MenuItemProps {
   label: string;
   link: string;
   onClick?: () => void;
+}
+
+interface User {
+  id: string;
+  name: string;
+  role: string;
 }
 
 const Container = styled.div`
@@ -94,7 +100,31 @@ interface MenuProps {
 
 const Menu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
+
+  const fetchUser = async () => {
+    try {
+      const response = await fetch(
+        "https://reshal-api.bartoszmagiera.live/auth/me",
+        {
+          method: "GET",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await response.json();
+      setUser(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
@@ -103,7 +133,6 @@ const Menu: React.FC = () => {
   const handleRedirectHome = () => {
     navigate("/");
   };
-
   const handleLogout = async () => {
     try {
       await fetch("https://reshal-api.bartoszmagiera.live/auth/logout", {
@@ -125,6 +154,10 @@ const Menu: React.FC = () => {
       link: "/",
     },
     {
+      label: "Administrator",
+      link: "/administrator",
+    },
+    {
       label: "Reservations",
       link: "/myReservations",
     },
@@ -132,6 +165,7 @@ const Menu: React.FC = () => {
       label: "My Account",
       link: "/myAccount",
     },
+
     {
       label: "Logout",
       link: "/login",
@@ -150,26 +184,33 @@ const Menu: React.FC = () => {
       {isOpen && (
         <MenuList>
           <BackgroundImage src={Background}></BackgroundImage>
-          {items.map((item, index) => (
-            <MenuItemContainer key={index}>
-              {item.onClick ? (
-                <MenuItemLink
-                  to={item.link}
-                  active={window.location.pathname === item.link ? 1 : 0}
-                  onClick={item.onClick}
-                >
-                  {item.label}
-                </MenuItemLink>
-              ) : (
-                <MenuItemLink
-                  to={item.link}
-                  active={window.location.pathname === item.link ? 1 : 0}
-                >
-                  {item.label}
-                </MenuItemLink>
-              )}
-            </MenuItemContainer>
-          ))}
+          {items.map((item, index) => {
+            const isAdmin = user?.role === "admin";
+            if (item.label === "Administrator" && !isAdmin) {
+              return null;
+            }
+
+            return (
+              <MenuItemContainer key={index}>
+                {item.onClick ? (
+                  <MenuItemLink
+                    to={item.link}
+                    active={window.location.pathname === item.link ? 1 : 0}
+                    onClick={item.onClick}
+                  >
+                    {item.label}
+                  </MenuItemLink>
+                ) : (
+                  <MenuItemLink
+                    to={item.link}
+                    active={window.location.pathname === item.link ? 1 : 0}
+                  >
+                    {item.label}
+                  </MenuItemLink>
+                )}
+              </MenuItemContainer>
+            );
+          })}
         </MenuList>
       )}
     </nav>
