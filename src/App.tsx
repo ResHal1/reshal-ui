@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -47,23 +47,6 @@ const App = () => {
     checkToken();
   }, []);
 
-  if (!isLoggedIn) {
-    return (
-      <>
-        <GlobalStyle />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/forgetPassword" element={<ForgetPassword />} />
-            <Route path="/" element={<LoginPage />} />
-            <Route path="*" element={<Navigate to="/login" replace />} />
-          </Routes>
-        </BrowserRouter>
-      </>
-    );
-  }
-
   return (
     <>
       <GlobalStyle />
@@ -72,12 +55,21 @@ const App = () => {
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/forgetPassword" element={<ForgetPassword />} />
-          <Route path="/" element={<HomePage />} />
-          <Route path="/myReservations" element={<MyReservations />} />
-          <Route path="/myAccount" element={<MyAccountPage />} />
-          <Route path="/reservation" element={<ReservationProccessPage />} />
-          <Route path="/administrator" element={<AdministratorPage />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
+          {!isLoggedIn && (
+            <Route path="/*" element={<Navigate to="/login" replace />} />
+          )}
+          {isLoggedIn && (
+            <>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/myReservations" element={<MyReservations />} />
+              <Route path="/myAccount" element={<MyAccountPage />} />
+              <Route
+                path="/reservation"
+                element={<ReservationProccessPage />}
+              />
+              <Route path="/administrator" element={<AdministratorPage />} />
+            </>
+          )}
         </Routes>
       </BrowserRouter>
     </>

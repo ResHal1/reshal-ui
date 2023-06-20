@@ -131,8 +131,10 @@ const LoginPage = () => {
         }
       );
       if (response.ok) {
+        console.log("Login successful");
         navigate("/");
       } else {
+        console.log("Login failed");
         setError("Incorrect e-mail or password.");
       }
     } catch (error) {
@@ -140,7 +142,6 @@ const LoginPage = () => {
       setError("Login failed");
     }
   };
-
   const handleRedirectForgetPassword = () => {
     navigate("/forgetPassword");
   };
