@@ -121,6 +121,12 @@ const LoginPage = () => {
   const [firstName, setName] = useState("");
   const [lastName, setLastName] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const signUpData = {
+    email,
+    password,
+    firstName,
+    lastName,
+  };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -152,12 +158,7 @@ const LoginPage = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            email,
-            password,
-            firstName,
-            lastName,
-          }),
+          body: JSON.stringify(signUpData),
         }
       );
 

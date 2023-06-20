@@ -39,15 +39,56 @@ const FormButton = styled.button`
 const ObjectsForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [type, setType] = useState("");
-  const [hallImage, setHallImage] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+  const [typeId, setTypeId] = useState("");
+  const [imageUrl, setimageUrl] = useState("");
+  const [lat, setLatitude] = useState("");
+  const [lon, setLongitude] = useState("");
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    const facilityData = {
+      name,
+      description,
+      typeId,
+      imageUrl,
+      lat,
+      lon,
+      address,
+      price,
+    };
+
+    try {
+      const response = await fetch(
+        "https://reshal-api.bartoszmagiera.live/facilities/",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(facilityData),
+        }
+      );
+
+      if (response.ok) {
+        console.log("Facility created!");
+        setName("");
+        setDescription("");
+        setTypeId("");
+        setimageUrl("");
+        setLatitude("");
+        setLongitude("");
+        setAddress("");
+        setPrice("");
+      } else {
+        console.log("Failed to create facility");
+      }
+    } catch (error) {
+      console.log("An error occurred:", error);
+    }
   };
 
   return (
@@ -73,31 +114,31 @@ const ObjectsForm = () => {
       <FormInput
         type="text"
         id="type"
-        value={type}
-        onChange={(e) => setType(e.target.value)}
+        value={typeId}
+        onChange={(e) => setTypeId(e.target.value)}
       />
 
       <FormLabel htmlFor="hallImage">Hall Image:</FormLabel>
       <FormInput
         type="text"
         id="hallImage"
-        value={hallImage}
-        onChange={(e) => setHallImage(e.target.value)}
+        value={imageUrl}
+        onChange={(e) => setimageUrl(e.target.value)}
       />
 
       <FormLabel htmlFor="latitude">Latitude:</FormLabel>
       <FormInput
-        type="text"
+        type="number"
         id="latitude"
-        value={latitude}
+        value={lat}
         onChange={(e) => setLatitude(e.target.value)}
       />
 
       <FormLabel htmlFor="longitude">Longitude:</FormLabel>
       <FormInput
-        type="text"
+        type="number"
         id="longitude"
-        value={longitude}
+        value={lon}
         onChange={(e) => setLongitude(e.target.value)}
       />
 
