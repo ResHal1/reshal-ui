@@ -9,19 +9,13 @@ import HallExample2 from "../img/Hall2.jpg";
 import Ball from "../img/Ball.webp";
 
 export default function MapTest() {
+  const apiKey = process.env.REACT_APP_API_KEY || "";
   return (
-    <Wrapper
-      apiKey="AIzaSyBGde4ydbdGOcKMdN6J9wB82ZS8oiKfp8s"
-      version="beta"
-      libraries={["marker"]}
-    >
+    <Wrapper apiKey={apiKey} version="beta" libraries={["marker"]}>
       <MyMap />
     </Wrapper>
   );
 }
-
-//TO DO:
-//CHANGE API KEY TO ENV
 
 const HallImg = styled.img`
   width: 100%;
