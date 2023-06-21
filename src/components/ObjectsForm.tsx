@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 
 const FormContainer = styled.form`
@@ -36,15 +36,49 @@ const FormButton = styled.button`
   }
 `;
 
+interface FacilityType {
+  id: number;
+  name: string;
+}
+
 const ObjectsForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [typeId, setTypeId] = useState("");
+  const [typeId, setTypeId] = useState<number | string>("");
   const [imageUrl, setimageUrl] = useState("");
   const [lat, setLatitude] = useState("");
   const [lon, setLongitude] = useState("");
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState("");
+  const [facilityTypes, setFacilityTypes] = useState<FacilityType[]>([]);
+
+  useEffect(() => {
+    const fetchFacilityTypes = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.live/facilities/types",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data: FacilityType[] = await response.json();
+          setFacilityTypes(data);
+        } else {
+          console.log("Failed to fetch facility types");
+        }
+      } catch (error) {
+        console.log("An error occurred:", error);
+      }
+    };
+
+    fetchFacilityTypes();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -111,12 +145,18 @@ const ObjectsForm = () => {
       />
 
       <FormLabel htmlFor="type">Type:</FormLabel>
-      <FormInput
-        type="text"
+      <select
         id="type"
         value={typeId}
-        onChange={(e) => setTypeId(e.target.value)}
-      />
+        onChange={(e) => setTypeId(Number(e.target.value))}
+      >
+        <option value="">Select Type</option>
+        {facilityTypes.map((type) => (
+          <option key={type.id} value={type.id}>
+            {type.name}
+          </option>
+        ))}
+      </select>
 
       <FormLabel htmlFor="hallImage">Hall Image:</FormLabel>
       <FormInput
