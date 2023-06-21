@@ -4,8 +4,6 @@ import styled from "styled-components";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 import Button from "./FormButton";
-import HallExample from "../img/HallExample.webp";
-import HallExample2 from "../img/Hall2.jpg";
 import Ball from "../img/Ball.webp";
 
 export default function MapTest() {
@@ -72,29 +70,6 @@ const mapOptions = {
   disableDefaultUI: true,
 };
 
-const halData = {
-  A: {
-    id: "",
-    name: "Krakow",
-    position: { lat: 50.049683, lng: 19.944544 },
-    description: "Hala w Krakowie",
-    type: "Hala",
-    address: "Ulica kalwarysjka 54, 31-100 Słupsk",
-    hallImg: HallExample,
-    price: 40,
-  },
-  B: {
-    id: "",
-    name: "Łódź",
-    position: { lat: 51.759445, lng: 19.457216 },
-    description: "Hala w Łodzi",
-    type: "Orlik",
-    address: "Ulica Adama Mickiewicza 54, 31-100 Radomsko",
-    hallImg: HallExample2,
-    price: 60,
-  },
-};
-
 function MyMap() {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const markerRefs = useRef<Map<string, google.maps.Marker>>(new Map());
@@ -121,12 +96,11 @@ function MapSettings({
   map: google.maps.Map | null;
   markerRefs: React.MutableRefObject<Map<string, google.maps.Marker>>;
 }) {
-  const [data, setData] = useState(halData);
   const [selectedMarker, setSelectedMarker] =
     useState<google.maps.Marker | null>(null);
-  const [selectedMarkerData, setSelectedMarkerData] = useState<
-    (typeof halData)[keyof typeof halData] | null
-  >(null);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<any | null>(
+    null
+  ); // Use "any" type for the selected marker data
   const infowindowRef = useRef<google.maps.InfoWindow | null>(null);
 
   useEffect(() => {
@@ -159,49 +133,56 @@ function MapSettings({
       scaledSize: new google.maps.Size(35, 35),
     };
 
-    Object.entries(data).forEach(([key, weather]) => {
-      const marker = new window.google.maps.Marker({
-        position: weather.position,
-        map: map,
-        icon: markerIcon,
-      });
+    const fetchData = async (): Promise<void> => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.live/facilities/",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const facilities = await response.json();
+        facilities.forEach((facility: any) => {
+          const marker = new window.google.maps.Marker({
+            position: { lat: facility.lat, lng: facility.lon },
+            map: map,
+            icon: markerIcon,
+          });
 
-      markerRefs.current.set(key, marker);
+          markerRefs.current.set(facility.id, marker);
 
-      marker.addListener("click", () => {
-        if (infowindowRef.current) {
-          infowindowRef.current.close();
-        }
-        setSelectedMarker(marker);
-        setSelectedMarkerData(weather);
-        const infowindow = new google.maps.InfoWindow({
-          content: weather.description,
+          marker.addListener("click", () => {
+            if (infowindowRef.current) {
+              infowindowRef.current.close();
+            }
+            setSelectedMarker(marker);
+            setSelectedMarkerData(facility);
+            const infowindow = new google.maps.InfoWindow({
+              content: facility.description,
+            });
+            infowindow.open(map, marker);
+            infowindowRef.current = infowindow;
+          });
         });
-        infowindow.open(map, marker);
-        infowindowRef.current = infowindow;
-      });
-    });
-
-    const handleMapClick = (): void => {
-      hideDescription();
+      } catch (error) {
+        console.log("Error fetching data:", error);
+      }
     };
 
-    const handleMapDragStart = (): void => {
-      hideDescription();
-    };
-
-    google.maps.event.addListener(map, "click", handleMapClick);
-    google.maps.event.addListener(map, "dragstart", handleMapDragStart);
+    fetchData();
 
     return () => {
       removeMarkers();
       google.maps.event.clearListeners(map, "click");
       google.maps.event.clearListeners(map, "dragstart");
     };
-  }, [map, data, markerRefs]);
+  }, [map, markerRefs]);
 
   const navigate = useNavigate();
-
   const handleRedirectReserve = () => {
     navigate("/reservation");
   };
@@ -212,8 +193,8 @@ function MapSettings({
         {selectedMarkerData && (
           <Container>
             <Description>{selectedMarkerData.description}</Description>
-            <HallImg src={selectedMarkerData.hallImg} alt="Hall Image" />
-            <Type>{selectedMarkerData.type}</Type>
+            <HallImg src={selectedMarkerData.imageUrl} alt="Hall Image" />
+            <Type>{selectedMarkerData.type.name}</Type>
             <Address>{selectedMarkerData.address}</Address>
             <Price>
               ${selectedMarkerData.price}
