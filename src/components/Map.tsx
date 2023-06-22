@@ -101,7 +101,7 @@ function MapSettings({
     useState<google.maps.Marker | null>(null);
   const [selectedMarkerData, setSelectedMarkerData] = useState<any | null>(
     null
-  ); // Use "any" type for the selected marker data
+  );
   const infowindowRef = useRef<google.maps.InfoWindow | null>(null);
 
   useEffect(() => {

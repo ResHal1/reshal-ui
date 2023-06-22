@@ -3,6 +3,7 @@ import styled from "styled-components";
 import UsersTable from "./UsersTable";
 import ObjectsForm from "./ObjectsForm";
 import ObjectTypesForm from "./ObjectTypesForm";
+import ObjectsTable from "./ObjectsTable";
 
 const MenuContainer = styled.div`
   display: flex;
@@ -45,19 +46,20 @@ const AdminMenu: React.FC = () => {
           Add Objects
         </MenuItem>
         <MenuItem
+          onClick={() => handleItemClick("add objects types")}
+          style={{
+            fontWeight: activeItem === "add objects types" ? "bold" : "normal",
+          }}
+        >
+          Add Object Types
+        </MenuItem>
+        <MenuItem
           onClick={() => handleItemClick("objects")}
           style={{ fontWeight: activeItem === "objects" ? "bold" : "normal" }}
         >
           Objects
         </MenuItem>
-        <MenuItem
-          onClick={() => handleItemClick("objects types")}
-          style={{
-            fontWeight: activeItem === "objects types" ? "bold" : "normal",
-          }}
-        >
-          Object Types
-        </MenuItem>
+
         <MenuItem
           onClick={() => handleItemClick("reservations")}
           style={{
@@ -74,8 +76,8 @@ const AdminMenu: React.FC = () => {
         </MenuItem>
       </MenuContainer>
       {activeItem === "add objects" && <ObjectsForm />}
-      {activeItem === "objects" && <h1>Objects</h1>}
-      {activeItem === "objects types" && <ObjectTypesForm />}
+      {activeItem === "add objects types" && <ObjectTypesForm />}
+      {activeItem === "objects" && <ObjectsTable />}
       {activeItem === "reservations" && <h2>Reservations Form</h2>}
       {activeItem === "users" && <UsersTable />}
     </>

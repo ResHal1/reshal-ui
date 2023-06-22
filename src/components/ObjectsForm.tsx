@@ -1,39 +1,83 @@
 import React, { useState, useEffect } from "react";
+import { MAIN_COLORS } from "../globlaStyle/colors";
 import styled from "styled-components";
+import Label from "../components/Label";
+import Button from "./FormButton";
+
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: center;
+`;
 
 const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
+  width: 600px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 30px;
+  margin: 20px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+  }
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding: 10px 0;
+  width: 100%;
 `;
 
 const FormTitle = styled.h2`
   margin-bottom: 20px;
 `;
 
-const FormLabel = styled.label`
-  margin-bottom: 10px;
-  font-weight: bold;
-`;
+const Input = styled.input`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
 
-const FormInput = styled.input`
-  width: 300px;
-  padding: 5px;
-  margin-bottom: 10px;
-`;
-
-const FormButton = styled.button`
-  padding: 10px 20px;
-  background-color: #007bff;
-  color: #fff;
-  border: none;
-  outline: none;
-  cursor: pointer;
-
-  &:hover {
-    background-color: #0056b3;
+  &:focus {
+    border: 1px solid ${MAIN_COLORS.green};
+    outline: none;
   }
+`;
+
+const Select = styled.select`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+
+  &:focus {
+    border: 1px solid ${MAIN_COLORS.green};
+    outline: none;
+  }
+`;
+
+const Option = styled.option``;
+
+const ResponsiveWrapper = styled(Wrapper)`
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const ResponsiveContainer = styled(Container)`
+  flex-wrap: wrap;
+`;
+
+const SuccessMessage = styled.p`
+  color: green;
+`;
+
+const ErrorMessage = styled.p`
+  color: red;
 `;
 
 interface FacilityType {
@@ -51,6 +95,8 @@ const ObjectsForm = () => {
   const [address, setAddress] = useState("");
   const [price, setPrice] = useState("");
   const [facilityTypes, setFacilityTypes] = useState<FacilityType[]>([]);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
   useEffect(() => {
     const fetchFacilityTypes = async () => {
@@ -69,8 +115,10 @@ const ObjectsForm = () => {
         if (response.ok) {
           const data: FacilityType[] = await response.json();
           setFacilityTypes(data);
+          setErrorMessage("");
         } else {
           console.log("Failed to fetch facility types");
+          setSuccessMessage("");
         }
       } catch (error) {
         console.log("An error occurred:", error);
@@ -108,7 +156,7 @@ const ObjectsForm = () => {
       );
 
       if (response.ok) {
-        console.log("Facility created!");
+        setSuccessMessage("Successfully added object!");
         setName("");
         setDescription("");
         setTypeId("");
@@ -118,7 +166,7 @@ const ObjectsForm = () => {
         setAddress("");
         setPrice("");
       } else {
-        console.log("Failed to create facility");
+        setErrorMessage("Failed to create object");
       }
     } catch (error) {
       console.log("An error occurred:", error);
@@ -126,80 +174,100 @@ const ObjectsForm = () => {
   };
 
   return (
-    <FormContainer onSubmit={handleSubmit}>
-      <FormTitle>Objects Form</FormTitle>
-      <FormLabel htmlFor="name">Name:</FormLabel>
-      <FormInput
-        type="text"
-        id="name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <FormLabel htmlFor="description">Description:</FormLabel>
-      <FormInput
-        type="text"
-        id="description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-
-      <FormLabel htmlFor="type">Type:</FormLabel>
-      <select
-        id="type"
-        value={typeId}
-        onChange={(e) => setTypeId(Number(e.target.value))}
-      >
-        <option value="">Select Type</option>
-        {facilityTypes.map((type) => (
-          <option key={type.id} value={type.id}>
-            {type.name}
-          </option>
-        ))}
-      </select>
-
-      <FormLabel htmlFor="hallImage">Hall Image:</FormLabel>
-      <FormInput
-        type="text"
-        id="hallImage"
-        value={imageUrl}
-        onChange={(e) => setimageUrl(e.target.value)}
-      />
-
-      <FormLabel htmlFor="latitude">Latitude:</FormLabel>
-      <FormInput
-        type="number"
-        id="latitude"
-        value={lat}
-        onChange={(e) => setLatitude(e.target.value)}
-      />
-
-      <FormLabel htmlFor="longitude">Longitude:</FormLabel>
-      <FormInput
-        type="number"
-        id="longitude"
-        value={lon}
-        onChange={(e) => setLongitude(e.target.value)}
-      />
-
-      <FormLabel htmlFor="address">Address:</FormLabel>
-      <FormInput
-        type="text"
-        id="address"
-        value={address}
-        onChange={(e) => setAddress(e.target.value)}
-      />
-
-      <FormLabel htmlFor="price">Price:</FormLabel>
-      <FormInput
-        type="text"
-        id="price"
-        value={price}
-        onChange={(e) => setPrice(e.target.value)}
-      />
-
-      <FormButton type="submit">Submit</FormButton>
-    </FormContainer>
+    <Container>
+      <FormContainer onSubmit={handleSubmit}>
+        <FormTitle>Objects Form</FormTitle>
+        <Wrapper>
+          <Label htmlFor="Name" text="Name" />
+          <Input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </Wrapper>
+        <Wrapper>
+          <Label htmlFor="Description" text="Description" />
+          <Input
+            type="text"
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+        </Wrapper>
+        <Wrapper>
+          <Label htmlFor="Type" text="Type" />
+          <Select
+            id="type"
+            value={typeId}
+            onChange={(e) => setTypeId(e.target.value)}
+            required
+          >
+            <Option value="">Select Type</Option>
+            {facilityTypes.map((type) => (
+              <Option key={type.id} value={type.id}>
+                {type.name}
+              </Option>
+            ))}
+          </Select>
+        </Wrapper>
+        <Wrapper>
+          <Label htmlFor="hallImage" text="Hall Image" />
+          <Input
+            type="text"
+            id="hallImage"
+            value={imageUrl}
+            onChange={(e) => setimageUrl(e.target.value)}
+            required
+          />
+        </Wrapper>
+        <Wrapper>
+          <Label htmlFor="Lattitude" text="Lattitude" />
+          <Input
+            type="number"
+            id="latitude"
+            value={lat}
+            onChange={(e) => setLatitude(e.target.value)}
+            required
+          />
+        </Wrapper>
+        <Wrapper>
+          <Label htmlFor="Longitude" text="Longitude" />
+          <Input
+            type="number"
+            id="longitude"
+            value={lon}
+            onChange={(e) => setLongitude(e.target.value)}
+            required
+          />
+        </Wrapper>
+        <Wrapper>
+          <Label htmlFor="Address" text="Address" />
+          <Input
+            type="text"
+            id="address"
+            value={address}
+            onChange={(e) => setAddress(e.target.value)}
+            required
+          />
+        </Wrapper>
+        <Wrapper>
+          <Label htmlFor="Price" text="Price" />
+          <Input
+            type="text"
+            id="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </Wrapper>
+        <Button text="Submit" />
+        {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      </FormContainer>
+    </Container>
   );
 };
 

@@ -1,39 +1,61 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
+import Label from "../components/Label";
+import Button from "./FormButton";
 
-const Button = styled.button`
-  background: ${MAIN_COLORS.green};
-  border: none;
-  color: ${MAIN_COLORS.white};
-  cursor: pointer;
-  width: 300px;
-  padding: 16px 0;
-  border-radius: 50px;
-  font-size: 22px;
-  margin: 24px 0px;
-`;
-
-const Form = styled.form`
+const Container = styled.div`
+  width: 100%;
   display: flex;
   justify-content: center;
+`;
+
+const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  margin-top: 20px;
+  width: 600px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  padding: 30px;
+  margin: 20px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    padding: 20px;
+  }
+`;
+const FormTitle = styled.h2`
+  margin-bottom: 20px;
 `;
 
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  padding: 10px 0;
+  width: 100%;
 `;
 
 const Input = styled.input`
-  padding: 0.5rem;
-  margin-bottom: 0.5rem;
-  width: 600px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  display: flex;
+
+  &:focus {
+    border: 1px solid ${MAIN_COLORS.green};
+    outline: none;
+  }
 `;
 
-const Label = styled.label`
-  margin-bottom: 0.5rem;
+const ResponsiveWrapper = styled(Wrapper)`
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+`;
+
+const ResponsiveContainer = styled(Container)`
+  flex-wrap: wrap;
 `;
 
 interface SuccessMessageProps {
@@ -70,7 +92,7 @@ const ObjectTypesForm: React.FC = () => {
       if (response.ok) {
         setSuccessMessage("Facility type created successfully!");
         setIsSuccess(true);
-        setName(""); // Clear the input field
+        setName("");
       } else {
         setSuccessMessage("Failed to create facility type");
         setIsSuccess(false);
@@ -83,21 +105,26 @@ const ObjectTypesForm: React.FC = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Wrapper>
-        <Label htmlFor="name">Name</Label>
-        <Input
-          type="text"
-          id="name"
-          value={name}
-          onChange={(event) => setName(event.target.value)}
-        />
-        <Button type="submit">Submit</Button>
-        {successMessage && (
-          <SuccessMessage success={isSuccess}>{successMessage}</SuccessMessage>
-        )}
-      </Wrapper>
-    </Form>
+    <Container>
+      <FormContainer onSubmit={handleSubmit}>
+        <FormTitle>Objects Types Form</FormTitle>
+        <Wrapper>
+          <Label htmlFor="Name" text="Name" />
+          <Input
+            type="text"
+            id="name"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+          />
+          <Button text="Submit" />
+          {successMessage && (
+            <SuccessMessage success={isSuccess}>
+              {successMessage}
+            </SuccessMessage>
+          )}
+        </Wrapper>
+      </FormContainer>
+    </Container>
   );
 };
 
