@@ -6,7 +6,7 @@ import { MAIN_COLORS } from "../globlaStyle/colors";
 import Button from "./FormButton";
 import Ball from "../img/Ball.webp";
 
-export default function MapTest() {
+export default function MapRender() {
   const apiKey = process.env.REACT_APP_API_KEY || "";
   return (
     <Wrapper apiKey={apiKey} version="beta" libraries={["marker"]}>
