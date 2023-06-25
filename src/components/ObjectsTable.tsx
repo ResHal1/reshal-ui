@@ -18,6 +18,10 @@ const TableData = styled.td`
   border-bottom: 1px solid #ddd;
 `;
 
+const Select = styled.select`
+  padding: 10px;
+`;
+
 interface Facility {
   id: number;
   name: string;
@@ -29,9 +33,14 @@ interface Facility {
   lon: number;
   lat: number;
 }
+interface FacilityType {
+  id: string;
+  name: string;
+}
 
 const ObjectsTable: React.FC = () => {
   const [facilities, setFacilities] = useState<Facility[]>([]);
+  const [facilityTypes, setFacilityTypes] = useState<FacilityType[]>([]);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -64,7 +73,36 @@ const ObjectsTable: React.FC = () => {
       }
     };
 
+    const fetchFacilityTypes = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.live/facilities/types",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (response.ok) {
+          const data = await response.json();
+          if (Array.isArray(data)) {
+            setFacilityTypes(data);
+          } else {
+            setError("Invalid facility types data format");
+          }
+        } else {
+          setError("Error fetching facility types");
+        }
+      } catch (error) {
+        console.error("Error fetching facility types:", error);
+        setError("Error fetching facility types");
+      }
+    };
+
     fetchFacilities();
+    fetchFacilityTypes();
   }, []);
 
   const updateFacility = async (
@@ -95,9 +133,11 @@ const ObjectsTable: React.FC = () => {
               ...updatedFields,
             };
           }
+
           return updatedFacilities;
         });
-        console.log("Facility updated successfully");
+
+        console.log("Facility updated successfully", facilities);
       } else {
         console.error("Error updating facility:", response.statusText);
         setError("Error updating facility");
@@ -192,7 +232,7 @@ const ObjectsTable: React.FC = () => {
           <TableHeader>Longitude</TableHeader>
           <TableHeader>Description</TableHeader>
           <TableHeader>Price</TableHeader>
-          <TableHeader>TypeId</TableHeader>
+          <TableHeader>Type</TableHeader>
           <TableHeader>Actions</TableHeader>
         </tr>
       </thead>
@@ -258,18 +298,20 @@ const ObjectsTable: React.FC = () => {
                 }
               />
             </TableData>
+
             <TableData>
-              <input
-                type="string"
+              <Select
                 value={facility.typeId}
                 onChange={(e) =>
-                  handleFieldChange(
-                    facility.id,
-                    "typeId",
-                    e.target.valueAsNumber
-                  )
+                  handleFieldChange(facility.id, "typeId", e.target.value)
                 }
-              />
+              >
+                {facilityTypes.map((type) => (
+                  <option key={type.id} value={type.id}>
+                    {type.name}
+                  </option>
+                ))}
+              </Select>
             </TableData>
             <TableData>
               <button onClick={() => handleUpdateClick(facility.id)}>

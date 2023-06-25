@@ -20,8 +20,12 @@ const HallImg = styled.img`
   max-height: 175px;
 `;
 
-const Description = styled.h2`
+const Name = styled.h2`
   padding: 0px;
+  margin: 0px;
+`;
+const Description = styled.span`
+  padding: 5px 0px;
   margin: 0px;
 `;
 
@@ -193,6 +197,7 @@ function MapSettings({
       <Box>
         {selectedMarkerData && (
           <Container>
+            <Name>{selectedMarkerData.name}</Name>
             <Description>{selectedMarkerData.description}</Description>
             <HallImg src={selectedMarkerData.imageUrl} alt="Hall Image" />
             <Type>{selectedMarkerData.type.name}</Type>
