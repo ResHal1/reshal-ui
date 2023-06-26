@@ -16,11 +16,11 @@ const Button = styled.button`
 
 interface ButtonProps {
   text: string;
-  onClick?: () => void; // Make onClick prop optional by adding "?"
+  onClick?: () => void;
 }
 
 const FormButton: React.FC<ButtonProps> = ({ text, onClick }) => {
-  const handleClick = onClick || (() => {}); // Set a default empty function if onClick is not provided
+  const handleClick = onClick || (() => {});
 
   return <Button onClick={handleClick}>{text}</Button>;
 };

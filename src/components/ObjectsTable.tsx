@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-// Styled Components
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;

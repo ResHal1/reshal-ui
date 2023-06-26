@@ -158,7 +158,7 @@ const ObjectTypesForm: React.FC = () => {
         setSuccessMessage("Facility type created successfully!");
         setIsSuccess(true);
         setName("");
-        fetchFacilityTypes(); // Fetch facility types again to update the table
+        fetchFacilityTypes();
       } else {
         setSuccessMessage("Failed to create facility type");
         setIsSuccess(false);
@@ -182,7 +182,7 @@ const ObjectTypesForm: React.FC = () => {
       if (response.ok) {
         setSuccessMessage("Facility type deleted successfully!");
         setIsSuccess(true);
-        fetchFacilityTypes(); // Fetch facility types again to update the table
+        fetchFacilityTypes();
       } else {
         setSuccessMessage("Failed to delete facility type");
         setIsSuccess(false);
