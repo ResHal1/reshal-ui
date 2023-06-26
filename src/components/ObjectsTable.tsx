@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { MAIN_COLORS } from "../globlaStyle/colors";
 
 const Table = styled.table`
   width: 100%;
@@ -19,6 +20,23 @@ const TableData = styled.td`
 
 const Select = styled.select`
   padding: 10px;
+`;
+
+const Delete = styled.button`
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 5px;
+`;
+
+const Update = styled.button`
+  background: ${MAIN_COLORS.green};
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
 `;
 
 interface Facility {
@@ -312,12 +330,12 @@ const ObjectsTable: React.FC = () => {
               </Select>
             </TableData>
             <TableData>
-              <button onClick={() => handleUpdateClick(facility.id)}>
+              <Update onClick={() => handleUpdateClick(facility.id)}>
                 Update
-              </button>
-              <button onClick={() => handleDeleteClick(facility.id)}>
+              </Update>
+              <Delete onClick={() => handleDeleteClick(facility.id)}>
                 Delete
-              </button>
+              </Delete>
             </TableData>
           </tr>
         ))}

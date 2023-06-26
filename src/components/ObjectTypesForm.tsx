@@ -70,7 +70,7 @@ const SuccessMessage = styled.p<SuccessMessageProps>`
 
 const TableContainer = styled.div`
   margin-top: 20px;
-  width: 100%;
+  width: 650px;
 `;
 
 const Table = styled.table`
@@ -96,8 +96,11 @@ const TableCell = styled.td`
 `;
 
 const DeleteButton = styled.button`
-  margin-left: 10px;
-  cursor: pointer;
+  background: red;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px;
 `;
 
 interface FacilityType {
