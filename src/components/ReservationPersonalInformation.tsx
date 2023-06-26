@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 
@@ -85,6 +85,31 @@ const ReservationPersonalInformation: React.FC<
     e.preventDefault();
     nextStep();
   };
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.live/auth/me",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        setEmail(data.email);
+        setFirstName(data.firstName);
+        setLastName(data.lastName);
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <FormContainer>

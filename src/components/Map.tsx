@@ -167,7 +167,7 @@ function MapSettings({
             setSelectedMarker(marker);
             setSelectedMarkerData(facility);
             const infowindow = new google.maps.InfoWindow({
-              content: facility.description,
+              content: facility.name,
             });
             infowindow.open(map, marker);
             infowindowRef.current = infowindow;
@@ -189,9 +189,8 @@ function MapSettings({
 
   const navigate = useNavigate();
   const handleRedirectReserve = () => {
-    navigate("/reservation");
+    navigate("/reservation", { state: { selectedMarkerData } });
   };
-
   return (
     <div>
       <Box>

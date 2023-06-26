@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
-import HallExample from "../img/HallExample.webp";
+import { useLocation } from "react-router-dom";
 
 const Form = styled.form`
   width: 100%;
@@ -71,27 +71,17 @@ const Container = styled.div`
 
 type ReservationInformationProps = {
   nextStep: () => void;
+  selectedMarkerData: any;
 };
 
 const ReservationInformation: React.FC<ReservationInformationProps> = ({
   nextStep,
 }) => {
+  const location = useLocation();
+  const selectedMarkerData = location.state?.selectedMarkerData || null;
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     nextStep();
-  };
-
-  const halData = {
-    A: {
-      id: "",
-      name: "Krakow",
-      position: { lat: 50.049683, lng: 19.944544 },
-      description: "Hala w Krakowie",
-      type: "Hala",
-      address: "Ulica kalwarysjka 54, 31-100 Słupsk",
-      hallImg: HallExample,
-      price: 40,
-    },
   };
 
   return (
@@ -99,12 +89,12 @@ const ReservationInformation: React.FC<ReservationInformationProps> = ({
       <h2>Step 1: Reservation Information</h2>
       <Box>
         <Container>
-          <Description>{halData.A.description}</Description>
-          <HallImg src={halData.A.hallImg} alt="Hall Image" />
-          <Type>{halData.A.type}</Type>
-          <Address>{halData.A.address}</Address>
+          <Description>{selectedMarkerData.name}</Description>
+          <HallImg src={selectedMarkerData.imageUrl} alt="Hall Image" />
+          <Type>{selectedMarkerData.type.name}</Type>
+          <Address>{selectedMarkerData.address}</Address>
           <Price>
-            ${halData.A.price}
+            ${selectedMarkerData.price}
             <Time>/60min</Time>
           </Price>
           <Button type="submit">Next Step</Button>

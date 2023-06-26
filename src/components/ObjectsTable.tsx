@@ -59,7 +59,6 @@ const ObjectsTable: React.FC = () => {
         if (response.ok) {
           const data = await response.json();
           if (Array.isArray(data)) {
-            console.log(data);
             setFacilities(data);
           } else {
             setError("Invalid data format");
@@ -137,7 +136,7 @@ const ObjectsTable: React.FC = () => {
           return updatedFacilities;
         });
 
-        console.log("Facility updated successfully", facilities);
+        console.log("Facility updated successfully");
       } else {
         console.error("Error updating facility:", response.statusText);
         setError("Error updating facility");

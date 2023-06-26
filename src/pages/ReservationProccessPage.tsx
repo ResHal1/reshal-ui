@@ -57,6 +57,9 @@ const BackgroundImage = styled.img`
 
 const BookingProcess = () => {
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedMarkerData, setSelectedMarkerData] = useState<any | null>(
+    null
+  );
 
   const nextStep = () => {
     setCurrentStep(currentStep + 1);
@@ -69,7 +72,12 @@ const BookingProcess = () => {
   const renderStep = () => {
     switch (currentStep) {
       case 1:
-        return <ReservationInformation nextStep={nextStep} />;
+        return (
+          <ReservationInformation
+            nextStep={nextStep}
+            selectedMarkerData={selectedMarkerData}
+          />
+        );
       case 2:
         return (
           <ReservationPersonalInformation

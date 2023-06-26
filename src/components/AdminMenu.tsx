@@ -43,7 +43,7 @@ const AdminMenu: React.FC = () => {
             fontWeight: activeItem === "add objects" ? "bold" : "normal",
           }}
         >
-          Add Objects
+          Create Objects
         </MenuItem>
         <MenuItem
           onClick={() => handleItemClick("add objects types")}
@@ -51,7 +51,7 @@ const AdminMenu: React.FC = () => {
             fontWeight: activeItem === "add objects types" ? "bold" : "normal",
           }}
         >
-          Add Object Types
+          Create Object Types
         </MenuItem>
         <MenuItem
           onClick={() => handleItemClick("objects")}
