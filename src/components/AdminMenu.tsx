@@ -4,6 +4,7 @@ import UsersTable from "./UsersTable";
 import ObjectsForm from "./ObjectsForm";
 import ObjectTypesForm from "./ObjectTypesForm";
 import ObjectsTable from "./ObjectsTable";
+import Ownership from "./Ownership";
 
 const MenuContainer = styled.div`
   display: flex;
@@ -74,12 +75,19 @@ const AdminMenu: React.FC = () => {
         >
           Users
         </MenuItem>
+        <MenuItem
+          onClick={() => handleItemClick("ownership")}
+          style={{ fontWeight: activeItem === "ownership" ? "bold" : "normal" }}
+        >
+          Add Ownership
+        </MenuItem>
       </MenuContainer>
       {activeItem === "add objects" && <ObjectsForm />}
       {activeItem === "add objects types" && <ObjectTypesForm />}
       {activeItem === "objects" && <ObjectsTable />}
       {activeItem === "reservations" && <h2>Reservations Form</h2>}
       {activeItem === "users" && <UsersTable />}
+      {activeItem === "ownership" && <Ownership />}
     </>
   );
 };

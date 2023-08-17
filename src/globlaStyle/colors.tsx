@@ -1,5 +1,6 @@
 export const MAIN_COLORS = {
   green: "#58bf3f",
+  red: "#e72f2f",
   white: "#fff",
   black: "#000",
   greyDark: "#333333",

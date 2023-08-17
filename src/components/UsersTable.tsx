@@ -25,6 +25,7 @@ interface User {
   firstName: string;
   lastName: string;
   email: string;
+  role: string;
 }
 
 const UsersTable = () => {
@@ -46,6 +47,7 @@ const UsersTable = () => {
         );
         if (response.ok) {
           const data = await response.json();
+          console.log(data);
           if (Array.isArray(data)) {
             setUsers(data);
           } else {
@@ -73,17 +75,21 @@ const UsersTable = () => {
       <Table>
         <thead>
           <tr>
+            <TableHeader>Id</TableHeader>
             <TableHeader>First Name</TableHeader>
             <TableHeader>Last Name</TableHeader>
             <TableHeader>Email</TableHeader>
+            <TableHeader>Role</TableHeader>
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
+              <TableData>{user.id}</TableData>
               <TableData>{user.firstName}</TableData>
               <TableData>{user.lastName}</TableData>
               <TableData>{user.email}</TableData>
+              <TableData>{user.role}</TableData>
             </tr>
           ))}
         </tbody>
