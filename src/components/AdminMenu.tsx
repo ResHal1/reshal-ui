@@ -79,7 +79,7 @@ const AdminMenu: React.FC = () => {
           onClick={() => handleItemClick("ownership")}
           style={{ fontWeight: activeItem === "ownership" ? "bold" : "normal" }}
         >
-          Add Ownership
+          Ownership
         </MenuItem>
       </MenuContainer>
       {activeItem === "add objects" && <ObjectsForm />}
