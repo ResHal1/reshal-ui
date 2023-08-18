@@ -7,11 +7,6 @@ const FormContainer = styled.div`
   flex-direction: column;
   max-width: 300px;
   margin: 0 auto;
-
-  form {
-    display: flex;
-    flex-direction: column;
-  }
 `;
 
 const FormGroup = styled.div`
@@ -30,7 +25,7 @@ const Input = styled.input`
   border-radius: 4px;
 `;
 
-const SuccesButton = styled.button`
+const SuccessButton = styled.button`
   padding: 10px 15px;
   background-color: ${MAIN_COLORS.green};
   color: white;
@@ -53,21 +48,22 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
   margin-top: 10px;
 `;
+
 const Message = styled.div`
   margin-top: 10px;
   color: green;
 `;
 
 const ErrorMessage = styled.div`
-  margin-top: 10px;
   color: red;
+  margin-top: 10px;
 `;
 
 const OwnershipForm = () => {
   const [userId, setUserId] = useState("");
   const [facilityId, setFacilityId] = useState("");
   const [addSuccess, setAddSuccess] = useState(false);
-  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [addRevokeSuccess, setRevokeAddSuccess] = useState(false);
   const [error, setError] = useState("");
 
   const handleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -99,26 +95,23 @@ const OwnershipForm = () => {
         }
       );
 
-      const data = await response.json();
-      console.log(data);
-
       if (response.ok) {
         setAddSuccess(true);
-        setDeleteSuccess(false);
+        setRevokeAddSuccess(false);
         setError("");
       } else {
-        setAddSuccess(false);
         setError("An error occurred while adding ownership.");
       }
     } catch (error) {
-      setError("An error occurred while adding ownership.");
+      setError("An error occurred while communicating with the server.");
     }
   };
 
   const handleDeleteOwnership = async (
-    event: React.MouseEvent<HTMLButtonElement>
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
     event.preventDefault();
+
     try {
       const response = await fetch(
         "https://reshal-api.bartoszmagiera.live/facilities/revoke-ownership",
@@ -135,19 +128,15 @@ const OwnershipForm = () => {
         }
       );
 
-      const data = await response.json();
-      console.log(data);
-
       if (response.ok) {
-        setDeleteSuccess(true);
+        setRevokeAddSuccess(true);
         setAddSuccess(false);
         setError("");
       } else {
-        setDeleteSuccess(false);
-        setError("An error occurred while deleting ownership.");
+        setError("An error occurred while revoking ownership.");
       }
     } catch (error) {
-      setError("An error occurred while deleting ownership.");
+      setError("An error occurred while communicating with the server.");
     }
   };
 
@@ -167,14 +156,14 @@ const OwnershipForm = () => {
           />
         </FormGroup>
         <ButtonGroup>
-          <SuccesButton type="submit">Add Ownership</SuccesButton>
+          <SuccessButton type="submit">Add Ownership</SuccessButton>
           <DeleteButton type="button" onClick={handleDeleteOwnership}>
             Delete Ownership
           </DeleteButton>
         </ButtonGroup>
       </form>
       {addSuccess && <Message>Ownership added successfully!</Message>}
-      {deleteSuccess && <Message>Ownership deleted successfully!</Message>}
+      {addRevokeSuccess && <Message>Ownership revoked successfully!</Message>}
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </FormContainer>
   );
