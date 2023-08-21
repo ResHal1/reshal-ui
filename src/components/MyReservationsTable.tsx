@@ -103,7 +103,7 @@ const Table: React.FC = () => {
         <TableHeaderCell>Status</TableHeaderCell>
         <TableHeaderCell>Name</TableHeaderCell>
         <TableHeaderCell>Date</TableHeaderCell>
-        {userRole === "admin" && <TableHeaderCell>Actions</TableHeaderCell>}
+        {userRole === "owner" && <TableHeaderCell>Actions</TableHeaderCell>}
       </TableHeader>
       {tableData.map((row: TableRowData, index: number) => (
         <TableRow key={index}>
@@ -111,7 +111,7 @@ const Table: React.FC = () => {
           <TableCell>{row.Status}</TableCell>
           <TableCell>{row.Name}</TableCell>
           <TableCell>{row.Date}</TableCell>
-          {userRole === "admin" ? (
+          {userRole === "owner" ? (
             <TableCell>
               <ActionButton isAccept onClick={() => handleAccept(row.Name)}>
                 Accept
