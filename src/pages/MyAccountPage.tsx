@@ -3,6 +3,7 @@ import { MAIN_COLORS } from "../globlaStyle/colors";
 import styled from "styled-components";
 import Menu from "../components/Menu";
 import Background from "../img/Green_bg5.webp";
+import Stain from "../img/Green_bg2.webp";
 import Profile_Icon from "../img/Profile_Icon.webp";
 import Hide_Icon from "../img/Hide.webp";
 import Label from "../components/Label";
@@ -10,6 +11,10 @@ import Label from "../components/Label";
 const BackgroundImage = styled.img`
   width: 100%;
   height: 150px;
+`;
+const BackgroundStain = styled.img`
+  position: absolute;
+  bottom: 0;
 `;
 
 const Icon = styled.img`
@@ -245,6 +250,7 @@ const MyAccountPage = () => {
         {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       </Container>
+      <BackgroundStain src={Stain} />
     </>
   );
 };
