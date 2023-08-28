@@ -92,7 +92,7 @@ const ReservationInformation: React.FC = () => {
           },
 
           body: JSON.stringify({
-            hallId: selectedMarkerData?.id,
+            facilityId: selectedMarkerData?.id,
             startTime,
             endTime,
           }),

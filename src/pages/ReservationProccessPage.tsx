@@ -1,7 +1,6 @@
 import React from "react";
 import ReservationInformation from "../components/ReservationInformation";
 import Menu from "../components/Menu";
-import { MAIN_COLORS } from "../globlaStyle/colors";
 import styled from "styled-components";
 import BgImg from "../img/Green_bg4.webp";
 
