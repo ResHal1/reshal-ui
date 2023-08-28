@@ -113,7 +113,7 @@ const ReservationInformation: React.FC = () => {
 
   return (
     <Form onSubmit={handleSubmit}>
-      <h2>Step 1: Reservation Information</h2>
+      <h2>Reservation Information</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}{" "}
       <Box>
         <Container>

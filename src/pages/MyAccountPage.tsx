@@ -13,8 +13,8 @@ const BackgroundImage = styled.img`
   height: 150px;
 `;
 const BackgroundStain = styled.img`
-  position: absolute;
   bottom: 0;
+  margin-bottom: -10px;
 `;
 
 const Icon = styled.img`
@@ -29,7 +29,7 @@ const ProfileIcon = styled.img`
 
 const Container = styled.div`
   max-width: 400px;
-  margin: 100px auto;
+  margin: 100px auto 0;
   padding: 20px;
 `;
 const Input = styled.input`
