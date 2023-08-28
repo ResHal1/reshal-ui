@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 import { useLocation } from "react-router-dom";
@@ -11,6 +11,7 @@ const Form = styled.form`
   align-items: center;
   justify-content: center;
 `;
+
 const Button = styled.button`
   background: ${MAIN_COLORS.green};
   border: none;
@@ -22,6 +23,7 @@ const Button = styled.button`
   font-size: 22px;
   margin: 24px 0px;
 `;
+
 const Box = styled.div`
   width: 100%;
   display: flex;
@@ -69,35 +71,75 @@ const Container = styled.div`
   max-width: 600px;
 `;
 
-type ReservationInformationProps = {
-  nextStep: () => void;
-  selectedMarkerData: any;
-};
-
-const ReservationInformation: React.FC<ReservationInformationProps> = ({
-  nextStep,
-}) => {
+const ReservationInformation: React.FC = () => {
   const location = useLocation();
   const selectedMarkerData = location.state?.selectedMarkerData || null;
-  const handleSubmit = (e: React.FormEvent) => {
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
+  const [error, setError] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    nextStep();
+
+    try {
+      const response = await fetch(
+        "https://reshal-api.bartoszmagiera.live/reservations",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+
+          body: JSON.stringify({
+            hallId: selectedMarkerData?.id,
+            startTime,
+            endTime,
+          }),
+        }
+      );
+      if (response.ok) {
+        console.log("Reservation successful");
+        setError("");
+      } else {
+        console.log("Reservation failed");
+        setError("Reservation failed. Please try again.");
+      }
+    } catch (error) {
+      console.error(error);
+      setError("An error occurred while processing your reservation.");
+    }
   };
 
   return (
     <Form onSubmit={handleSubmit}>
       <h2>Step 1: Reservation Information</h2>
+      {error && <p style={{ color: "red" }}>{error}</p>}{" "}
       <Box>
         <Container>
-          <Description>{selectedMarkerData.name}</Description>
-          <HallImg src={selectedMarkerData.imageUrl} alt="Hall Image" />
-          <Type>{selectedMarkerData.type.name}</Type>
-          <Address>{selectedMarkerData.address}</Address>
+          <Description>{selectedMarkerData?.name}</Description>
+          <HallImg src={selectedMarkerData?.imageUrl} alt="Hall Image" />
+          <Type>{selectedMarkerData?.type.name}</Type>
+          <Address>{selectedMarkerData?.address}</Address>
           <Price>
-            ${selectedMarkerData.price}
+            ${parseInt(selectedMarkerData?.price)}
             <Time>/60min</Time>
           </Price>
-          <Button type="submit">Next Step</Button>
+          <label htmlFor="startTime">Start Time:</label>
+          <input
+            type="datetime-local"
+            id="startTime"
+            value={startTime}
+            onChange={(e) => setStartTime(e.target.value)}
+          />
+          <label htmlFor="endTime">End Time:</label>
+          <input
+            type="datetime-local"
+            id="endTime"
+            value={endTime}
+            onChange={(e) => setEndTime(e.target.value)}
+          />
+          <Button type="submit">Submit</Button>
         </Container>
       </Box>
     </Form>

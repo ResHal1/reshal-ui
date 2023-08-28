@@ -36,7 +36,7 @@ const UsersTable = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/auth/",
+          "https://reshal-api.bartoszmagiera.live/auth",
           {
             method: "GET",
             credentials: "include",

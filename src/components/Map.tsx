@@ -141,7 +141,7 @@ function MapSettings({
     const fetchData = async (): Promise<void> => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/facilities/",
+          "https://reshal-api.bartoszmagiera.live/facilities",
           {
             method: "GET",
             credentials: "include",
@@ -202,7 +202,7 @@ function MapSettings({
             <Type>{selectedMarkerData.type.name}</Type>
             <Address>{selectedMarkerData.address}</Address>
             <Price>
-              ${selectedMarkerData.price}
+              ${parseInt(selectedMarkerData.price)}
               <Time>/60min</Time>
             </Price>
             <Button text="Reserve" onClick={handleRedirectReserve}></Button>
