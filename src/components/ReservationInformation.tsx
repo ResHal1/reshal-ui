@@ -77,6 +77,7 @@ const ReservationInformation: React.FC = () => {
   const [startTime, setStartTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [error, setError] = useState("");
+  const [errorColor, setErrorColor] = useState("red");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +101,8 @@ const ReservationInformation: React.FC = () => {
       );
       if (response.ok) {
         console.log("Reservation successful");
-        setError("");
+        setError("Successfully reserved object");
+        setErrorColor("green");
       } else {
         console.log("Reservation failed");
         setError("Reservation failed. Please try again.");
@@ -114,7 +116,7 @@ const ReservationInformation: React.FC = () => {
   return (
     <Form onSubmit={handleSubmit}>
       <h2>Reservation Information</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}{" "}
+      {error && <p style={{ color: errorColor }}>{error}</p>}
       <Box>
         <Container>
           <Description>{selectedMarkerData?.name}</Description>
