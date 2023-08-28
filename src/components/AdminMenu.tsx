@@ -5,6 +5,7 @@ import ObjectsForm from "./ObjectsForm";
 import ObjectTypesForm from "./ObjectTypesForm";
 import ObjectsTable from "./ObjectsTable";
 import Ownership from "./Ownership";
+import ReservationsTable from "./ReservationsTable";
 
 const MenuContainer = styled.div`
   display: flex;
@@ -85,7 +86,7 @@ const AdminMenu: React.FC = () => {
       {activeItem === "add objects" && <ObjectsForm />}
       {activeItem === "add objects types" && <ObjectTypesForm />}
       {activeItem === "objects" && <ObjectsTable />}
-      {activeItem === "reservations" && <h2>Reservations Form</h2>}
+      {activeItem === "reservations" && <ReservationsTable />}
       {activeItem === "users" && <UsersTable />}
       {activeItem === "ownership" && <Ownership />}
     </>
