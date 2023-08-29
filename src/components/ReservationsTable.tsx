@@ -22,10 +22,10 @@ const TableData = styled.td`
 
 interface User {
   id: number;
-  firstName: string;
-  lastName: string;
-  email: string;
-  role: string;
+  facilityId: string;
+  userId: string;
+  startTime: string;
+  endTime: string;
 }
 
 const ReservationsTable = () => {
@@ -36,7 +36,7 @@ const ReservationsTable = () => {
     const fetchUsers = async () => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/reservations",
+          "https://reshal-api.bartoszmagiera.dev/reservations",
           {
             method: "GET",
             credentials: "include",
@@ -76,20 +76,20 @@ const ReservationsTable = () => {
         <thead>
           <tr>
             <TableHeader>Id</TableHeader>
-            <TableHeader>First Name</TableHeader>
-            <TableHeader>Last Name</TableHeader>
-            <TableHeader>Email</TableHeader>
-            <TableHeader>Role</TableHeader>
+            <TableHeader>Facility Id</TableHeader>
+            <TableHeader>User Id</TableHeader>
+            <TableHeader>Start Time</TableHeader>
+            <TableHeader>End Time</TableHeader>
           </tr>
         </thead>
         <tbody>
           {reservations.map((reservation) => (
             <tr key={reservation.id}>
               <TableData>{reservation.id}</TableData>
-              {/* <TableData>{reservation.firstName}</TableData>
-            <TableData>{reservation.lastName}</TableData>
-            <TableData>{reservation.email}</TableData>
-            <TableData>{reservation.role}</TableData> */}
+              <TableData>{reservation.facilityId}</TableData>
+              <TableData>{reservation.userId}</TableData>
+              <TableData>{reservation.startTime}</TableData>
+              <TableData>{reservation.endTime}</TableData>
             </tr>
           ))}
         </tbody>

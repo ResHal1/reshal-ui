@@ -152,7 +152,7 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/auth",
+        "https://reshal-api.bartoszmagiera.dev/auth",
         {
           method: "POST",
           headers: {

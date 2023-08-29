@@ -81,7 +81,7 @@ const OwnershipForm = () => {
 
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/facilities/assign-ownership",
+        "https://reshal-api.bartoszmagiera.dev/facilities/assign-ownership",
         {
           method: "POST",
           credentials: "include",
@@ -114,7 +114,7 @@ const OwnershipForm = () => {
 
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/facilities/revoke-ownership",
+        "https://reshal-api.bartoszmagiera.dev/facilities/revoke-ownership",
         {
           method: "DELETE",
           credentials: "include",

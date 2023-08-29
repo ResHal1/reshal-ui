@@ -141,7 +141,7 @@ function MapSettings({
     const fetchData = async (): Promise<void> => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/facilities",
+          "https://reshal-api.bartoszmagiera.dev/facilities",
           {
             method: "GET",
             credentials: "include",

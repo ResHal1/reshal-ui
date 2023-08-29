@@ -84,7 +84,7 @@ const ReservationInformation: React.FC = () => {
 
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/reservations",
+        "https://reshal-api.bartoszmagiera.dev/reservations",
         {
           method: "POST",
           credentials: "include",

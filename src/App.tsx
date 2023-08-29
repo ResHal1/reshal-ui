@@ -46,7 +46,7 @@ const App = () => {
   const checkToken = async () => {
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/auth/me",
+        "https://reshal-api.bartoszmagiera.dev/auth/me",
         {
           method: "GET",
           credentials: "include",

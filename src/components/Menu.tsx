@@ -110,7 +110,7 @@ const Menu: React.FC = () => {
   const fetchUser = async () => {
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/auth/me",
+        "https://reshal-api.bartoszmagiera.dev/auth/me",
         {
           method: "GET",
           credentials: "include",
@@ -135,7 +135,7 @@ const Menu: React.FC = () => {
   };
   const handleLogout = async () => {
     try {
-      await fetch("https://reshal-api.bartoszmagiera.live/auth/logout", {
+      await fetch("https://reshal-api.bartoszmagiera.dev/auth/logout", {
         method: "GET",
         credentials: "include",
         mode: "no-cors",

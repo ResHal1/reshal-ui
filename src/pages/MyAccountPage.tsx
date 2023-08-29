@@ -96,7 +96,7 @@ const MyAccountPage = () => {
     const fetchUserData = async () => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/auth/me",
+          "https://reshal-api.bartoszmagiera.dev/auth/me",
           {
             method: "GET",
             credentials: "include",
@@ -153,7 +153,7 @@ const MyAccountPage = () => {
     event.preventDefault();
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/auth/me",
+        "https://reshal-api.bartoszmagiera.dev/auth/me",
         {
           method: "PUT",
           credentials: "include",

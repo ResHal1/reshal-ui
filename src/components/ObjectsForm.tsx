@@ -102,7 +102,7 @@ const ObjectsForm = () => {
     const fetchFacilityTypes = async () => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/facilities/types",
+          "https://reshal-api.bartoszmagiera.dev/facilities/types",
           {
             method: "GET",
             credentials: "include",
@@ -144,7 +144,7 @@ const ObjectsForm = () => {
 
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/facilities/",
+        "https://reshal-api.bartoszmagiera.dev/facilities/",
         {
           method: "POST",
           credentials: "include",

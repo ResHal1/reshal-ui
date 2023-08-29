@@ -64,7 +64,7 @@ const ObjectsTable: React.FC = () => {
     const fetchFacilities = async () => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/facilities/admin",
+          "https://reshal-api.bartoszmagiera.dev/facilities/admin",
           {
             method: "GET",
             credentials: "include",
@@ -92,7 +92,7 @@ const ObjectsTable: React.FC = () => {
     const fetchFacilityTypes = async () => {
       try {
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.live/facilities/types",
+          "https://reshal-api.bartoszmagiera.dev/facilities/types",
           {
             method: "GET",
             credentials: "include",
@@ -127,7 +127,7 @@ const ObjectsTable: React.FC = () => {
   ) => {
     try {
       const response = await fetch(
-        `https://reshal-api.bartoszmagiera.live/facilities/${facilityId}`,
+        `https://reshal-api.bartoszmagiera.dev/facilities/${facilityId}`,
         {
           method: "PUT",
           credentials: "include",
@@ -167,7 +167,7 @@ const ObjectsTable: React.FC = () => {
   const deleteFacility = async (facilityId: number) => {
     try {
       const response = await fetch(
-        `https://reshal-api.bartoszmagiera.live/facilities/${facilityId}`,
+        `https://reshal-api.bartoszmagiera.dev/facilities/${facilityId}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -180,7 +180,7 @@ const ObjectsTable: React.FC = () => {
         setFacilities((prevFacilities) =>
           prevFacilities.filter((facility) => facility.id !== facilityId)
         );
-        console.log("Facility deleted successfully");
+        console.log("Facility deleted successfully", facilityId);
       } else {
         console.error("Error deleting facility:", response.statusText);
         setError("Error deleting facility");

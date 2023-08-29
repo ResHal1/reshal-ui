@@ -121,7 +121,7 @@ const ObjectTypesForm: React.FC = () => {
   const fetchFacilityTypes = async () => {
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/facilities/types",
+        "https://reshal-api.bartoszmagiera.dev/facilities/types",
         {
           method: "GET",
           credentials: "include",
@@ -144,7 +144,7 @@ const ObjectTypesForm: React.FC = () => {
 
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/facilities/types",
+        "https://reshal-api.bartoszmagiera.dev/facilities/types",
         {
           method: "POST",
           credentials: "include",
@@ -175,7 +175,7 @@ const ObjectTypesForm: React.FC = () => {
   const handleDelete = async (typeId: string) => {
     try {
       const response = await fetch(
-        `https://reshal-api.bartoszmagiera.live/facilities/types/${typeId}`,
+        `https://reshal-api.bartoszmagiera.dev/facilities/types/${typeId}`,
         {
           method: "DELETE",
           credentials: "include",

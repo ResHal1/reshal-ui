@@ -117,7 +117,7 @@ const LoginPage = () => {
     event.preventDefault();
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.live/auth/token",
+        "https://reshal-api.bartoszmagiera.dev/auth/token",
         {
           method: "POST",
           credentials: "include",
