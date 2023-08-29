@@ -1,20 +1,5 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-const tableData = [
-  {
-    Address: "123 Main St",
-    Status: "Active",
-    Name: "John Doe",
-    Date: "2023-05-10",
-  },
-  {
-    Address: "456 Elm St",
-    Status: "Inactive",
-    Name: "Jane Smith",
-    Date: "2023-05-12",
-  },
-];
 
 const TableContainer = styled.div`
   margin: 20px;
@@ -55,22 +40,29 @@ const ActionButton = styled.button<{ isAccept?: boolean }>`
   border: none;
 `;
 
-interface TableRowData {
-  Address: string;
-  Status: string;
-  Name: string;
-  Date: string;
+const Message = styled.p`
+  color: red;
+  display: flex;
+  justify-content: center;
+`;
+interface Reservation {
+  startTime: string;
+  endTime: string;
+  price: string;
+  facilityId: string;
+  userId: string;
 }
 
 const Table: React.FC = () => {
-  const [userRole, setUserRole] = React.useState("");
+  const [userRole, setUserRole] = useState("");
+  const [reservations, setReservations] = useState<Reservation[]>([]);
 
-  const handleAccept = (name: string) => {
-    console.log(`Accepted: ${name}`);
+  const handleAccept = (userId: string) => {
+    console.log(`Accepted user with ID: ${userId}`);
   };
 
-  const handleDecline = (name: string) => {
-    console.log(`Declined: ${name}`);
+  const handleDecline = (userId: string) => {
+    console.log(`Declined user with ID: ${userId}`);
   };
 
   useEffect(() => {
@@ -93,36 +85,62 @@ const Table: React.FC = () => {
       }
     };
 
+    const fetchReservations = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.dev/reservations/me",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        setReservations(data);
+      } catch (error) {
+        console.error("Error fetching reservations:", error);
+      }
+    };
+
     fetchUserData();
+    fetchReservations();
   }, []);
 
   return (
     <TableContainer>
       <TableHeader>
-        <TableHeaderCell>Address</TableHeaderCell>
-        <TableHeaderCell>Status</TableHeaderCell>
-        <TableHeaderCell>Name</TableHeaderCell>
-        <TableHeaderCell>Date</TableHeaderCell>
+        <TableHeaderCell>Start Time</TableHeaderCell>
+        <TableHeaderCell>End Time</TableHeaderCell>
+        <TableHeaderCell>Price</TableHeaderCell>
+        <TableHeaderCell>Facility ID</TableHeaderCell>
+        <TableHeaderCell>User ID</TableHeaderCell>
         {userRole === "owner" && <TableHeaderCell>Actions</TableHeaderCell>}
       </TableHeader>
-      {tableData.map((row: TableRowData, index: number) => (
-        <TableRow key={index}>
-          <TableCell>{row.Address}</TableCell>
-          <TableCell>{row.Status}</TableCell>
-          <TableCell>{row.Name}</TableCell>
-          <TableCell>{row.Date}</TableCell>
-          {userRole === "owner" ? (
-            <TableCell>
-              <ActionButton isAccept onClick={() => handleAccept(row.Name)}>
-                Accept
-              </ActionButton>
-              <ActionButton onClick={() => handleDecline(row.Name)}>
-                Decline
-              </ActionButton>
-            </TableCell>
-          ) : null}
-        </TableRow>
-      ))}
+      {reservations.length === 0 ? (
+        <Message>No reservations yet.</Message>
+      ) : (
+        reservations.map((row: Reservation, index: number) => (
+          <TableRow key={index}>
+            <TableCell>{row.startTime}</TableCell>
+            <TableCell>{row.endTime}</TableCell>
+            <TableCell>{row.price}</TableCell>
+            <TableCell>{row.facilityId}</TableCell>
+            <TableCell>{row.userId}</TableCell>
+            {userRole === "owner" ? (
+              <TableCell>
+                <ActionButton isAccept onClick={() => handleAccept(row.userId)}>
+                  Accept
+                </ActionButton>
+                <ActionButton onClick={() => handleDecline(row.userId)}>
+                  Decline
+                </ActionButton>
+              </TableCell>
+            ) : null}
+          </TableRow>
+        ))
+      )}
     </TableContainer>
   );
 };
