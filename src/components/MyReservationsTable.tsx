@@ -130,7 +130,6 @@ const Table: React.FC = () => {
         <TableHeaderCell>Facility Name</TableHeaderCell>
         <TableHeaderCell>Facility Description</TableHeaderCell>
         <TableHeaderCell>Type</TableHeaderCell>
-        <TableHeaderCell>Status</TableHeaderCell>
       </TableHeader>
       {reservations.length === 0 ? (
         <Message>No reservations yet.</Message>
@@ -153,7 +152,6 @@ const Table: React.FC = () => {
                   <TableCell>{facility.type.name}</TableCell>
                 </>
               )}
-              <TableCell></TableCell>
             </TableRow>
           );
         })
