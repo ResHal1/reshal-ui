@@ -30,21 +30,12 @@ const TableCell = styled.div`
   text-align: center;
 `;
 
-const ActionButton = styled.button<{ isAccept?: boolean }>`
-  padding: 5px 10px;
-  margin: 0 5px;
-  border-radius: 4px;
-  cursor: pointer;
-  background-color: ${(props) => (props.isAccept ? "#5cb85c" : "#d9534f")};
-  color: #fff;
-  border: none;
-`;
-
 const Message = styled.p`
   color: red;
   display: flex;
   justify-content: center;
 `;
+
 interface Reservation {
   startTime: string;
   endTime: string;
@@ -53,38 +44,30 @@ interface Reservation {
   userId: string;
 }
 
-const Table: React.FC = () => {
-  const [userRole, setUserRole] = useState("");
-  const [reservations, setReservations] = useState<Reservation[]>([]);
-
-  const handleAccept = (userId: string) => {
-    console.log(`Accepted user with ID: ${userId}`);
+interface Facility {
+  name: string;
+  description: string;
+  type: {
+    name: string;
   };
+}
 
-  const handleDecline = (userId: string) => {
-    console.log(`Declined user with ID: ${userId}`);
+const Table: React.FC = () => {
+  const [reservations, setReservations] = useState<Reservation[]>([]);
+  const [facilities, setFacilities] = useState<Record<string, Facility>>({});
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const response = await fetch(
-          "https://reshal-api.bartoszmagiera.dev/auth/me",
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const data = await response.json();
-        setUserRole(data.role);
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
-    };
-
     const fetchReservations = async () => {
       try {
         const response = await fetch(
@@ -98,13 +81,42 @@ const Table: React.FC = () => {
           }
         );
         const data = await response.json();
+        console.log(data);
         setReservations(data);
+
+        for (const reservation of data) {
+          if (!facilities[reservation.facilityId]) {
+            fetchFacilityInfo(reservation.facilityId);
+          }
+        }
       } catch (error) {
         console.error("Error fetching reservations:", error);
       }
     };
 
-    fetchUserData();
+    const fetchFacilityInfo = async (facilityId: string) => {
+      try {
+        const response = await fetch(
+          `https://reshal-api.bartoszmagiera.dev/facilities/${facilityId}`,
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        setFacilities((prevFacilities) => ({
+          ...prevFacilities,
+          [facilityId]: data,
+        }));
+      } catch (error) {
+        console.error("Error fetching facility information:", error);
+      }
+    };
+
     fetchReservations();
   }, []);
 
@@ -115,31 +127,36 @@ const Table: React.FC = () => {
         <TableHeaderCell>End Time</TableHeaderCell>
         <TableHeaderCell>Price</TableHeaderCell>
         <TableHeaderCell>Facility ID</TableHeaderCell>
-        <TableHeaderCell>User ID</TableHeaderCell>
-        {userRole === "owner" && <TableHeaderCell>Actions</TableHeaderCell>}
+        <TableHeaderCell>Facility Name</TableHeaderCell>
+        <TableHeaderCell>Facility Description</TableHeaderCell>
+        <TableHeaderCell>Type</TableHeaderCell>
+        <TableHeaderCell>Status</TableHeaderCell>
       </TableHeader>
       {reservations.length === 0 ? (
         <Message>No reservations yet.</Message>
       ) : (
-        reservations.map((row: Reservation, index: number) => (
-          <TableRow key={index}>
-            <TableCell>{row.startTime}</TableCell>
-            <TableCell>{row.endTime}</TableCell>
-            <TableCell>{row.price}</TableCell>
-            <TableCell>{row.facilityId}</TableCell>
-            <TableCell>{row.userId}</TableCell>
-            {userRole === "owner" ? (
-              <TableCell>
-                <ActionButton isAccept onClick={() => handleAccept(row.userId)}>
-                  Accept
-                </ActionButton>
-                <ActionButton onClick={() => handleDecline(row.userId)}>
-                  Decline
-                </ActionButton>
-              </TableCell>
-            ) : null}
-          </TableRow>
-        ))
+        reservations.map((reservation: Reservation, index: number) => {
+          const facility = facilities[reservation.facilityId];
+          const formattedStartTime = formatDate(reservation.startTime);
+          const formattedEndTime = formatDate(reservation.endTime);
+          return (
+            <TableRow key={index}>
+              <TableCell>{formattedStartTime}</TableCell>
+              <TableCell>{formattedEndTime}</TableCell>
+              <TableCell>{reservation.price}</TableCell>
+              <TableCell>{reservation.facilityId}</TableCell>
+
+              {facility && (
+                <>
+                  <TableCell>{facility.name}</TableCell>
+                  <TableCell>{facility.description}</TableCell>
+                  <TableCell>{facility.type.name}</TableCell>
+                </>
+              )}
+              <TableCell></TableCell>
+            </TableRow>
+          );
+        })
       )}
     </TableContainer>
   );
