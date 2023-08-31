@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const TableContainer = styled.div`
   margin: 20px;
@@ -29,6 +30,14 @@ const TableCell = styled.div`
   flex: 1;
   text-align: center;
 `;
+const FacilityDetailButton = styled.button`
+  background-color: #007bff;
+  color: #fff;
+  padding: 7px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+`;
 
 const Message = styled.p`
   color: red;
@@ -53,6 +62,7 @@ interface Facility {
 }
 
 const Table: React.FC = () => {
+  const navigate = useNavigate();
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [facilities, setFacilities] = useState<Record<string, Facility>>({});
 
@@ -130,6 +140,7 @@ const Table: React.FC = () => {
         <TableHeaderCell>Facility Name</TableHeaderCell>
         <TableHeaderCell>Facility Description</TableHeaderCell>
         <TableHeaderCell>Type</TableHeaderCell>
+        <TableHeaderCell>Facility Detail</TableHeaderCell>
       </TableHeader>
       {reservations.length === 0 ? (
         <Message>No reservations yet.</Message>
@@ -138,6 +149,9 @@ const Table: React.FC = () => {
           const facility = facilities[reservation.facilityId];
           const formattedStartTime = formatDate(reservation.startTime);
           const formattedEndTime = formatDate(reservation.endTime);
+          const handleReservationClick = () => {
+            navigate(`/facility/${reservation.facilityId}`);
+          };
           return (
             <TableRow key={index}>
               <TableCell>{formattedStartTime}</TableCell>
@@ -152,6 +166,12 @@ const Table: React.FC = () => {
                   <TableCell>{facility.type.name}</TableCell>
                 </>
               )}
+              <TableCell>
+                {" "}
+                <FacilityDetailButton onClick={handleReservationClick}>
+                  View detail
+                </FacilityDetailButton>
+              </TableCell>
             </TableRow>
           );
         })

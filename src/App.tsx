@@ -10,6 +10,7 @@ import ReservationProccessPage from "./pages/ReservationProccessPage";
 import MyReservations from "./pages/MyReservationsPage";
 import MyAccountPage from "./pages/MyAccountPage";
 import AdministratorPage from "./pages/AdministratorPage";
+import FacilityPage from "./pages/FacilityPage";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -99,6 +100,7 @@ const App = () => {
                 path="/reservation"
                 element={<ReservationProccessPage />}
               />
+              <Route path="/facility/:facilityId" element={<FacilityPage />} />
               <Route path="/administrator" element={<AdministratorPage />} />
               <Route path="*" element={<Navigate to="/" replace />} />
             </>
