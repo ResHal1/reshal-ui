@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PersonalIcon from "../img/PersonalIcon.webp";
+import HomeIcon from "../img/Home.webp";
+import ReservationIcon from "../img/Reservation.webp";
+import PersonIcon from "../img/PersonIcon.webp";
+import LogoutIcon from "../img/Logout.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
-import Background from "../img/Green_bg3.webp";
 
 interface MenuItemProps {
   label: string;
@@ -20,14 +23,23 @@ interface User {
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  padding: 0 64px;
+  max-width: 1072px;
+  justify-content: space-between;
+  margin: auto;
+  padding: 0 48px;
 `;
-const BackgroundImage = styled.img`
+const Wrapper = styled.div`
+  width: 1072px;
+  padding: 0 48px;
+  display: flex;
+  justify-content: end;
+`;
+
+const Main = styled.div`
+  width: 100%;
+  display: flex;
   position: absolute;
-  z-index: 999;
-  transform: scaleX(-1);
-  top: 0;
-  right: 0px;
+  justify-content: center;
 `;
 const MenuHome = styled.button`
   color: ${MAIN_COLORS.green};
@@ -40,42 +52,35 @@ const MenuHome = styled.button`
 
 const MenuItemContainer = styled.li`
   display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0 1rem;
   z-index: 999;
+  justify-content: flex-start;
+  padding: 0 10px;
   &:hover {
-    cursor: pointer;
+    background-color: #f0f0f0;
   }
 `;
 
 const MenuItemLink = styled(NavLink)<{ active: number }>`
   color: ${({ active }) =>
-    active ? `${MAIN_COLORS.white}` : `${MAIN_COLORS.black}`};
+    active ? `${MAIN_COLORS.greyMiddle}` : `${MAIN_COLORS.black}`};
   text-decoration: none;
-  font-size: 1.2rem;
+  font-size: 16px;
   font-weight: bold;
-  padding: 0.5rem;
+  padding: 10px;
   transition: color 0.2s ease-in-out;
-
-  &:hover {
-    color: ${MAIN_COLORS.white};
-  }
+  align-items: center;
+  display: flex;
 `;
 
 const MenuList = styled.ul`
+  z-index: 999;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   list-style: none;
-  position: absolute;
-  right: 0;
   padding: 0;
-  margin: 0;
-  width: auto;
-  max-width: 600px;
-  min-width: 180px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  background-color: ${MAIN_COLORS.white};
+  border-radius: 5px;
 `;
 
 const MenuToggle = styled.button`
@@ -88,11 +93,16 @@ const MenuToggle = styled.button`
   transition: background-color 0.2s ease-in-out;
 
   &:hover {
-    background-color: ${MAIN_COLORS.lightGrey};
+    background-color: #eeeeee;
   }
 `;
 
 const MenuIcon = styled.img``;
+const Icon = styled.img`
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+`;
 
 interface MenuProps {
   items: MenuItemProps[];
@@ -152,6 +162,7 @@ const Menu: React.FC = () => {
     {
       label: "Home",
       link: "/",
+      icon: HomeIcon,
     },
     {
       label: "Administrator",
@@ -160,15 +171,18 @@ const Menu: React.FC = () => {
     {
       label: "Reservations",
       link: "/myReservations",
+      icon: ReservationIcon,
     },
     {
       label: "My Account",
       link: "/myAccount",
+      icon: PersonIcon,
     },
 
     {
       label: "Logout",
       link: "/login",
+      icon: LogoutIcon,
       onClick: handleLogout,
     },
   ];
@@ -181,38 +195,41 @@ const Menu: React.FC = () => {
           <MenuIcon src={PersonalIcon} />
         </MenuToggle>
       </Container>
-      {isOpen && (
-        <MenuList>
-          <BackgroundImage src={Background}></BackgroundImage>
-          {items.map((item, index) => {
-            const isAdmin = user?.role === "admin";
-            if (item.label === "Administrator" && !isAdmin) {
-              return null;
-            }
+      <Main>
+        <Wrapper>
+          {isOpen && (
+            <MenuList>
+              {items.map((item, index) => {
+                const isAdmin = user?.role === "admin";
+                if (item.label === "Administrator" && !isAdmin) {
+                  return null;
+                }
 
-            return (
-              <MenuItemContainer key={index}>
-                {item.onClick ? (
-                  <MenuItemLink
-                    to={item.link}
-                    active={window.location.pathname === item.link ? 1 : 0}
-                    onClick={item.onClick}
-                  >
-                    {item.label}
-                  </MenuItemLink>
-                ) : (
-                  <MenuItemLink
-                    to={item.link}
-                    active={window.location.pathname === item.link ? 1 : 0}
-                  >
-                    {item.label}
-                  </MenuItemLink>
-                )}
-              </MenuItemContainer>
-            );
-          })}
-        </MenuList>
-      )}
+                return (
+                  <MenuItemContainer key={index}>
+                    {item.onClick ? (
+                      <MenuItemLink
+                        to={item.link}
+                        active={window.location.pathname === item.link ? 1 : 0}
+                        onClick={item.onClick}
+                      >
+                        {item.icon && <Icon src={item.icon} />} {item.label}
+                      </MenuItemLink>
+                    ) : (
+                      <MenuItemLink
+                        to={item.link}
+                        active={window.location.pathname === item.link ? 1 : 0}
+                      >
+                        {item.icon && <Icon src={item.icon} />} {item.label}
+                      </MenuItemLink>
+                    )}
+                  </MenuItemContainer>
+                );
+              })}
+            </MenuList>
+          )}
+        </Wrapper>
+      </Main>
     </nav>
   );
 };
