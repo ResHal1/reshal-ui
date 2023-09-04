@@ -24,13 +24,13 @@ interface User {
 const Container = styled.div`
   display: flex;
   justify-content: space-between;
-  max-width: 1072px;
+  max-width: 1024px;
   justify-content: space-between;
   margin: auto;
   padding: 0 48px;
 `;
 const Wrapper = styled.div`
-  width: 1072px;
+  width: 1024px;
   padding: 0 48px;
   display: flex;
   justify-content: end;

@@ -2,10 +2,20 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  max-width: 1024px;
+  align-items: center;
+  margin: auto;
+  padding: 0 48px;
+`;
 const TableContainer = styled.div`
-  margin: 20px;
+  margin-top: 48px;
+
   border: 1px solid #ccc;
   border-radius: 4px;
+  width: 100%;
 `;
 
 const TableHeader = styled.div`
@@ -131,52 +141,52 @@ const Table: React.FC = () => {
   }, []);
 
   return (
-    <TableContainer>
-      <TableHeader>
-        <TableHeaderCell>Start Time</TableHeaderCell>
-        <TableHeaderCell>End Time</TableHeaderCell>
-        <TableHeaderCell>Price</TableHeaderCell>
-        <TableHeaderCell>Facility ID</TableHeaderCell>
-        <TableHeaderCell>Facility Name</TableHeaderCell>
-        <TableHeaderCell>Facility Description</TableHeaderCell>
-        <TableHeaderCell>Type</TableHeaderCell>
-        <TableHeaderCell>Facility Detail</TableHeaderCell>
-      </TableHeader>
-      {reservations.length === 0 ? (
-        <Message>No reservations yet.</Message>
-      ) : (
-        reservations.map((reservation: Reservation, index: number) => {
-          const facility = facilities[reservation.facilityId];
-          const formattedStartTime = formatDate(reservation.startTime);
-          const formattedEndTime = formatDate(reservation.endTime);
-          const handleReservationClick = () => {
-            navigate(`/facility/${reservation.facilityId}`);
-          };
-          return (
-            <TableRow key={index}>
-              <TableCell>{formattedStartTime}</TableCell>
-              <TableCell>{formattedEndTime}</TableCell>
-              <TableCell>{reservation.price}</TableCell>
-              <TableCell>{reservation.facilityId}</TableCell>
+    <Container>
+      <TableContainer>
+        <TableHeader>
+          <TableHeaderCell>Start Time</TableHeaderCell>
+          <TableHeaderCell>End Time</TableHeaderCell>
+          <TableHeaderCell>Price</TableHeaderCell>
+          <TableHeaderCell>Facility Name</TableHeaderCell>
+          <TableHeaderCell>Facility Description</TableHeaderCell>
+          <TableHeaderCell>Type</TableHeaderCell>
+          <TableHeaderCell>Facility Detail</TableHeaderCell>
+        </TableHeader>
+        {reservations.length === 0 ? (
+          <Message>No reservations yet.</Message>
+        ) : (
+          reservations.map((reservation: Reservation, index: number) => {
+            const facility = facilities[reservation.facilityId];
+            const formattedStartTime = formatDate(reservation.startTime);
+            const formattedEndTime = formatDate(reservation.endTime);
+            const handleReservationClick = () => {
+              navigate(`/facility/${reservation.facilityId}`);
+            };
+            return (
+              <TableRow key={index}>
+                <TableCell>{formattedStartTime}</TableCell>
+                <TableCell>{formattedEndTime}</TableCell>
+                <TableCell>{reservation.price}</TableCell>
 
-              {facility && (
-                <>
-                  <TableCell>{facility.name}</TableCell>
-                  <TableCell>{facility.description}</TableCell>
-                  <TableCell>{facility.type.name}</TableCell>
-                </>
-              )}
-              <TableCell>
-                {" "}
-                <FacilityDetailButton onClick={handleReservationClick}>
-                  View detail
-                </FacilityDetailButton>
-              </TableCell>
-            </TableRow>
-          );
-        })
-      )}
-    </TableContainer>
+                {facility && (
+                  <>
+                    <TableCell>{facility.name}</TableCell>
+                    <TableCell>{facility.description}</TableCell>
+                    <TableCell>{facility.type.name}</TableCell>
+                  </>
+                )}
+                <TableCell>
+                  {" "}
+                  <FacilityDetailButton onClick={handleReservationClick}>
+                    View detail
+                  </FacilityDetailButton>
+                </TableCell>
+              </TableRow>
+            );
+          })
+        )}
+      </TableContainer>
+    </Container>
   );
 };
 
