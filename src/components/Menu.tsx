@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PersonalIcon from "../img/PersonalIcon.webp";
-import HomeIcon from "../img/Home.webp";
+import HomeIcon from "../img/HomeIcon.webp";
 import ReservationIcon from "../img/Reservation.webp";
-import PersonIcon from "../img/PersonIcon.webp";
+import PersonIcon from "../img/MyAccountIcon.webp";
 import LogoutIcon from "../img/Logout.webp";
+import AdministratorIcon from "../img/Administrator.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 
 interface MenuItemProps {
@@ -62,7 +63,7 @@ const MenuItemContainer = styled.li`
 
 const MenuItemLink = styled(NavLink)<{ active: number }>`
   color: ${({ active }) =>
-    active ? `${MAIN_COLORS.greyMiddle}` : `${MAIN_COLORS.black}`};
+    active ? `${MAIN_COLORS.greyDark}` : `${MAIN_COLORS.black}`};
   text-decoration: none;
   font-size: 16px;
   font-weight: bold;
@@ -101,7 +102,7 @@ const MenuIcon = styled.img``;
 const Icon = styled.img`
   width: 20px;
   height: 20px;
-  margin-right: 5px;
+  margin-right: 8px;
 `;
 
 interface MenuProps {
@@ -112,6 +113,7 @@ const Menu: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<User | null>(null);
   const navigate = useNavigate();
+  const menuRef = useRef<HTMLUListElement | null>(null);
 
   useEffect(() => {
     fetchUser();
@@ -136,13 +138,15 @@ const Menu: React.FC = () => {
     }
   };
 
-  const toggleMenu = () => {
+  const toggleMenu = (event: React.MouseEvent) => {
+    event.stopPropagation();
     setIsOpen(!isOpen);
   };
 
   const handleRedirectHome = () => {
     navigate("/");
   };
+
   const handleLogout = async () => {
     try {
       await fetch("https://reshal-api.bartoszmagiera.dev/auth/logout", {
@@ -158,6 +162,28 @@ const Menu: React.FC = () => {
     }
   };
 
+  const handleMenuItemClick = () => {
+    setIsOpen(false);
+  };
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        menuRef.current &&
+        !menuRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleDocumentClick);
+
+    return () => {
+      document.removeEventListener("click", handleDocumentClick);
+    };
+  }, [isOpen]);
+
   const items = [
     {
       label: "Home",
@@ -167,6 +193,7 @@ const Menu: React.FC = () => {
     {
       label: "Administrator",
       link: "/administrator",
+      icon: AdministratorIcon,
     },
     {
       label: "Reservations",
@@ -198,7 +225,7 @@ const Menu: React.FC = () => {
       <Main>
         <Wrapper>
           {isOpen && (
-            <MenuList>
+            <MenuList ref={menuRef}>
               {items.map((item, index) => {
                 const isAdmin = user?.role === "admin";
                 if (item.label === "Administrator" && !isAdmin) {
@@ -211,7 +238,10 @@ const Menu: React.FC = () => {
                       <MenuItemLink
                         to={item.link}
                         active={window.location.pathname === item.link ? 1 : 0}
-                        onClick={item.onClick}
+                        onClick={() => {
+                          item.onClick?.();
+                          handleMenuItemClick();
+                        }}
                       >
                         {item.icon && <Icon src={item.icon} />} {item.label}
                       </MenuItemLink>
@@ -219,6 +249,7 @@ const Menu: React.FC = () => {
                       <MenuItemLink
                         to={item.link}
                         active={window.location.pathname === item.link ? 1 : 0}
+                        onClick={handleMenuItemClick}
                       >
                         {item.icon && <Icon src={item.icon} />} {item.label}
                       </MenuItemLink>
