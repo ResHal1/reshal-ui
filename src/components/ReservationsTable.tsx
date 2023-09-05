@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
 
 const TableContainer = styled.div`
   margin: 20px;
+  max-width: 1024px;
 `;
 
 const Table = styled.table`
@@ -70,31 +75,32 @@ const ReservationsTable = () => {
   }
 
   return (
-    <TableContainer>
-      <h2>Users Table</h2>
-      <Table>
-        <thead>
-          <tr>
-            <TableHeader>Id</TableHeader>
-            <TableHeader>Facility Id</TableHeader>
-            <TableHeader>User Id</TableHeader>
-            <TableHeader>Start Time</TableHeader>
-            <TableHeader>End Time</TableHeader>
-          </tr>
-        </thead>
-        <tbody>
-          {reservations.map((reservation) => (
-            <tr key={reservation.id}>
-              <TableData>{reservation.id}</TableData>
-              <TableData>{reservation.facilityId}</TableData>
-              <TableData>{reservation.userId}</TableData>
-              <TableData>{reservation.startTime}</TableData>
-              <TableData>{reservation.endTime}</TableData>
+    <Container>
+      <TableContainer>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>Id</TableHeader>
+              <TableHeader>Facility Id</TableHeader>
+              <TableHeader>User Id</TableHeader>
+              <TableHeader>Start Time</TableHeader>
+              <TableHeader>End Time</TableHeader>
             </tr>
-          ))}
-        </tbody>
-      </Table>
-    </TableContainer>
+          </thead>
+          <tbody>
+            {reservations.map((reservation) => (
+              <tr key={reservation.id}>
+                <TableData>{reservation.id}</TableData>
+                <TableData>{reservation.facilityId}</TableData>
+                <TableData>{reservation.userId}</TableData>
+                <TableData>{reservation.startTime}</TableData>
+                <TableData>{reservation.endTime}</TableData>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 

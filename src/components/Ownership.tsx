@@ -1,22 +1,35 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import Label from "../components/Label";
 import { MAIN_COLORS } from "../globlaStyle/colors";
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1024px;
+  margin: auto;
+  padding: 0 48px;
+`;
 
 const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
-  max-width: 300px;
-  margin: 0 auto;
+  align-items: center;
+  margin-top: 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  width: 100%;
+  padding: 48px 0;
 `;
-
+const Form = styled.form`
+  width: 100%;
+`;
 const FormGroup = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 15px;
-`;
-
-const Label = styled.label`
-  font-weight: bold;
+  padding: 0 48px 0 48px;
 `;
 
 const Input = styled.input`
@@ -27,7 +40,7 @@ const Input = styled.input`
 
 const SuccessButton = styled.button`
   padding: 10px 15px;
-  background-color: ${MAIN_COLORS.green};
+  background-color: ${MAIN_COLORS.blue};
   color: white;
   border: none;
   border-radius: 4px;
@@ -47,6 +60,7 @@ const ButtonGroup = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
+  padding: 0 48px;
 `;
 
 const Message = styled.div`
@@ -141,31 +155,33 @@ const OwnershipForm = () => {
   };
 
   return (
-    <FormContainer>
-      <form onSubmit={handleSubmit}>
-        <FormGroup>
-          <Label>User ID:</Label>
-          <Input type="text" value={userId} onChange={handleUserIdChange} />
-        </FormGroup>
-        <FormGroup>
-          <Label>Facility ID:</Label>
-          <Input
-            type="text"
-            value={facilityId}
-            onChange={handleFacilityIdChange}
-          />
-        </FormGroup>
-        <ButtonGroup>
-          <SuccessButton type="submit">Add Ownership</SuccessButton>
-          <DeleteButton type="button" onClick={handleDeleteOwnership}>
-            Delete Ownership
-          </DeleteButton>
-        </ButtonGroup>
-      </form>
-      {addSuccess && <Message>Ownership added successfully!</Message>}
-      {addRevokeSuccess && <Message>Ownership revoked successfully!</Message>}
-      {error && <ErrorMessage>{error}</ErrorMessage>}
-    </FormContainer>
+    <Container>
+      <FormContainer>
+        <Form onSubmit={handleSubmit}>
+          <FormGroup>
+            <Label htmlFor="User Id" text="User Id" />
+            <Input type="text" value={userId} onChange={handleUserIdChange} />
+          </FormGroup>
+          <FormGroup>
+            <Label htmlFor="Facility Id" text="Facility Id" />
+            <Input
+              type="text"
+              value={facilityId}
+              onChange={handleFacilityIdChange}
+            />
+          </FormGroup>
+          <ButtonGroup>
+            <SuccessButton type="submit">Add Ownership</SuccessButton>
+            <DeleteButton type="button" onClick={handleDeleteOwnership}>
+              Delete Ownership
+            </DeleteButton>
+          </ButtonGroup>
+        </Form>
+        {addSuccess && <Message>Ownership added successfully!</Message>}
+        {addRevokeSuccess && <Message>Ownership revoked successfully!</Message>}
+        {error && <ErrorMessage>{error}</ErrorMessage>}
+      </FormContainer>
+    </Container>
   );
 };
 

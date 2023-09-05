@@ -2,9 +2,9 @@ import React, { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "@googlemaps/react-wrapper";
+import Ball from "../img/Ball.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 import Button from "./FormButton";
-import Ball from "../img/Ball.webp";
 
 export default function MapRender() {
   const apiKey = process.env.REACT_APP_API_KEY || "";
@@ -197,10 +197,10 @@ function MapSettings({
         {selectedMarkerData && (
           <Container>
             <Name>{selectedMarkerData.name}</Name>
-            <Description>{selectedMarkerData.description}</Description>
             <HallImg src={selectedMarkerData.imageUrl} alt="Hall Image" />
             <Type>{selectedMarkerData.type.name}</Type>
             <Address>{selectedMarkerData.address}</Address>
+            <Description>{selectedMarkerData.description}</Description>
             <Price>
               ${parseInt(selectedMarkerData.price)}
               <Time>/60min</Time>

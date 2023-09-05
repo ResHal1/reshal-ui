@@ -15,10 +15,9 @@ const FormContainer = styled.form`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  width: 600px;
+  width: 1024px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-  padding: 30px;
-  margin: 20px;
+  padding: 24px 0;
 
   @media (max-width: 768px) {
     width: 100%;
@@ -29,12 +28,8 @@ const FormContainer = styled.form`
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 10px 0;
-  width: 100%;
-`;
-
-const FormTitle = styled.h2`
-  margin-bottom: 20px;
+  padding: 20px;
+  width: 90%;
 `;
 
 const Input = styled.input`
@@ -177,7 +172,6 @@ const ObjectsForm = () => {
   return (
     <Container>
       <FormContainer onSubmit={handleSubmit}>
-        <FormTitle>Objects Form</FormTitle>
         <Wrapper>
           <Label htmlFor="Name" text="Name" />
           <Input

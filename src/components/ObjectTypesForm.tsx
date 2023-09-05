@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 import Label from "../components/Label";
-import Button from "./FormButton";
 
 const Container = styled.div`
   width: 100%;
@@ -10,6 +9,8 @@ const Container = styled.div`
   justify-content: center;
   flex-direction: column;
   align-items: center;
+  max-width: 956px;
+  margin: auto;
 `;
 
 const FormContainer = styled.form`
@@ -17,15 +18,9 @@ const FormContainer = styled.form`
   flex-direction: column;
   align-items: center;
   margin-top: 20px;
-  width: 600px;
   box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  width: 100%;
   padding: 30px;
-  margin: 20px;
-
-  @media (max-width: 768px) {
-    width: 100%;
-    padding: 20px;
-  }
 `;
 const FormTitle = styled.h2`
   margin-bottom: 20px;
@@ -70,7 +65,7 @@ const SuccessMessage = styled.p<SuccessMessageProps>`
 
 const TableContainer = styled.div`
   margin-top: 20px;
-  width: 650px;
+  width: 100%;
 `;
 
 const Table = styled.table`
@@ -101,6 +96,18 @@ const DeleteButton = styled.button`
   border: none;
   border-radius: 5px;
   padding: 5px;
+`;
+
+const Button = styled.button`
+  background: ${MAIN_COLORS.blue};
+  border: none;
+  color: ${MAIN_COLORS.white};
+  cursor: pointer;
+  width: 30%;
+  padding: 16px 0;
+  border-radius: 50px;
+  font-size: 22px;
+  margin: 24px auto 0px auto;
 `;
 
 interface FacilityType {
@@ -209,7 +216,7 @@ const ObjectTypesForm: React.FC = () => {
             value={name}
             onChange={(event) => setName(event.target.value)}
           />
-          <Button text="Submit" />
+          <Button>Submit</Button>
           {successMessage && (
             <SuccessMessage success={isSuccess}>
               {successMessage}

@@ -2,6 +2,17 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+const TableContainer = styled.div`
+  max-width: 1024px;
+  width: 100%;
+  overflow-x: auto;
+`;
+
 const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -32,7 +43,7 @@ const Delete = styled.button`
 `;
 
 const Update = styled.button`
-  background: ${MAIN_COLORS.green};
+  background: ${MAIN_COLORS.blue};
   color: white;
   border: none;
   border-radius: 5px;
@@ -238,109 +249,125 @@ const ObjectsTable: React.FC = () => {
   }
 
   return (
-    <Table>
-      <thead>
-        <tr>
-          <TableHeader>Facility ID</TableHeader>
-          <TableHeader>Name</TableHeader>
-          <TableHeader>Image</TableHeader>
-          <TableHeader>Latitude</TableHeader>
-          <TableHeader>Longitude</TableHeader>
-          <TableHeader>Description</TableHeader>
-          <TableHeader>Price</TableHeader>
-          <TableHeader>Type</TableHeader>
-          <TableHeader>Actions</TableHeader>
-        </tr>
-      </thead>
-      <tbody>
-        {facilities.map((facility) => (
-          <tr key={facility.id}>
-            <TableData>{facility.id}</TableData>
-            <TableData>
-              <input
-                type="text"
-                value={facility.name}
-                onChange={(e) =>
-                  handleFieldChange(facility.id, "name", e.target.value)
-                }
-              />
-            </TableData>
-            <TableData>
-              <input
-                type="text"
-                value={facility.imageUrl}
-                onChange={(e) =>
-                  handleFieldChange(facility.id, "imageUrl", e.target.value)
-                }
-              />
-            </TableData>
-            <TableData>
-              <input
-                type="number"
-                value={facility.lat}
-                onChange={(e) =>
-                  handleFieldChange(facility.id, "lat", e.target.valueAsNumber)
-                }
-              />
-            </TableData>
-            <TableData>
-              <input
-                type="number"
-                value={facility.lon}
-                onChange={(e) =>
-                  handleFieldChange(facility.id, "lon", e.target.valueAsNumber)
-                }
-              />
-            </TableData>
-            <TableData>
-              <input
-                type="text"
-                value={facility.description}
-                onChange={(e) =>
-                  handleFieldChange(facility.id, "description", e.target.value)
-                }
-              />
-            </TableData>
-            <TableData>
-              <input
-                type="number"
-                value={facility.price}
-                onChange={(e) =>
-                  handleFieldChange(
-                    facility.id,
-                    "price",
-                    e.target.valueAsNumber
-                  )
-                }
-              />
-            </TableData>
+    <Container>
+      <TableContainer>
+        <Table>
+          <thead>
+            <tr>
+              <TableHeader>Facility ID</TableHeader>
+              <TableHeader>Name</TableHeader>
+              <TableHeader>Image</TableHeader>
+              <TableHeader>Latitude</TableHeader>
+              <TableHeader>Longitude</TableHeader>
+              <TableHeader>Description</TableHeader>
+              <TableHeader>Price</TableHeader>
+              <TableHeader>Type</TableHeader>
+              <TableHeader>Actions</TableHeader>
+            </tr>
+          </thead>
+          <tbody>
+            {facilities.map((facility) => (
+              <tr key={facility.id}>
+                <TableData>{facility.id}</TableData>
+                <TableData>
+                  <input
+                    type="text"
+                    value={facility.name}
+                    onChange={(e) =>
+                      handleFieldChange(facility.id, "name", e.target.value)
+                    }
+                  />
+                </TableData>
+                <TableData>
+                  <input
+                    type="text"
+                    value={facility.imageUrl}
+                    onChange={(e) =>
+                      handleFieldChange(facility.id, "imageUrl", e.target.value)
+                    }
+                  />
+                </TableData>
+                <TableData>
+                  <input
+                    type="number"
+                    value={facility.lat}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        facility.id,
+                        "lat",
+                        e.target.valueAsNumber
+                      )
+                    }
+                  />
+                </TableData>
+                <TableData>
+                  <input
+                    type="number"
+                    value={facility.lon}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        facility.id,
+                        "lon",
+                        e.target.valueAsNumber
+                      )
+                    }
+                  />
+                </TableData>
+                <TableData>
+                  <input
+                    type="text"
+                    value={facility.description}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        facility.id,
+                        "description",
+                        e.target.value
+                      )
+                    }
+                  />
+                </TableData>
+                <TableData>
+                  <input
+                    type="number"
+                    value={facility.price}
+                    onChange={(e) =>
+                      handleFieldChange(
+                        facility.id,
+                        "price",
+                        e.target.valueAsNumber
+                      )
+                    }
+                  />
+                </TableData>
 
-            <TableData>
-              <Select
-                value={facility.typeId}
-                onChange={(e) =>
-                  handleFieldChange(facility.id, "typeId", e.target.value)
-                }
-              >
-                {facilityTypes.map((type) => (
-                  <option key={type.id} value={type.id}>
-                    {type.name}
-                  </option>
-                ))}
-              </Select>
-            </TableData>
-            <TableData>
-              <Update onClick={() => handleUpdateClick(facility.id)}>
-                Update
-              </Update>
-              <Delete onClick={() => handleDeleteClick(facility.id)}>
-                Delete
-              </Delete>
-            </TableData>
-          </tr>
-        ))}
-      </tbody>
-    </Table>
+                <TableData>
+                  <Select
+                    value={facility.typeId}
+                    onChange={(e) =>
+                      handleFieldChange(facility.id, "typeId", e.target.value)
+                    }
+                  >
+                    {facilityTypes.map((type) => (
+                      <option key={type.id} value={type.id}>
+                        {type.name}
+                      </option>
+                    ))}
+                  </Select>
+                </TableData>
+                <TableData>
+                  <Update onClick={() => handleUpdateClick(facility.id)}>
+                    Update
+                  </Update>
+                  <Delete onClick={() => handleDeleteClick(facility.id)}>
+                    Delete
+                  </Delete>
+                </TableData>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </TableContainer>
+    </Container>
   );
 };
 

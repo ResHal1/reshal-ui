@@ -48,6 +48,7 @@ const MenuHome = styled.button`
   border: none;
   font-size: 32px;
   font-weight: 700;
+  padding: 0px;
   cursor: pointer;
 `;
 

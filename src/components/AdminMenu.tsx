@@ -40,6 +40,13 @@ const AdminMenu: React.FC = () => {
     <>
       <MenuContainer>
         <MenuItem
+          onClick={() => handleItemClick("objects")}
+          style={{ fontWeight: activeItem === "objects" ? "bold" : "normal" }}
+        >
+          Objects
+        </MenuItem>
+
+        <MenuItem
           onClick={() => handleItemClick("add objects")}
           style={{
             fontWeight: activeItem === "add objects" ? "bold" : "normal",
@@ -54,12 +61,6 @@ const AdminMenu: React.FC = () => {
           }}
         >
           Create Object Types
-        </MenuItem>
-        <MenuItem
-          onClick={() => handleItemClick("objects")}
-          style={{ fontWeight: activeItem === "objects" ? "bold" : "normal" }}
-        >
-          Objects
         </MenuItem>
 
         <MenuItem
@@ -83,9 +84,9 @@ const AdminMenu: React.FC = () => {
           Ownership
         </MenuItem>
       </MenuContainer>
-      {activeItem === "add objects" && <ObjectsForm />}
       {activeItem === "add objects types" && <ObjectTypesForm />}
       {activeItem === "objects" && <ObjectsTable />}
+      {activeItem === "add objects" && <ObjectsForm />}
       {activeItem === "reservations" && <ReservationsTable />}
       {activeItem === "users" && <UsersTable />}
       {activeItem === "ownership" && <Ownership />}

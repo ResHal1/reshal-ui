@@ -3,11 +3,11 @@ import styled from "styled-components";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 
 const Button = styled.button`
-  background: ${MAIN_COLORS.green};
+  background: ${MAIN_COLORS.blue};
   border: none;
   color: ${MAIN_COLORS.white};
   cursor: pointer;
-  width: 100%;
+  width: 30%;
   padding: 16px 0;
   border-radius: 50px;
   font-size: 22px;
