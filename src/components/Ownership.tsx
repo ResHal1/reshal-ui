@@ -39,20 +39,20 @@ const Input = styled.input`
 `;
 
 const SuccessButton = styled.button`
-  padding: 10px 15px;
+  padding: 16px;
   background-color: ${MAIN_COLORS.blue};
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 30px;
   cursor: pointer;
 `;
 
 const DeleteButton = styled.button`
-  padding: 10px 15px;
+  padding: 16px;
   background-color: ${MAIN_COLORS.red};
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 30px;
   cursor: pointer;
 `;
 

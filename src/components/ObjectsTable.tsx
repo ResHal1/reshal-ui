@@ -34,20 +34,22 @@ const Select = styled.select`
 `;
 
 const Delete = styled.button`
-  background: red;
+  padding: 10px;
+  background-color: ${MAIN_COLORS.red};
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 5px;
-  margin: 5px;
+  border-radius: 30px;
+  cursor: pointer;
 `;
 
 const Update = styled.button`
-  background: ${MAIN_COLORS.blue};
+  margin: 5px 0;
+  padding: 10px;
+  background-color: ${MAIN_COLORS.blue};
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 5px;
+  border-radius: 30px;
+  cursor: pointer;
 `;
 
 interface Facility {
