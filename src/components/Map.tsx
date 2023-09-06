@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import styled from "styled-components";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import Ball from "../img/Ball.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
-import Button from "./FormButton";
 
 export default function MapRender() {
   const apiKey = process.env.REACT_APP_API_KEY || "";
@@ -15,18 +14,22 @@ export default function MapRender() {
   );
 }
 
-const HallImg = styled.img`
-  width: 100%;
-  max-height: 175px;
+const Container = styled.div`
+  flex-direction: column;
+  display: flex;
+  border-radius: 20px;
+  margin: 30px;
+  width: 230px;
 `;
 
 const Name = styled.h2`
   padding: 0px;
   margin: 0px;
 `;
-const Description = styled.span`
-  padding: 5px 0px;
-  margin: 0px;
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
 `;
 
 const Price = styled.h3`
@@ -58,14 +61,37 @@ const Box = styled.div`
   margin-top: 30px;
 `;
 
-const Container = styled.div`
-  flex-direction: column;
+//All markers style
+
+const Row = styled.div`
   display: flex;
-  border: 1px solid ${MAIN_COLORS.lightGrey};
-  border-radius: 20px;
-  padding: 10px;
-  width: 50%;
-  max-width: 600px;
+  flex-wrap: wrap;
+  max-width: 1024px;
+`;
+
+const MarkerContainer = styled.div`
+  margin: 15px;
+  padding: 15px;
+  position: relative;
+  overflow: hidden;
+`;
+const ImageWrapper = styled.div`
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%;
+  overflow: hidden;
+  min-height: 150px;
+  min-width: 150px;
+`;
+
+const Image = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 `;
 
 const mapOptions = {
@@ -94,6 +120,50 @@ function MyMap() {
   );
 }
 
+function AllMarkers({ markers }: { markers: any[] }) {
+  return (
+    <Row>
+      {markers.map((markerData: any) => (
+        <div
+          key={markerData.id}
+          style={{
+            color: "inherit",
+            cursor: "pointer",
+            textDecoration: "none",
+            width: "calc(33% - 30px)",
+          }}
+        >
+          <MarkerContainer key={markerData.id}>
+            <div>
+              <Link
+                to={`/facility/${markerData.id}`}
+                style={{
+                  color: "inherit",
+                  cursor: "pointer",
+                  textDecoration: "none",
+                }}
+              >
+                <ImageWrapper>
+                  <Image src={markerData.imageUrl} alt="Hall Image" />
+                </ImageWrapper>
+                <Content>
+                  <Name>{markerData.name}</Name>
+                  <Type>{markerData.type.name}</Type>
+                  <Address>{markerData.address}</Address>
+                </Content>
+                <Price>
+                  ${parseInt(markerData.price)}
+                  <Time>/60min</Time>
+                </Price>
+              </Link>
+            </div>
+          </MarkerContainer>
+        </div>
+      ))}
+    </Row>
+  );
+}
+
 function MapSettings({
   map,
   markerRefs,
@@ -106,6 +176,7 @@ function MapSettings({
   const [selectedMarkerData, setSelectedMarkerData] = useState<any | null>(
     null
   );
+  const [allMarkersData, setAllMarkersData] = useState<any[]>([]);
   const infowindowRef = useRef<google.maps.InfoWindow | null>(null);
 
   useEffect(() => {
@@ -173,6 +244,8 @@ function MapSettings({
             infowindowRef.current = infowindow;
           });
         });
+
+        setAllMarkersData(facilities);
       } catch (error) {
         console.log("Error fetching data:", error);
       }
@@ -191,22 +264,42 @@ function MapSettings({
   const handleRedirectReserve = () => {
     navigate("/reservation", { state: { selectedMarkerData } });
   };
+
   return (
     <div>
       <Box>
-        {selectedMarkerData && (
-          <Container>
-            <Name>{selectedMarkerData.name}</Name>
-            <HallImg src={selectedMarkerData.imageUrl} alt="Hall Image" />
-            <Type>{selectedMarkerData.type.name}</Type>
-            <Address>{selectedMarkerData.address}</Address>
-            <Description>{selectedMarkerData.description}</Description>
-            <Price>
-              ${parseInt(selectedMarkerData.price)}
-              <Time>/60min</Time>
-            </Price>
-            <Button text="Reserve" onClick={handleRedirectReserve}></Button>
-          </Container>
+        {selectedMarkerData ? (
+          <div
+            style={{ display: "flex", maxWidth: "1024px", margin: "0 auto" }}
+          >
+            <Link
+              key={selectedMarkerData.id}
+              to={`/facility/${selectedMarkerData.id}`}
+              style={{
+                color: "inherit",
+                cursor: "pointer",
+                textDecoration: "none",
+              }}
+            >
+              <Container>
+                <ImageWrapper>
+                  <Image src={selectedMarkerData.imageUrl} alt="Hall Image" />
+                </ImageWrapper>
+                <Name>{selectedMarkerData.name}</Name>
+                <Type>{selectedMarkerData.type.name}</Type>
+                <Address>{selectedMarkerData.address}</Address>
+                <Price>
+                  ${parseInt(selectedMarkerData.price)}
+                  <Time>/60min</Time>
+                </Price>
+              </Container>
+            </Link>
+            <div style={{ flex: 1 }}>
+              <AllMarkers markers={allMarkersData} />
+            </div>
+          </div>
+        ) : (
+          <AllMarkers markers={allMarkersData} />
         )}
       </Box>
     </div>
