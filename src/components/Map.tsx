@@ -293,7 +293,7 @@ function MapSettings({
                   ${parseInt(selectedMarkerData.price)}
                   <Time>/60min</Time>
                 </Price>
-                <Button text="Reserve" onClick={handleRedirectReserve}></Button>
+                {/* <Button text="Reserve" onClick={handleRedirectReserve}></Button> */}
               </Container>
             </Link>
             <div style={{ flex: 1 }}>
