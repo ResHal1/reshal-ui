@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import Ball from "../img/Ball.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
+import Button from "./FormButton";
 
 export default function MapRender() {
   const apiKey = process.env.REACT_APP_API_KEY || "";
@@ -292,6 +293,7 @@ function MapSettings({
                   ${parseInt(selectedMarkerData.price)}
                   <Time>/60min</Time>
                 </Price>
+                <Button text="Reserve" onClick={handleRedirectReserve}></Button>
               </Container>
             </Link>
             <div style={{ flex: 1 }}>
