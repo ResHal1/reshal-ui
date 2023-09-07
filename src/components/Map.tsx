@@ -62,7 +62,7 @@ const Box = styled.div`
   margin-top: 30px;
 `;
 
-//All markers style
+// All markers style
 
 const Row = styled.div`
   display: flex;
@@ -76,6 +76,7 @@ const MarkerContainer = styled.div`
   position: relative;
   overflow: hidden;
 `;
+
 const ImageWrapper = styled.div`
   position: relative;
   width: 100%;
@@ -121,10 +122,20 @@ function MyMap() {
   );
 }
 
-function AllMarkers({ markers }: { markers: any[] }) {
+function AllMarkers({
+  markers,
+  selectedMarkerId,
+}: {
+  markers: any[];
+  selectedMarkerId: string | null;
+}) {
+  const filteredMarkers = markers.filter(
+    (markerData: any) => markerData.id !== selectedMarkerId
+  );
+
   return (
     <Row>
-      {markers.map((markerData: any) => (
+      {filteredMarkers.map((markerData: any) => (
         <div
           key={markerData.id}
           style={{
@@ -164,7 +175,6 @@ function AllMarkers({ markers }: { markers: any[] }) {
     </Row>
   );
 }
-
 function MapSettings({
   map,
   markerRefs,
@@ -293,15 +303,17 @@ function MapSettings({
                   ${parseInt(selectedMarkerData.price)}
                   <Time>/60min</Time>
                 </Price>
-                {/* <Button text="Reserve" onClick={handleRedirectReserve}></Button> */}
               </Container>
             </Link>
             <div style={{ flex: 1 }}>
-              <AllMarkers markers={allMarkersData} />
+              <AllMarkers
+                markers={allMarkersData}
+                selectedMarkerId={selectedMarkerData.id}
+              />
             </div>
           </div>
         ) : (
-          <AllMarkers markers={allMarkersData} />
+          <AllMarkers markers={allMarkersData} selectedMarkerId={null} />
         )}
       </Box>
     </div>
