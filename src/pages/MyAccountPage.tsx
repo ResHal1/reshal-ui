@@ -6,6 +6,13 @@ import Background from "../img/Green_bg5.webp";
 import Profile_Icon from "../img/Profile_Icon.webp";
 import Hide_Icon from "../img/Hide.webp";
 import Label from "../components/Label";
+import Footer from "../components/Footer";
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
 
 const BackgroundImage = styled.img`
   width: 100%;
@@ -180,7 +187,7 @@ const MyAccountPage = () => {
   };
 
   return (
-    <>
+    <PageContainer>
       <Menu />
       <BackgroundImage src={Background} />
       <ProfileIcon src={Profile_Icon} />
@@ -245,7 +252,8 @@ const MyAccountPage = () => {
         {successMessage && <SuccessMessage>{successMessage}</SuccessMessage>}
         {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
       </Container>
-    </>
+      <Footer />
+    </PageContainer>
   );
 };
 

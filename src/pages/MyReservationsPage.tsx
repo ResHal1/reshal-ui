@@ -1,21 +1,22 @@
 import React from "react";
 import Menu from "../components/Menu";
 import ReservationsTable from "../components/MyReservationsTable";
-import Background from "../img/Green_bg2.webp";
+import Footer from "../components/Footer";
 import styled from "styled-components";
 
-const BackgroundImage = styled.img`
-  position: absolute;
-  bottom: 0;
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 `;
 
 const ReservationsPage = () => {
   return (
-    <div>
+    <PageContainer>
       <Menu />
       <ReservationsTable />
-      <BackgroundImage src={Background} />
-    </div>
+      <Footer />
+    </PageContainer>
   );
 };
 

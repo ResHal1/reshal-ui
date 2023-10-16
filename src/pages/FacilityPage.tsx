@@ -5,6 +5,7 @@ import Dollar from "../img/Dollar.png";
 import Menu from "../components/Menu";
 import styled from "styled-components";
 import Button from "../components/FormButton";
+import Footer from "../components/Footer";
 
 const PageContainer = styled.div`
   display: flex;
@@ -127,6 +128,7 @@ const FacilityPage: React.FC<FacilityPageProps> = () => {
         ) : (
           <LoadingMessage>Loading facility information...</LoadingMessage>
         )}
+        <Footer />
       </PageContainer>
     </>
   );

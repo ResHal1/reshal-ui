@@ -22,17 +22,17 @@ const items = [
 ];
 
 const FooterBg = styled.img`
+  /* Set the footer image's position to absolute to position it correctly. */
   bottom: 0;
   right: 0;
-  width: 67%;
-  min-width: 65%;
-  min-height: 300px;
+  min-height: 250px;
   object-fit: cover;
   position: absolute;
+  z-index: -1; /* Move the image to the background. */
 `;
 
 const TextOverlay = styled.div`
-  position: absolute;
+  position: relative; /* Change to relative for correct text overlay placement. */
   bottom: 20px;
   right: 100px;
   color: white;
@@ -54,9 +54,11 @@ const Link = styled.a`
 const Container = styled.div`
   display: flex;
   justify-content: flex-end;
+  align-items: flex-end;
   width: 100%;
-  height: 230px;
+  min-height: 250px;
   position: relative;
+  margin-top: auto;
 `;
 
 const Footer = () => {

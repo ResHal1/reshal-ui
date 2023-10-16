@@ -9,6 +9,7 @@ import ReservationsTable from "./ReservationsTable";
 
 const MenuContainer = styled.div`
   width: 1024px;
+
   margin: 24px auto;
   justify-content: space-between;
   display: flex;
