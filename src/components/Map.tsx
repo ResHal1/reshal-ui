@@ -4,7 +4,6 @@ import styled from "styled-components";
 import { Wrapper } from "@googlemaps/react-wrapper";
 import Ball from "../img/Ball.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
-import Button from "./FormButton";
 
 export default function MapRender() {
   const apiKey = process.env.REACT_APP_API_KEY || "";
@@ -142,7 +141,7 @@ function AllMarkers({
             color: "inherit",
             cursor: "pointer",
             textDecoration: "none",
-            width: "calc(33% - 30px)",
+            width: "calc(35% - 30px)",
           }}
         >
           <MarkerContainer key={markerData.id}>
@@ -156,7 +155,11 @@ function AllMarkers({
                 }}
               >
                 <ImageWrapper>
-                  <Image src={markerData.imageUrl} alt="Hall Image" />
+                  {markerData.images && markerData.images.length > 0 ? (
+                    <Image src={markerData.images[0].url} alt="Hall Image" />
+                  ) : (
+                    <div>No Image Available</div>
+                  )}
                 </ImageWrapper>
                 <Content>
                   <Name>{markerData.name}</Name>
@@ -164,7 +167,7 @@ function AllMarkers({
                   <Address>{markerData.address}</Address>
                 </Content>
                 <Price>
-                  ${parseInt(markerData.price)}
+                  ${parseFloat(markerData.price)}
                   <Time>/60min</Time>
                 </Price>
               </Link>
@@ -206,10 +209,6 @@ function MapSettings({
       }
     };
 
-    const handleMarkerClose = (): void => {
-      hideDescription();
-    };
-
     if (!map) {
       removeMarkers();
       return;
@@ -233,6 +232,7 @@ function MapSettings({
           }
         );
         const facilities = await response.json();
+
         facilities.forEach((facility: any) => {
           const marker = new window.google.maps.Marker({
             position: { lat: facility.lat, lng: facility.lon },
@@ -294,13 +294,21 @@ function MapSettings({
             >
               <Container>
                 <ImageWrapper>
-                  <Image src={selectedMarkerData.imageUrl} alt="Hall Image" />
+                  {selectedMarkerData.images &&
+                  selectedMarkerData.images.length > 0 ? (
+                    <Image
+                      src={selectedMarkerData.images[0].url}
+                      alt="Hall Image"
+                    />
+                  ) : (
+                    <div>No Image Available</div>
+                  )}
                 </ImageWrapper>
                 <Name>{selectedMarkerData.name}</Name>
                 <Type>{selectedMarkerData.type.name}</Type>
                 <Address>{selectedMarkerData.address}</Address>
                 <Price>
-                  ${parseInt(selectedMarkerData.price)}
+                  ${parseFloat(selectedMarkerData.price)}
                   <Time>/60min</Time>
                 </Price>
               </Container>
