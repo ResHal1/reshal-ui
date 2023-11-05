@@ -76,15 +76,15 @@ const ErrorMessage = styled.p`
 `;
 
 interface FacilityType {
-  id: number;
+  id: string;
   name: string;
 }
 
 const ObjectsForm = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
-  const [typeId, setTypeId] = useState<number | string>("");
-  const [imageUrl, setimageUrl] = useState("");
+  const [typeId, setTypeId] = useState<string>("");
+  const [imageUrls, setImageUrls] = useState<string[]>([""]); // Initial image input
   const [lat, setLatitude] = useState("");
   const [lon, setLongitude] = useState("");
   const [address, setAddress] = useState("");
@@ -129,24 +129,23 @@ const ObjectsForm = () => {
     const facilityData = {
       name,
       description,
-      typeId,
-      imageUrl,
       lat,
       lon,
       address,
       price,
+      images: imageUrls.map((url) => ({ url })),
+      typeId,
     };
 
     try {
       const response = await fetch(
-        "https://reshal-api.bartoszmagiera.dev/facilities/",
+        "https://reshal-api.bartoszmagiera.dev/facilities",
         {
           method: "POST",
           credentials: "include",
           headers: {
             "Content-Type": "application/json",
           },
-
           body: JSON.stringify(facilityData),
         }
       );
@@ -155,18 +154,45 @@ const ObjectsForm = () => {
         setSuccessMessage("Successfully added object!");
         setName("");
         setDescription("");
-        setTypeId("");
-        setimageUrl("");
         setLatitude("");
         setLongitude("");
         setAddress("");
         setPrice("");
+        setImageUrls([]);
+        setTypeId("");
       } else {
         setErrorMessage("Failed to create object");
       }
     } catch (error) {
       console.log("An error occurred:", error);
     }
+  };
+
+  const renderImageInputs = () => {
+    return imageUrls.map((url, index) => (
+      <Wrapper key={index}>
+        <Label htmlFor={`image${index}`} text={`Image ${index + 1}`} />
+        <Input
+          type="text"
+          id={`image${index}`}
+          value={url}
+          onChange={(e) => updateImageUrl(index, e.target.value)}
+          required
+        />
+      </Wrapper>
+    ));
+  };
+
+  const addImageInput = () => {
+    if (imageUrls.length < 5) {
+      setImageUrls([...imageUrls, ""]);
+    }
+  };
+
+  const updateImageUrl = (index: number, url: string) => {
+    const updatedImageUrls = [...imageUrls];
+    updatedImageUrls[index] = url;
+    setImageUrls(updatedImageUrls);
   };
 
   return (
@@ -208,16 +234,8 @@ const ObjectsForm = () => {
             ))}
           </Select>
         </Wrapper>
-        <Wrapper>
-          <Label htmlFor="hallImage" text="Hall Image" />
-          <Input
-            type="text"
-            id="hallImage"
-            value={imageUrl}
-            onChange={(e) => setimageUrl(e.target.value)}
-            required
-          />
-        </Wrapper>
+        {renderImageInputs()}
+        <Button text="Add Image" onClick={addImageInput} />{" "}
         <Wrapper>
           <Label htmlFor="Lattitude" text="Lattitude" />
           <Input

@@ -204,6 +204,7 @@ const ObjectsTable: React.FC = () => {
   };
 
   const handleDeleteClick = async (facilityId: string) => {
+    console.log(facilityId);
     try {
       const response = await fetch(
         `https://reshal-api.bartoszmagiera.dev/facilities/${facilityId}`,
