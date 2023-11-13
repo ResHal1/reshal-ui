@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import LocationIcon from "../img/LocationIcon.webp";
+import ArrowL from "../img/ArrowLeft.png";
+import ArrowR from "../img/ArrowRight.png";
 import Dollar from "../img/Dollar.png";
 import Menu from "../components/Menu";
 import styled from "styled-components";
@@ -22,8 +24,9 @@ const PageContainer = styled.div`
 `;
 
 const FacilityImage = styled.img`
-  width: 100%;
-  max-width: 600px;
+  width: 600px;
+  height: 400px;
+  max-width: 100%;
   border-radius: 8px;
   margin-top: 20px;
 `;
@@ -49,9 +52,23 @@ const LoadingMessage = styled.p`
   font-size: 18px;
   margin-top: 20px;
 `;
-const Test = styled.img`
+const Box = styled.img`
   width: 20px;
   height: 20px;
+`;
+const ArrowImage = styled.img`
+  width: 50px;
+`;
+
+const SliderContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+const ArrowButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
 `;
 
 interface FacilityPageProps {}
@@ -59,7 +76,7 @@ interface FacilityPageProps {}
 interface Facility {
   name: string;
   description: string;
-  imageUrl: string;
+  images: { url: string }[];
   address: string;
   price: string;
   type: {
@@ -69,9 +86,10 @@ interface Facility {
 
 const FacilityPage: React.FC<FacilityPageProps> = () => {
   const { facilityId } = useParams<{ facilityId: string }>();
-  const [selectedMarkerData, setSelectedMarkerData] = useState<any | null>(
+  const [selectedMarkerData, setSelectedMarkerData] = useState<Facility | null>(
     null
   );
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     const fetchFacilityInfo = async () => {
@@ -86,7 +104,7 @@ const FacilityPage: React.FC<FacilityPageProps> = () => {
             },
           }
         );
-        const data = await response.json();
+        const data: Facility = await response.json();
         setSelectedMarkerData(data);
       } catch (error) {
         console.error("Error fetching facility information:", error);
@@ -95,9 +113,24 @@ const FacilityPage: React.FC<FacilityPageProps> = () => {
 
     fetchFacilityInfo();
   }, [facilityId]);
+
   const navigate = useNavigate();
   const handleRedirectReserve = () => {
     navigate("/reservation", { state: { selectedMarkerData } });
+  };
+
+  const handlePrevImage = () => {
+    setCurrentImageIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : 0));
+  };
+
+  const handleNextImage = () => {
+    if (selectedMarkerData?.images) {
+      setCurrentImageIndex((prevIndex) =>
+        prevIndex < selectedMarkerData.images.length - 1
+          ? prevIndex + 1
+          : prevIndex
+      );
+    }
   };
 
   return (
@@ -107,20 +140,30 @@ const FacilityPage: React.FC<FacilityPageProps> = () => {
         <h1>Facility Details</h1>
         {selectedMarkerData ? (
           <>
-            <FacilityImage
-              src={selectedMarkerData.imageUrl}
-              alt={selectedMarkerData.name}
-            />
+            <SliderContainer>
+              <ArrowButton onClick={handlePrevImage}>
+                <ArrowImage src={ArrowL} alt="Previous" />
+              </ArrowButton>
+              {selectedMarkerData.images && (
+                <FacilityImage
+                  src={selectedMarkerData.images[currentImageIndex].url}
+                  alt={selectedMarkerData.name}
+                />
+              )}
+              <ArrowButton onClick={handleNextImage}>
+                <ArrowImage src={ArrowR} alt="Next" />
+              </ArrowButton>
+            </SliderContainer>
             <FacilityTitle>{selectedMarkerData.name}</FacilityTitle>
             <FacilityInfo>
-              <Test src={LocationIcon} /> {selectedMarkerData.address}
+              <Box src={LocationIcon} /> {selectedMarkerData.address}
             </FacilityInfo>
             <FacilityDescription>
               {selectedMarkerData.description}
             </FacilityDescription>
             <FacilityInfo>
               {" "}
-              <Test src={Dollar} />
+              <Box src={Dollar} />
               {selectedMarkerData.price}
             </FacilityInfo>
             <Button text="Reserve" onClick={handleRedirectReserve}></Button>
@@ -128,8 +171,8 @@ const FacilityPage: React.FC<FacilityPageProps> = () => {
         ) : (
           <LoadingMessage>Loading facility information...</LoadingMessage>
         )}
-        <Footer />
       </PageContainer>
+      <Footer />
     </>
   );
 };
