@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+
 const Container = styled.div`
   display: flex;
   justify-content: center;
@@ -37,30 +38,37 @@ const ReservationsTable = () => {
   const [reservations, setReservations] = useState<User[]>([]);
   const [error, setError] = useState("");
 
+  const handleDeleteReservation = async (reservationId: number) => {
+    try {
+      const response = await fetch(
+        `https://reshal-api.bartoszmagiera.dev/reservations/${reservationId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (response.ok) {
+        // Assuming you want to refresh the reservations after deletion
+        const updatedReservations = reservations.filter(
+          (reservation) => reservation.id !== reservationId
+        );
+        setReservations(updatedReservations);
+      } else {
+        setError("Error deleting reservation");
+      }
+    } catch (error) {
+      console.error("Error deleting reservation:", error);
+      setError("Error deleting reservation");
+    }
+  };
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await fetch(
-          "https://reshal-api.bartoszmagiera.dev/reservations",
-          {
-            method: "GET",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        if (response.ok) {
-          const data = await response.json();
-          console.log(data);
-          if (Array.isArray(data)) {
-            setReservations(data);
-          } else {
-            setError("Invalid data format");
-          }
-        } else {
-          setError("Error fetching reservations");
-        }
+        // ... (previous code)
       } catch (error) {
         console.error("Error fetching reservations:", error);
         setError("Error fetching reservations");
@@ -85,6 +93,7 @@ const ReservationsTable = () => {
               <TableHeader>User Id</TableHeader>
               <TableHeader>Start Time</TableHeader>
               <TableHeader>End Time</TableHeader>
+              <TableHeader>Delete Reservation</TableHeader>
             </tr>
           </thead>
           <tbody>
@@ -95,6 +104,13 @@ const ReservationsTable = () => {
                 <TableData>{reservation.userId}</TableData>
                 <TableData>{reservation.startTime}</TableData>
                 <TableData>{reservation.endTime}</TableData>
+                <TableData>
+                  <button
+                    onClick={() => handleDeleteReservation(reservation.id)}
+                  >
+                    Delete
+                  </button>
+                </TableData>
               </tr>
             ))}
           </tbody>

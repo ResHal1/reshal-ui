@@ -22,17 +22,16 @@ const items = [
 ];
 
 const FooterBg = styled.img`
-  /* Set the footer image's position to absolute to position it correctly. */
   bottom: 0;
   right: 0;
   min-height: 250px;
   object-fit: cover;
   position: absolute;
-  z-index: -1; /* Move the image to the background. */
+  z-index: -1;
 `;
 
 const TextOverlay = styled.div`
-  position: relative; /* Change to relative for correct text overlay placement. */
+  position: relative;
   bottom: 20px;
   right: 100px;
   color: white;
