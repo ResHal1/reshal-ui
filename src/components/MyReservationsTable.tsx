@@ -59,8 +59,16 @@ const Message = styled.p`
   justify-content: center;
 `;
 
-const FacilityDescriptionHeaderCell = styled.div`
-  flex: 2; // Adjust the flex value based on your layout
+const TableCellDescription = styled.div`
+  flex: 2;
+  text-align: center;
+  padding: 0 30px;
+  overflow: auto;
+  max-height: 100px;
+`;
+
+const TableHeaderCellDescription = styled.div`
+  flex: 2;
   text-align: center;
 `;
 
@@ -157,9 +165,9 @@ const Table: React.FC = () => {
           <TableHeaderCell>End Time</TableHeaderCell>
           <TableHeaderCell>Price</TableHeaderCell>
           <TableHeaderCell>Facility Name</TableHeaderCell>
-          <FacilityDescriptionHeaderCell>
+          <TableHeaderCellDescription>
             Facility Description
-          </FacilityDescriptionHeaderCell>
+          </TableHeaderCellDescription>
           <TableHeaderCell>Type</TableHeaderCell>
           <TableHeaderCell>Facility Detail</TableHeaderCell>
         </TableHeader>
@@ -182,7 +190,9 @@ const Table: React.FC = () => {
                 {facility && (
                   <>
                     <TableCell>{facility.name}</TableCell>
-                    <TableCell>{facility.description}</TableCell>
+                    <TableCellDescription>
+                      {facility.description}
+                    </TableCellDescription>
                     <TableCell>{facility.type.name}</TableCell>
                   </>
                 )}
