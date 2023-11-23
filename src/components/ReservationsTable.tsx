@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import { MAIN_COLORS } from "../globlaStyle/colors";
 
 const Container = styled.div`
   display: flex;
@@ -7,8 +8,10 @@ const Container = styled.div`
 `;
 
 const TableContainer = styled.div`
-  margin: 20px;
+  margin-top: 20px;
+  width: 100%;
   max-width: 1024px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
 
 const Table = styled.table`
@@ -18,15 +21,31 @@ const Table = styled.table`
 
 const TableHeader = styled.th`
   padding: 10px;
-  border: 1px solid #000;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
 `;
 
-const TableData = styled.td`
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+`;
+
+const TableCell = styled.td`
   padding: 10px;
-  border: 1px solid #000;
+  border-bottom: 1px solid #ccc;
 `;
 
-interface User {
+const DeleteButton = styled.button`
+  padding: 10px;
+  background-color: ${MAIN_COLORS.red};
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+`;
+
+interface Reservation {
   id: number;
   facilityId: string;
   userId: string;
@@ -35,7 +54,7 @@ interface User {
 }
 
 const ReservationsTable = () => {
-  const [reservations, setReservations] = useState<User[]>([]);
+  const [reservations, setReservations] = useState<Reservation[]>([]);
   const [error, setError] = useState("");
 
   const handleDeleteReservation = async (reservationId: number) => {
@@ -51,7 +70,6 @@ const ReservationsTable = () => {
         }
       );
       if (response.ok) {
-        // Assuming you want to refresh the reservations after deletion
         const updatedReservations = reservations.filter(
           (reservation) => reservation.id !== reservationId
         );
@@ -66,16 +84,32 @@ const ReservationsTable = () => {
   };
 
   useEffect(() => {
-    const fetchUsers = async () => {
+    const fetchReservations = async () => {
       try {
-        // ... (previous code)
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.dev/reservations",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setReservations(data);
+        } else {
+          setError("Error fetching reservations");
+        }
       } catch (error) {
         console.error("Error fetching reservations:", error);
         setError("Error fetching reservations");
       }
     };
 
-    fetchUsers();
+    fetchReservations();
   }, []);
 
   if (error) {
@@ -93,25 +127,25 @@ const ReservationsTable = () => {
               <TableHeader>User Id</TableHeader>
               <TableHeader>Start Time</TableHeader>
               <TableHeader>End Time</TableHeader>
-              <TableHeader>Delete Reservation</TableHeader>
+              <TableHeader>Action</TableHeader>
             </tr>
           </thead>
           <tbody>
             {reservations.map((reservation) => (
-              <tr key={reservation.id}>
-                <TableData>{reservation.id}</TableData>
-                <TableData>{reservation.facilityId}</TableData>
-                <TableData>{reservation.userId}</TableData>
-                <TableData>{reservation.startTime}</TableData>
-                <TableData>{reservation.endTime}</TableData>
-                <TableData>
-                  <button
+              <TableRow key={reservation.id}>
+                <TableCell>{reservation.id}</TableCell>
+                <TableCell>{reservation.facilityId}</TableCell>
+                <TableCell>{reservation.userId}</TableCell>
+                <TableCell>{reservation.startTime}</TableCell>
+                <TableCell>{reservation.endTime}</TableCell>
+                <TableCell>
+                  <DeleteButton
                     onClick={() => handleDeleteReservation(reservation.id)}
                   >
                     Delete
-                  </button>
-                </TableData>
-              </tr>
+                  </DeleteButton>
+                </TableCell>
+              </TableRow>
             ))}
           </tbody>
         </Table>

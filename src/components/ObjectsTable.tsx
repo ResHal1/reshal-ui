@@ -10,9 +10,11 @@ const Container = styled.div`
 `;
 
 const TableContainer = styled.div`
-  max-width: 1024px;
+  max-width: 956px;
   width: 100%;
   overflow-x: auto;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  margin-top: 20px;
 `;
 
 const Table = styled.table`
@@ -24,11 +26,18 @@ const TableHeader = styled.th`
   padding: 10px;
   text-align: left;
   background-color: #f2f2f2;
+  border-bottom: 1px solid #ccc;
 `;
 
-const TableData = styled.td`
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+`;
+
+const TableCell = styled.td`
   padding: 10px;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #ccc;
 `;
 
 const Select = styled.select`
@@ -180,6 +189,15 @@ const ObjectsTable: React.FC = () => {
       return;
     }
 
+    const updatedImages = facilityToUpdate.images.filter(
+      (image) => image.url !== ""
+    );
+
+    const updatedFacility = {
+      ...facilityToUpdate,
+      images: updatedImages,
+    };
+
     try {
       const response = await fetch(
         `https://reshal-api.bartoszmagiera.dev/facilities/${facilityId}`,
@@ -189,7 +207,7 @@ const ObjectsTable: React.FC = () => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(facilityToUpdate),
+          body: JSON.stringify(updatedFacility),
         }
       );
 
@@ -204,7 +222,6 @@ const ObjectsTable: React.FC = () => {
   };
 
   const handleDeleteClick = async (facilityId: string) => {
-    console.log(facilityId);
     try {
       const response = await fetch(
         `https://reshal-api.bartoszmagiera.dev/facilities/${facilityId}`,
@@ -252,9 +269,9 @@ const ObjectsTable: React.FC = () => {
           </thead>
           <tbody>
             {facilities.map((facility) => (
-              <tr key={facility.id}>
-                <TableData>{facility.id}</TableData>
-                <TableData>
+              <TableRow key={facility.id}>
+                <TableCell>{facility.id}</TableCell>
+                <TableCell>
                   <input
                     type="text"
                     value={facility.name}
@@ -262,8 +279,8 @@ const ObjectsTable: React.FC = () => {
                       handleFieldChange(facility.id, "name", e.target.value)
                     }
                   />
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   <input
                     type="text"
                     value={facility.description}
@@ -275,8 +292,8 @@ const ObjectsTable: React.FC = () => {
                       )
                     }
                   />
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   <input
                     type="number"
                     value={facility.lat}
@@ -288,8 +305,8 @@ const ObjectsTable: React.FC = () => {
                       )
                     }
                   />
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   <input
                     type="number"
                     value={facility.lon}
@@ -301,8 +318,8 @@ const ObjectsTable: React.FC = () => {
                       )
                     }
                   />
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   <input
                     type="text"
                     value={facility.address}
@@ -310,8 +327,8 @@ const ObjectsTable: React.FC = () => {
                       handleFieldChange(facility.id, "address", e.target.value)
                     }
                   />
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   <input
                     type="text"
                     value={facility.price}
@@ -319,8 +336,8 @@ const ObjectsTable: React.FC = () => {
                       handleFieldChange(facility.id, "price", e.target.value)
                     }
                   />
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   <Select
                     value={facility.typeId}
                     onChange={(e) =>
@@ -333,8 +350,8 @@ const ObjectsTable: React.FC = () => {
                       </option>
                     ))}
                   </Select>
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   {Array.from({ length: 5 }).map((_, index) => (
                     <input
                       key={index}
@@ -349,16 +366,16 @@ const ObjectsTable: React.FC = () => {
                       }}
                     />
                   ))}
-                </TableData>
-                <TableData>
+                </TableCell>
+                <TableCell>
                   <Update onClick={() => handleUpdateClick(facility.id)}>
                     Update
                   </Update>
                   <Delete onClick={() => handleDeleteClick(facility.id)}>
                     Delete
                   </Delete>
-                </TableData>
-              </tr>
+                </TableCell>
+              </TableRow>
             ))}
           </tbody>
         </Table>
@@ -366,5 +383,4 @@ const ObjectsTable: React.FC = () => {
     </Container>
   );
 };
-
 export default ObjectsTable;

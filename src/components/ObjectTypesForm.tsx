@@ -91,11 +91,12 @@ const TableCell = styled.td`
 `;
 
 const DeleteButton = styled.button`
-  background: red;
+  padding: 10px;
+  background-color: ${MAIN_COLORS.red};
   color: white;
   border: none;
-  border-radius: 5px;
-  padding: 5px;
+  border-radius: 30px;
+  cursor: pointer;
 `;
 
 const Button = styled.button`

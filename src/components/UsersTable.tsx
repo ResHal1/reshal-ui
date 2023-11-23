@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { MAIN_COLORS } from "../globlaStyle/colors";
 
 const Container = styled.div`
   display: flex;
@@ -7,8 +8,10 @@ const Container = styled.div`
 `;
 
 const TableContainer = styled.div`
-  margin: 20px;
-  max-width: 1024px;
+  margin-top: 20px;
+  width: 100%;
+  max-width: 956px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 `;
 
 const Table = styled.table`
@@ -18,12 +21,19 @@ const Table = styled.table`
 
 const TableHeader = styled.th`
   padding: 10px;
-  border: 1px solid #000;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
 `;
 
-const TableData = styled.td`
+const TableRow = styled.tr`
+  &:nth-child(even) {
+    background-color: #f2f2f2;
+  }
+`;
+
+const TableCell = styled.td`
   padding: 10px;
-  border: 1px solid #000;
+  border-bottom: 1px solid #ccc;
 `;
 
 interface User {
@@ -90,13 +100,13 @@ const UsersTable = () => {
           </thead>
           <tbody>
             {users.map((user) => (
-              <tr key={user.id}>
-                <TableData>{user.id}</TableData>
-                <TableData>{user.firstName}</TableData>
-                <TableData>{user.lastName}</TableData>
-                <TableData>{user.email}</TableData>
-                <TableData>{user.role}</TableData>
-              </tr>
+              <TableRow key={user.id}>
+                <TableCell>{user.id}</TableCell>
+                <TableCell>{user.firstName}</TableCell>
+                <TableCell>{user.lastName}</TableCell>
+                <TableCell>{user.email}</TableCell>
+                <TableCell>{user.role}</TableCell>
+              </TableRow>
             ))}
           </tbody>
         </Table>

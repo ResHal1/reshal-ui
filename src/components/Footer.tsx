@@ -70,7 +70,7 @@ const Footer = () => {
             {item.label}
           </Link>
         ))}
-        <br />© 2023 John Doe All Rights Reserved
+        <br />© 2023 Tomasz Topór All Rights Reserved
       </TextOverlay>
     </Container>
   );
