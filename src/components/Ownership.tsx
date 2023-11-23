@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Label from "../components/Label";
 import { MAIN_COLORS } from "../globlaStyle/colors";
@@ -61,6 +61,7 @@ const ButtonGroup = styled.div`
   justify-content: space-between;
   margin-top: 10px;
   padding: 0 48px;
+  gap: 20px;
 `;
 
 const Message = styled.div`
@@ -74,25 +75,106 @@ const ErrorMessage = styled.div`
 `;
 
 const OwnershipForm = () => {
+  const [email, setEmail] = useState("");
+  const [facilityAddress, setFacilityAddress] = useState("");
   const [userId, setUserId] = useState("");
   const [facilityId, setFacilityId] = useState("");
   const [addSuccess, setAddSuccess] = useState(false);
   const [addRevokeSuccess, setRevokeAddSuccess] = useState(false);
   const [error, setError] = useState("");
+  const [users, setUsers] = useState<{ id: string; email: string }[]>([]);
+  const [facilities, setFacilities] = useState<
+    { id: string; address: string }[]
+  >([]);
 
-  const handleUserIdChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setUserId(event.target.value);
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.dev/auth",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        console.log(data);
+        if (response.ok) {
+          setUsers(data);
+        } else {
+          setError("An error occurred while fetching users.");
+        }
+      } catch (error) {
+        setError("An error occurred while communicating with the server.");
+      }
+    };
+
+    fetchUsers();
+  }, []);
+
+  useEffect(() => {
+    const fetchFacilities = async () => {
+      try {
+        const response = await fetch(
+          "https://reshal-api.bartoszmagiera.dev/facilities/admin",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const data = await response.json();
+        if (response.ok) {
+          setFacilities(data);
+        } else {
+          setError("An error occurred while fetching facilities.");
+        }
+      } catch (error) {
+        setError("An error occurred while communicating with the server.");
+      }
+    };
+
+    fetchFacilities();
+  }, []);
+
+  useEffect(() => {
+    const user = users.find((user) => user.email === email);
+    if (user) {
+      setUserId(user.id);
+    } else {
+      setUserId("");
+    }
+  }, [email, users]);
+
+  useEffect(() => {
+    const facility = facilities.find(
+      (facility) => facility.address === facilityAddress
+    );
+    if (facility) {
+      setFacilityId(facility.id);
+    } else {
+      setFacilityId("");
+    }
+  }, [facilityAddress, facilities]);
+
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
   };
 
-  const handleFacilityIdChange = (
+  const handleFacilityAddressChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    setFacilityId(event.target.value);
+    setFacilityAddress(event.target.value);
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
+    console.log("UserId" + userId, "FacilitiId" + facilityId);
     try {
       const response = await fetch(
         "https://reshal-api.bartoszmagiera.dev/facilities/assign-ownership",
@@ -159,15 +241,15 @@ const OwnershipForm = () => {
       <FormContainer>
         <Form onSubmit={handleSubmit}>
           <FormGroup>
-            <Label htmlFor="User Id" text="User Id" />
-            <Input type="text" value={userId} onChange={handleUserIdChange} />
+            <Label htmlFor="Email" text="Email" />
+            <Input type="email" value={email} onChange={handleEmailChange} />
           </FormGroup>
           <FormGroup>
-            <Label htmlFor="Facility Id" text="Facility Id" />
+            <Label htmlFor="Facility Address" text="Facility Address" />
             <Input
               type="text"
-              value={facilityId}
-              onChange={handleFacilityIdChange}
+              value={facilityAddress}
+              onChange={handleFacilityAddressChange}
             />
           </FormGroup>
           <ButtonGroup>
