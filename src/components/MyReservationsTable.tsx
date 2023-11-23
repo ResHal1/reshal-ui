@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { MAIN_COLORS } from "../globlaStyle/colors";
 
 const Container = styled.div`
   display: flex;
   justify-content: center;
   max-width: 1024px;
   align-items: center;
-  margin: auto;
+  margin: 64px auto;
   padding: 0 48px;
 `;
 const TableContainer = styled.div`
@@ -34,18 +35,21 @@ const TableRow = styled.div`
   display: flex;
   padding: 10px;
   border-bottom: 1px solid #ccc;
+  align-items: center;
 `;
 
 const TableCell = styled.div`
   flex: 1;
   text-align: center;
+  padding: 0px 15px;
 `;
 const FacilityDetailButton = styled.button`
-  background-color: #007bff;
-  color: #fff;
-  padding: 7px;
+  margin: 5px 0;
+  padding: 10px;
+  background-color: ${MAIN_COLORS.blue};
+  color: white;
   border: none;
-  border-radius: 10px;
+  border-radius: 30px;
   cursor: pointer;
 `;
 
@@ -53,6 +57,11 @@ const Message = styled.p`
   color: red;
   display: flex;
   justify-content: center;
+`;
+
+const FacilityDescriptionHeaderCell = styled.div`
+  flex: 2; // Adjust the flex value based on your layout
+  text-align: center;
 `;
 
 interface Reservation {
@@ -148,7 +157,9 @@ const Table: React.FC = () => {
           <TableHeaderCell>End Time</TableHeaderCell>
           <TableHeaderCell>Price</TableHeaderCell>
           <TableHeaderCell>Facility Name</TableHeaderCell>
-          <TableHeaderCell>Facility Description</TableHeaderCell>
+          <FacilityDescriptionHeaderCell>
+            Facility Description
+          </FacilityDescriptionHeaderCell>
           <TableHeaderCell>Type</TableHeaderCell>
           <TableHeaderCell>Facility Detail</TableHeaderCell>
         </TableHeader>
@@ -178,7 +189,7 @@ const Table: React.FC = () => {
                 <TableCell>
                   {" "}
                   <FacilityDetailButton onClick={handleReservationClick}>
-                    View detail
+                    Details
                   </FacilityDetailButton>
                 </TableCell>
               </TableRow>

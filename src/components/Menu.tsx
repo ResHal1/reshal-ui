@@ -6,6 +6,7 @@ import HomeIcon from "../img/HomeIcon.webp";
 import ReservationIcon from "../img/Reservation.webp";
 import PersonIcon from "../img/MyAccountIcon.webp";
 import LogoutIcon from "../img/Logout.webp";
+import PitchIcon from "../img/Pitch.png";
 import AdministratorIcon from "../img/Administrator.webp";
 import { MAIN_COLORS } from "../globlaStyle/colors";
 
@@ -206,7 +207,11 @@ const Menu: React.FC = () => {
       link: "/myAccount",
       icon: PersonIcon,
     },
-
+    {
+      label: "My Facilities",
+      link: "/myFacilities",
+      icon: PitchIcon,
+    },
     {
       label: "Logout",
       link: "/login",
@@ -229,7 +234,11 @@ const Menu: React.FC = () => {
             <MenuList ref={menuRef}>
               {items.map((item, index) => {
                 const isAdmin = user?.role === "admin";
-                if (item.label === "Administrator" && !isAdmin) {
+                const isOwner = user?.role === "owner";
+                if (
+                  (item.label === "Administrator" && !isAdmin) ||
+                  (item.label === "My Facilities" && !isOwner)
+                ) {
                   return null;
                 }
 
