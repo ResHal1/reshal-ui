@@ -133,6 +133,7 @@ const LoginPage = () => {
       if (response.ok) {
         console.log("Login successful");
         navigate("/");
+        window.location.reload();
       } else {
         console.log("Login failed");
         setError("Incorrect e-mail or password.");

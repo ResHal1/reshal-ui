@@ -72,6 +72,16 @@ const TableHeaderCellDescription = styled.div`
   text-align: center;
 `;
 
+const DeleteButton = styled.button`
+  margin: 5px 0;
+  padding: 10px;
+  background-color: #ff0000; // You can change the color as needed
+  color: white;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+`;
+
 interface Reservation {
   startTime: string;
   endTime: string;
@@ -104,6 +114,31 @@ const Table: React.FC = () => {
     return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
   };
 
+  const handleDeleteReservation = async (reservationId: string) => {
+    try {
+      const response = await fetch(
+        `https://reshal-api.bartoszmagiera.dev/reservations/${reservationId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        setReservations((prevReservations) =>
+          prevReservations.filter((res) => res.facilityId !== reservationId)
+        );
+      } else {
+        console.error("Failed to delete reservation");
+      }
+    } catch (error) {
+      console.error("Error deleting reservation:", error);
+    }
+  };
+
   useEffect(() => {
     const fetchReservations = async () => {
       try {
@@ -118,7 +153,6 @@ const Table: React.FC = () => {
           }
         );
         const data = await response.json();
-        console.log(data);
         setReservations(data);
 
         for (const reservation of data) {
@@ -178,8 +212,12 @@ const Table: React.FC = () => {
             const facility = facilities[reservation.facilityId];
             const formattedStartTime = formatDate(reservation.startTime);
             const formattedEndTime = formatDate(reservation.endTime);
+
             const handleReservationClick = () => {
               navigate(`/facility/${reservation.facilityId}`);
+            };
+            const handleDeleteClick = () => {
+              handleDeleteReservation(reservation.facilityId);
             };
             return (
               <TableRow key={index}>
@@ -201,6 +239,11 @@ const Table: React.FC = () => {
                   <FacilityDetailButton onClick={handleReservationClick}>
                     Details
                   </FacilityDetailButton>
+                </TableCell>
+                <TableCell>
+                  <DeleteButton onClick={handleDeleteClick}>
+                    Delete
+                  </DeleteButton>
                 </TableCell>
               </TableRow>
             );
