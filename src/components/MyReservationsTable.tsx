@@ -75,7 +75,7 @@ const TableHeaderCellDescription = styled.div`
 const DeleteButton = styled.button`
   margin: 5px 0;
   padding: 10px;
-  background-color: #ff0000; // You can change the color as needed
+  background-color: #ff0000;
   color: white;
   border: none;
   border-radius: 30px;
@@ -83,6 +83,7 @@ const DeleteButton = styled.button`
 `;
 
 interface Reservation {
+  id: number;
   startTime: string;
   endTime: string;
   price: string;
@@ -126,13 +127,26 @@ const Table: React.FC = () => {
           },
         }
       );
-
       if (response.ok) {
-        setReservations((prevReservations) =>
-          prevReservations.filter((res) => res.facilityId !== reservationId)
+        const updatedReservations = reservations.filter(
+          (reservation) => reservation.id !== parseInt(reservationId, 10)
         );
+        setReservations(updatedReservations);
+
+        const updatedResponse = await fetch(
+          "https://reshal-api.bartoszmagiera.dev/reservations/me",
+          {
+            method: "GET",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const updatedData = await updatedResponse.json();
+        setReservations(updatedData);
       } else {
-        console.error("Failed to delete reservation");
+        console.error("Error deleting reservation:", response.status);
       }
     } catch (error) {
       console.error("Error deleting reservation:", error);
@@ -204,6 +218,7 @@ const Table: React.FC = () => {
           </TableHeaderCellDescription>
           <TableHeaderCell>Type</TableHeaderCell>
           <TableHeaderCell>Facility Detail</TableHeaderCell>
+          <TableHeaderCell>Reservation Delete</TableHeaderCell>
         </TableHeader>
         {reservations.length === 0 ? (
           <Message>No reservations yet.</Message>
@@ -217,7 +232,7 @@ const Table: React.FC = () => {
               navigate(`/facility/${reservation.facilityId}`);
             };
             const handleDeleteClick = () => {
-              handleDeleteReservation(reservation.facilityId);
+              handleDeleteReservation(reservation.id.toString());
             };
             return (
               <TableRow key={index}>
