@@ -101,7 +101,6 @@ const ReservationInformation: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    console.log(selectedMarkerData?.id, startTime, endTime);
     try {
       const response = await fetch(
         "https://reshal-api.bartoszmagiera.dev/reservations",
