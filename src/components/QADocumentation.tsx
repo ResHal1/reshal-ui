@@ -59,7 +59,7 @@ const QADocumentation: React.FC = () => {
             "Once you've made your selection, proceed to the checkout. Confirm your reservation details and make a secure online payment through our integrated payment gateway. We prioritize the security of your transactions to give you peace of mind.",
         },
         {
-          subquestion: "Step 4",
+          subquestion: "Step 5",
           subanswer:
             "Sit back and relax! Shortly after completing your reservation, you'll receive a confirmation notification with all the details you need. From there, it's just a countdown to your exciting football experience.",
         },
@@ -111,6 +111,13 @@ const QADocumentation: React.FC = () => {
       question: "ResHal Ownership",
       answer:
         "Welcome to the Ownership Documentation for the Football Pitch Reservation Application. As an owner, you have the ability to manage and modify details related to your facilities. This documentation outlines the features and actions available to you.",
+      subquestions: [
+        {
+          subquestion: "Modify Facilities",
+          subanswer:
+            "Facility details may change over time. You can update information like pitch dimensions, amenities, or any other relevant details.",
+        },
+      ],
     },
     {
       question: "FAQ",

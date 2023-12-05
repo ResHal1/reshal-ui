@@ -7,17 +7,19 @@ const items = [
     label: "Home",
     link: "/",
   },
+
   {
-    label: "Administrator",
-    link: "/administrator",
+    label: "My Account",
+    link: "/myAccount",
   },
   {
     label: "Reservations",
     link: "/myReservations",
   },
+
   {
-    label: "My Account",
-    link: "/myAccount",
+    label: "Documenation",
+    link: "/documentation",
   },
 ];
 
