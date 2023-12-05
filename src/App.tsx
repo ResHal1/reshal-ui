@@ -12,6 +12,7 @@ import MyAccountPage from "./pages/MyAccountPage";
 import AdministratorPage from "./pages/AdministratorPage";
 import FacilityPage from "./pages/FacilityPage";
 import MyFacilitiesPage from "./pages/MyFacilitiesPage";
+import DocumentationPage from "./pages/DocumentationPage";
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -95,8 +96,10 @@ const App = () => {
           {isLoggedIn ? (
             <>
               <Route path="/" element={<HomePage />} />
+              <Route path="/documentation" element={<DocumentationPage />} />
               <Route path="/myReservations" element={<MyReservations />} />
               <Route path="/myAccount" element={<MyAccountPage />} />
+
               <Route
                 path="/reservation"
                 element={<ReservationProccessPage />}

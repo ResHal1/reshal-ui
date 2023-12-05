@@ -2,9 +2,10 @@ import React, { useState, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import PersonalIcon from "../img/PersonalIcon.webp";
-import HomeIcon from "../img/HomeIcon.webp";
+import HomeIcon from "../img/HomeIcon.png";
 import ReservationIcon from "../img/Reservation.webp";
 import PersonIcon from "../img/MyAccountIcon.webp";
+import DocumentationIcon from "../img/DocumentationIcon.png";
 import LogoutIcon from "../img/Logout.webp";
 import PitchIcon from "../img/Pitch.png";
 import AdministratorIcon from "../img/Administrator.webp";
@@ -192,10 +193,11 @@ const Menu: React.FC = () => {
       link: "/",
       icon: HomeIcon,
     },
+
     {
-      label: "Administrator",
-      link: "/administrator",
-      icon: AdministratorIcon,
+      label: "My Account",
+      link: "/myAccount",
+      icon: PersonIcon,
     },
     {
       label: "Reservations",
@@ -203,14 +205,19 @@ const Menu: React.FC = () => {
       icon: ReservationIcon,
     },
     {
-      label: "My Account",
-      link: "/myAccount",
-      icon: PersonIcon,
-    },
-    {
       label: "My Facilities",
       link: "/myFacilities",
       icon: PitchIcon,
+    },
+    {
+      label: "Administrator",
+      link: "/administrator",
+      icon: AdministratorIcon,
+    },
+    {
+      label: "Documenation",
+      link: "/documentation",
+      icon: DocumentationIcon,
     },
     {
       label: "Logout",
