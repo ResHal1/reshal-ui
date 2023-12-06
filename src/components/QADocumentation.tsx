@@ -73,37 +73,32 @@ const QADocumentation: React.FC = () => {
         {
           subquestion: "Create Facilities",
           subanswer:
-            "Administrators can add new football pitches to the system. This includes specifying details such as location, pitch type, and availability.",
+            "Administrators can add new football pitches to the system. This includes specifying details such as location, pitch type, images of the object. To modify facilities you need to click Menu → Administrator → Create Objects",
         },
         {
           subquestion: "Modify Facilities",
           subanswer:
-            "Facility details may change over time. You can update information like pitch dimensions, amenities, or any other relevant details.",
+            "Facility details may change over time. You can update information like facility image, type, or any other relevant details go to Menu → Administrator → Objects.",
         },
         {
-          subquestion: "Create and modify Facility Types",
+          subquestion: "Create and delete Facility Types",
           subanswer:
-            "ResHal supports different types of football pitches. As an administrator, you can create new facility types, defining the characteristics and specifications associated with each type.",
+            "ResHal supports different types of football pitches. As an administrator, you can create new facility types, defining the characteristics and specifications associated with each type. To add or delete facility types go to Menu → Administrator → Create Object Types.",
         },
         {
           subquestion: "Check and Delete Reservations",
           subanswer:
-            "To ensure the accuracy of reservations, you can perform reservation checks. This involves reviewing upcoming bookings, ensuring there are no conflicts, and addressing any discrepancies.",
+            "To ensure the accuracy of reservations, you can perform reservation checks. This involves reviewing upcoming bookings, ensuring there are no conflicts, and addressing any discrepancies. If you want check or delete reservation go to Menu → Administrator → Reservations.",
         },
         {
           subquestion: "Check Users Details",
           subanswer:
-            "Stay informed about the users of the system. You can check user details, including contact information, to facilitate communication and support.",
+            "Stay informed about the users of the system. You can check user details, including contact information, to facilitate communication and support. To check Users information go to Menu → Administrator → Users.",
         },
         {
-          subquestion: "Add Ownership",
+          subquestion: "Add and remove Ownership",
           subanswer:
-            "As an administrator, you can assign ownership of facilities to specific users or organizations. This is crucial for managing responsibilities and access rights within the application.",
-        },
-        {
-          subquestion: "Remove Ownership",
-          subanswer:
-            "If necessary, you have the authority to remove ownership of facilities. Ensure that proper communication is maintained when making such changes.",
+            "As an administrator, you can assign ownership of facilities . Owners of the facility are able to modify thir facility data. If you want to add ownership go to Menu → Administrator → Ownership.",
         },
       ],
     },
@@ -115,7 +110,7 @@ const QADocumentation: React.FC = () => {
         {
           subquestion: "Modify Facilities",
           subanswer:
-            "Facility details may change over time. You can update information like pitch dimensions, amenities, or any other relevant details.",
+            "Facility details may change over time. You can update information like pitch dimensions, amenities, or any other relevant details. To modify facilities you need permission added by administrator after that go to Menu → My Facilities ",
         },
       ],
     },
@@ -132,7 +127,7 @@ const QADocumentation: React.FC = () => {
         {
           subquestion: "How can I contact with support ?",
           subanswer:
-            "To contact our support team, you can reach out to us via email at . Simply compose a message detailing your query, issue, or any assistance you require, and send it to the provided email address. Our support team will promptly review your message and respond to provide the necessary help or information. Feel free to include as much detail as possible in your email to expedite the resolution process. We appreciate your communication and are here to assist you with any concerns you may have. If you encounter any further difficulties or need urgent assistance, don't hesitate to reach out to us via the provided email address.",
+            "To contact our support team, you can reach out to us via email at ResHal@o2.pl. Simply compose a message detailing your query, issue, or any assistance you require, and send it to the provided email address. Our support team will promptly review your message and respond to provide the necessary help or information. Feel free to include as much detail as possible in your email to expedite the resolution process. We appreciate your communication and are here to assist you with any concerns you may have. If you encounter any further difficulties or need urgent assistance, don't hesitate to reach out to us via the provided email address.",
         },
         {
           subquestion: "Why I can't change my Name ?",
