@@ -66,7 +66,7 @@ const Box = styled.div`
 const Row = styled.div`
   display: flex;
   flex-wrap: wrap;
-  max-width: 1024px;
+  width: 1024px;
 `;
 
 const MarkerContainer = styled.div`

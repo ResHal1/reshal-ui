@@ -194,6 +194,15 @@ const QADocumentation: React.FC = () => {
           </li>
         ))}
       </ul>
+      <b>
+        <p>
+          If this documentation was not sufficient, please visit the website
+          with{" "}
+          <a href="https://tomaszs-organization-3.gitbook.io/reshal-app/usage-ownership">
+            Technical Documentation
+          </a>
+        </p>
+      </b>
     </div>
   );
 };

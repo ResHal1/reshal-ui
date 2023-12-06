@@ -95,6 +95,7 @@ const ObjectsTable: React.FC = () => {
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [facilityTypes, setFacilityTypes] = useState<FacilityType[]>([]);
   const [deleteSuccessMessage, setDeleteSuccessMessage] = useState("");
+  const [updateSuccessMessage, setUpdateSuccessMessage] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -212,6 +213,7 @@ const ObjectsTable: React.FC = () => {
       );
 
       if (response.ok) {
+        setUpdateSuccessMessage("Facility updated successfully.");
       } else {
         setError("Error updating facility");
       }
@@ -251,6 +253,7 @@ const ObjectsTable: React.FC = () => {
   return (
     <Container>
       <p>{deleteSuccessMessage}</p>
+      <p>{updateSuccessMessage}</p>
       <TableContainer>
         <Table>
           <thead>
