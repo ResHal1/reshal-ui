@@ -156,8 +156,17 @@ const Table: React.FC = () => {
   useEffect(() => {
     const fetchReservations = async () => {
       try {
+        const currentDate = new Date();
+        const formattedCurrentDate = currentDate.toISOString();
+
+        const oneYearLater = new Date(currentDate);
+        oneYearLater.setFullYear(currentDate.getFullYear() + 1);
+        const formattedOneYearLater = oneYearLater.toISOString();
+
         const response = await fetch(
-          "https://reshal-api.bartoszmagiera.dev/reservations/me",
+          `https://reshal-api.bartoszmagiera.dev/reservations/me?startTime=${encodeURIComponent(
+            formattedCurrentDate
+          )}&endTime=${encodeURIComponent(formattedOneYearLater)}`,
           {
             method: "GET",
             credentials: "include",
@@ -178,7 +187,6 @@ const Table: React.FC = () => {
         console.error("Error fetching reservations:", error);
       }
     };
-
     const fetchFacilityInfo = async (facilityId: string) => {
       try {
         const response = await fetch(
